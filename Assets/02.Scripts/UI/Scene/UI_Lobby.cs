@@ -51,6 +51,7 @@ public class UI_Lobby : UI_Scene
     public void OnHeroClicked(PointerEventData data)
     {
         Debug.Log("Hero");
+        Managers.UI.ShowPopupUI<UI_Hero>();
     }
 
     public void OnAchieveClicked(PointerEventData data)
