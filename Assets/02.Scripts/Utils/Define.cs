@@ -20,4 +20,10 @@ public class Define
     {
         QuarterView,
     }
+
+    public enum Scene
+    {
+        None,
+        Lobby,
+    }
 }
