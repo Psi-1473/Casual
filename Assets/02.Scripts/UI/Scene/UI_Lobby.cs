@@ -67,6 +67,7 @@ public class UI_Lobby : UI_Scene
     public void OnSpawnClicked(PointerEventData data)
     {
         Debug.Log("Spawn");
+        Managers.UI.ShowPopupUI<UI_Spawn>();
     }
 
     public void OnOptionsClicked(PointerEventData data)

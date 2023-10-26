@@ -9,7 +9,7 @@ public class UI_Hero : UI_Popup
 
     enum Buttons
     {
-        Btn_Close
+       // Btn_Close
     }
 
     enum Texts
@@ -27,7 +27,7 @@ public class UI_Hero : UI_Popup
         base.Init();
 
         Bind<Button>(typeof(Buttons));
-        BindEvent(GetButton((int)Buttons.Btn_Close).gameObject, (data) => { Managers.UI.ClosePopupUI(); } );
+        //BindEvent(GetButton((int)Buttons.Btn_Close).gameObject, (data) => { Managers.UI.ClosePopupUI(); } );
     }
 
 }
