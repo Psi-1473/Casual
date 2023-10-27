@@ -14,7 +14,7 @@ public class HeroInfo
     public int defense;
     public int hp;
     public int mp;
-    public string role;
+    public int role;
 }
 
 [Serializable]

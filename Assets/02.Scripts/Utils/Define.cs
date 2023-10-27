@@ -26,4 +26,11 @@ public class Define
         None,
         Lobby,
     }
+
+    public enum HeroGrade
+    {
+        NORMAL,
+        RARE,
+        UNIQUE,
+    }
 }

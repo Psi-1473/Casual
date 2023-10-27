@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public HeroComponent HeroComp { get; private set; }
+
     void Start()
     {
-        string name = Managers.Data.HeroDict[0].name;
-        Debug.Log(name);
+        HeroComp = GetComponent<HeroComponent>();
+
+        Managers.SetPlayer(this);
     }
 
     // Update is called once per frame
