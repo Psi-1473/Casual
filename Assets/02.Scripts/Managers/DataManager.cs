@@ -11,10 +11,21 @@ public class DataManager
 {
     public Dictionary<int, HeroInfo> HeroDict { get; private set; } = new Dictionary<int, HeroInfo>();
 
+    public List<Dictionary<int, StageInfo>> StageDicts { get; private set; } = new List<Dictionary<int, StageInfo>>();
+    public Dictionary<int, StageInfo> Stage1Dict { get; private set; } = new Dictionary<int, StageInfo>();
+
 
     public void Init()
     {
         HeroDict = LoadJson<HeroInfoData, int, HeroInfo>("HeroInfo").MakeDic();
+
+
+        Stage1Dict = LoadJson<StageInfoData, int, StageInfo>("StageInfo1").MakeDic();
+
+
+
+        StageDicts.Add(null);
+        StageDicts.Add(Stage1Dict);
 
     }
 

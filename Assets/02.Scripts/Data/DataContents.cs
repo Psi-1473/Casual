@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+#region HeroInfo
 [Serializable]
 public class HeroInfo
 {
@@ -30,3 +31,35 @@ public class HeroInfoData : ILoader<int, HeroInfo>
         return dict;
     }
 }
+#endregion
+
+
+#region StageInfo
+[Serializable]
+public class StageInfo
+{
+    public int id;
+    public int frontTop;
+    public int frontBottom;
+    public int backTop;
+    public int backMiddle;
+    public int backBottom;
+    public int heroExp;
+    public int playerExp;
+    public int gold;
+}
+
+[Serializable]
+public class StageInfoData : ILoader<int, StageInfo>
+{
+    public List<StageInfo> stages = new List<StageInfo>();
+
+    public Dictionary<int, StageInfo> MakeDic()
+    {
+        Dictionary<int, StageInfo> dict = new Dictionary<int, StageInfo>();
+        foreach (StageInfo stage in stages)
+            dict.Add(stage.id, stage);
+        return dict;
+    }
+}
+#endregion

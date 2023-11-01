@@ -1082,6 +1082,18 @@
       "url": "https://json.schemastore.org/codeship-steps.json"
     },
     {
+      "name": "vcpkg manifest file",
+      "description": "vcpkg manifest file",
+      "fileMatch": ["vcpkg.json"],
+      "url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"
+    },
+    {
+      "name": "vcpkg configuration file",
+      "description": "vcpkg configuration file",
+      "fileMatch": ["vcpkg-configuration.json"],
+      "url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg-configuration.schema.json"
+    },
+    {
       "name": "Vercel",
       "description": "Vercel configuration file",
       "fileMatch": ["vercel.json"],
@@ -2875,6 +2887,12 @@
       "url": "https://meta.open-rpc.org/"
     },
     {
+      "name": "OpenUtau character yaml",
+      "description": "OpenUtau voicebank configuration file, character.yaml",
+      "fileMatch": ["character.yaml"],
+      "url": "https://json.schemastore.org/openutau-character.json"
+    },
+    {
       "name": "ops.yaml",
       "description": "Ops configuration file (ops.yaml)",
       "fileMatch": ["ops.yml", "ops.yaml"],
@@ -3819,6 +3837,12 @@
       "description": "VSCode Task file",
       "fileMatch": ["task.json", "tasks.json"],
       "url": "https://json.schemastore.org/task.json"
+    },
+    {
+      "name": "Talhelper",
+      "description": "A helper tool to help creating Talos Kubernetes cluster",
+      "fileMatch": ["talconfig.yaml", "talconfig.yml"],
+      "url": "https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json"
     },
     {
       "name": "Talisman configuration",
@@ -5266,6 +5290,12 @@
       }
     },
     {
+      "description": "Sublime Text/Merge syntax highlighting definition",
+      "fileMatch": ["*.sublime-syntax"],
+      "name": "Sublime Syntax",
+      "url": "https://json.schemastore.org/sublime-syntax.json"
+    },
+    {
       "name": "Keycloak REST API",
       "description": "REST API Keycloak Admin",
       "url": "https://raw.githubusercontent.com/dahag-ag/keycloak-openapi/main/OpenApiDefinitions/keycloak-19.0.0.json",
@@ -5486,6 +5516,12 @@
       "description": "Endurica Input File",
       "fileMatch": ["*.ki.json"],
       "url": "https://enduricastorage.blob.core.windows.net/public/endurica-cl-schema.json"
+    },
+    {
+      "name": "TunnelHub",
+      "description": "TunnelHub Automation Configuration File",
+      "fileMatch": ["tunnelhub.yml", "tunnelhub.yaml"],
+      "url": "https://json.schemastore.org/tunnelhub.json"
     }
   ],
   "version": 1

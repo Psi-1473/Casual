@@ -78,5 +78,8 @@ public class UI_Lobby : UI_Scene
     public void OnPlayClicked(PointerEventData data)
     {
         Debug.Log("Play");
+        UI_Stage _ui = Managers.UI.ShowPopupUI<UI_Stage>();
+        _ui.SetByChpater(1);
+
     }
 }
