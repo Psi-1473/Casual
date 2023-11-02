@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager
 {
-    int _order = 10;
+    int _order = -9;
 
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
@@ -20,10 +20,12 @@ public class UIManager
 		}
     }
 
-    public void SetCanvas(GameObject go, bool sort = true)
+    public void SetCanvas(GameObject go, RenderMode mode = RenderMode.ScreenSpaceCamera, bool sort = true)
     {
         Canvas canvas = Util.GetOrAddComponent<Canvas>(go);
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.renderMode = mode;
+        if(mode == RenderMode.ScreenSpaceCamera)
+            canvas.worldCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         canvas.overrideSorting = true;
 
         if (sort)
@@ -33,7 +35,7 @@ public class UIManager
         }
         else
         {
-            canvas.sortingOrder = 0;
+            canvas.sortingOrder = -10;
         }
     }
 
@@ -42,9 +44,7 @@ public class UIManager
 		if (string.IsNullOrEmpty(name))
 			name = typeof(T).Name;
 
-		GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
-		if (parent != null)
-			go.transform.SetParent(parent);
+		GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}", parent);
 
 		return Util.GetOrAddComponent<T>(go);
 	}

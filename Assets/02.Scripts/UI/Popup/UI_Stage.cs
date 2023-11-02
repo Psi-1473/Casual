@@ -8,6 +8,10 @@ public class UI_Stage : UI_Popup
 {
     int chapter = 1;
     int clickedStage = 0; // 나중에 스크롤 뷰에 추가할 버튼을 클릭하면 1. clickedStage 갱신, 2. 클릭된 버튼과 clickedStage를 비교하여 같으면 스테이지 시작 다르면 다시 갱신
+    enum GameObjects
+    {
+        Content,
+    }
     enum Buttons
     {
         Btn_NextChapter,
@@ -24,7 +28,7 @@ public class UI_Stage : UI_Popup
         Img_BackGround,
     }
 
-    void Start()
+    void Awake()
     {
         Init();
     }
@@ -36,9 +40,11 @@ public class UI_Stage : UI_Popup
         Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<Image>(typeof(Images));
+        Bind<GameObject>(typeof(GameObjects));
 
         BindEvent(GetButton((int)Buttons.Btn_NextChapter).gameObject, (data) => { Debug.Log("Next Button"); });
         BindEvent(GetButton((int)Buttons.Btn_PrevChapter).gameObject, (data) => { Debug.Log("Prev Button"); });
+
     }
 
     public void SetByChpater(int _chpater)
@@ -54,6 +60,9 @@ public class UI_Stage : UI_Popup
 
         for(int i = 0; i < chapterCount; i++)
         {
+            UI_StageBtn _ui = Managers.UI.MakeSubItem<UI_StageBtn>(Get<GameObject>((int)GameObjects.Content).transform);
+            _ui.SetInfo(chapter, i + 1);
+
             Debug.Log($"팝업 띄우기 {i + 1}");
         }
 

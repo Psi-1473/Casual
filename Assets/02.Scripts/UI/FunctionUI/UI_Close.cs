@@ -18,6 +18,12 @@ public class UI_Close : UI_Base
     public override void Init()
     { 
         Bind<Button>(typeof(Buttons));
-        BindEvent(GetButton((int)Buttons.UI_Close).gameObject, (data) => { Managers.UI.ClosePopupUI(); });
+        BindEvent(GetButton((int)Buttons.UI_Close).gameObject, (data) => { OnExit(); Managers.UI.ClosePopupUI();  });
+    }
+
+    public void OnExit()
+    {
+        UI_Popup _ui = GetComponentInParent<UI_Popup>();
+        _ui.OnExit();
     }
 }

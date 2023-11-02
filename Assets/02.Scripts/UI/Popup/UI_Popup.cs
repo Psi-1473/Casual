@@ -6,11 +6,16 @@ public class UI_Popup : UI_Base
 {
     public override void Init()
     {
-        Managers.UI.SetCanvas(gameObject, true);
+        Managers.UI.SetCanvas(gameObject, RenderMode.ScreenSpaceCamera, true);
     }
 
     public virtual void ClosePopupUI()
     {
         Managers.UI.ClosePopupUI(this);
+    }
+
+    public virtual void OnExit()
+    {
+
     }
 }

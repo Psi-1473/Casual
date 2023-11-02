@@ -29,7 +29,7 @@ public class UI_Hero : UI_Popup
         Content,
     }
 
-    void Start()
+    void Awake()
     {
         Init();
     }

@@ -12,7 +12,7 @@ public class UI_Spawn : UI_Popup
         Btn_RareSpawn,
     }
 
-    void Start()
+    void Awake()
     {
         Init();
     }

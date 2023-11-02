@@ -25,7 +25,7 @@ public class UI_Lobby : UI_Scene
         Text_Level
     }
 
-    void Start()
+    void Awake()
     {
         Init();
     }

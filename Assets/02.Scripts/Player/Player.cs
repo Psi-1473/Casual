@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField]
     public HeroComponent HeroComp { get; private set; }
+
+    [SerializeField]
+    public StageComponent StageComp { get; private set; }
+
 
     void Start()
     {
         HeroComp = GetComponent<HeroComponent>();
+        StageComp = GetComponent<StageComponent>();
 
         Managers.SetPlayer(this);
     }
@@ -19,3 +25,4 @@ public class Player : MonoBehaviour
         
     }
 }
+
