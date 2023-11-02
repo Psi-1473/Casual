@@ -33,6 +33,33 @@ public class HeroInfoData : ILoader<int, HeroInfo>
 }
 #endregion
 
+#region EnemyInfo
+[Serializable]
+public class EnemyInfo
+{
+    public int id;
+    public string name;
+    public int attack;
+    public int defense;
+    public int hp;
+    public int mp;
+}
+
+[Serializable]
+public class EnemyInfoData : ILoader<int, EnemyInfo>
+{
+    public List<EnemyInfo> enemies = new List<EnemyInfo>();
+
+    public Dictionary<int, EnemyInfo> MakeDic()
+    {
+        Dictionary<int, EnemyInfo> dict = new Dictionary<int, EnemyInfo>();
+        foreach (EnemyInfo enemy in enemies)
+            dict.Add(enemy.id, enemy);
+        return dict;
+    }
+}
+#endregion
+
 
 #region StageInfo
 [Serializable]
@@ -63,3 +90,4 @@ public class StageInfoData : ILoader<int, StageInfo>
     }
 }
 #endregion
+

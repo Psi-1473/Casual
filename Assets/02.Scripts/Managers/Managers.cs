@@ -15,6 +15,8 @@ public class Managers : MonoBehaviour
     UIManager _ui = new UIManager();
     DataManager _data = new DataManager();
     SummonManager _summon = new SummonManager();
+    SceneManagerEx _scene = new SceneManagerEx();
+    BattleManager _battle = new BattleManager();
 
 
     public static InputManager Input { get { return Instance._input; } }
@@ -22,6 +24,8 @@ public class Managers : MonoBehaviour
     public static UIManager UI { get { return Instance._ui; } }
     public static DataManager Data { get { return Instance._data; } }
     public static SummonManager Sunmmon { get { return Instance._summon; } }
+    public static SceneManagerEx SceneEx { get { return Instance._scene; } }
+    public static BattleManager Battle { get { return Instance._battle; } }
    
 
     void Start()
@@ -62,7 +66,7 @@ public class Managers : MonoBehaviour
 
     public static void Clear()
     {
-
+        SceneEx.Clear();
     }
 
     public static void SetPlayer(Player player)

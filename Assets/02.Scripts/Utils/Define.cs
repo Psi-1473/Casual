@@ -28,6 +28,7 @@ public class Define
     {
         None,
         Lobby,
+        InGame,
     }
 
     public enum HeroGrade

@@ -1,0 +1,29 @@
+{
+  "enemies": [
+    {
+      "id": 0,
+      "name": "방패 고블린",
+      "attack": 5,
+      "defense": 10,
+      "hp": 200,
+      "mp": 0
+    },
+    {
+      "id": 1,
+      "name": "고블린 궁수",
+      "attack": 5,
+      "defense": 10,
+      "hp": 150,
+      "mp": 0
+    },
+    {
+      "id": 2,
+      "name": "단검 고블린",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0
+    }
+
+  ]
+}

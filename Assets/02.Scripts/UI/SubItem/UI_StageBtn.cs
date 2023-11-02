@@ -62,6 +62,7 @@ public class UI_StageBtn : UI_Base
             return;
 
         UI_PlaceHero _ui = Managers.UI.ShowPopupUI<UI_PlaceHero>();
+        _ui.SetStage(chapter, stage);
         // ui ¼¼ÆÃ
 
     }

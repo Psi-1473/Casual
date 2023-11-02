@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class UI_PlaceHero : UI_Popup
 {
+    int chapter = 1;
+    int stage = 1;
     List<GameObject> heroList = new List<GameObject>();
     enum GameObjects
     {
@@ -24,6 +26,7 @@ public class UI_PlaceHero : UI_Popup
         Btn_Form3,
         Btn_Form4,
         Btn_Form5,
+        Btn_Play,
     }
 
     void Awake()
@@ -50,8 +53,31 @@ public class UI_PlaceHero : UI_Popup
         BindEvent(GetButton((int)Buttons.Btn_Form3).gameObject, (data) => { PlaceHero(-1, 3); });
         BindEvent(GetButton((int)Buttons.Btn_Form4).gameObject, (data) => { PlaceHero(-1, 4); });
         BindEvent(GetButton((int)Buttons.Btn_Form5).gameObject, (data) => { PlaceHero(-1, 5); });
+        BindEvent(GetButton((int)Buttons.Btn_Play).gameObject, (data) => { StartGame(); });
 
         PlaceHeroByPlayerInfo();
+    }
+
+    void StartGame()
+    {
+        // 1. æ¿ ¿Ãµø
+        bool canStart = false;
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (heroList[i] != null)
+            {
+                canStart = true;
+                break;
+            }
+        }
+
+        if (canStart)
+        {
+            Managers.Battle.NowChapter = chapter;
+            Managers.Battle.NowStage = stage;
+            Managers.SceneEx.LoadScene(Define.Scene.InGame);
+        }
     }
 
     void LoadHeros(List<int> unique, List<int> rare, List<int> normal)
@@ -87,14 +113,15 @@ public class UI_PlaceHero : UI_Popup
         }
     }
 
-
     void PlaceHeroByPlayerInfo()
     {
         for(int i = 1; i < 6; i++)
         {
             int hId = Managers.GetPlayer.HeroComp.HeroFormation[i];
             if (hId != -1)
+            {
                 PlaceHero(hId, i);
+            }
         }
     }
 
@@ -117,6 +144,12 @@ public class UI_PlaceHero : UI_Popup
         obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - 0.5f, obj.transform.position.z);
         obj.transform.localScale = new Vector3(-1f, 1f, 1f);
         heroList[_place] = obj;
+    }
+
+    public void SetStage(int _chapter, int _stage)
+    {
+        chapter = _chapter;
+        stage = _stage;
     }
 
     public override void OnExit()
