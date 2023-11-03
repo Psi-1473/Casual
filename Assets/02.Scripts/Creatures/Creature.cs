@@ -1,18 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Creature : MonoBehaviour
 {
-    Animator anim;
+    protected Animator anim;
+    protected StatComponent stat;
+    [SerializeField]
+    protected Slider hpBar;
+    protected Slider mpBar;
+    protected int Id;
+
     public Transform Destination { get; set; }
     public bool CanMove { get; set; } = false;
+    public StatComponent Stat { get { return stat; } private set { stat = value; } }
 
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
-        Debug.Log("AWAKE CREATURE");
+        stat = GetComponent<StatComponent>();
+        InitBarUI();
     }
+
 
     protected virtual void FixedUpdate()
     {
@@ -40,5 +50,17 @@ public class Creature : MonoBehaviour
             CanMove = false;
             anim.SetBool("Move", false);
         }
+    }
+
+    void InitBarUI()
+    {
+        if (Managers.SceneEx.CurrentScene.SceneType != Define.Scene.InGame)
+            return;
+
+        UI_StatBar _bar = Managers.UI.MakeWorldSpaceUI<UI_StatBar>(transform);
+        _bar.Owner = gameObject;
+
+        if (GetComponent<SPUM_Prefabs>()._horse == true)
+            _bar.SetHorse();
     }
 }

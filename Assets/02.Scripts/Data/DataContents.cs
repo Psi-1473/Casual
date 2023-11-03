@@ -16,6 +16,7 @@ public class HeroInfo
     public int hp;
     public int mp;
     public int role;
+    public int speed;
 }
 
 [Serializable]
@@ -43,6 +44,7 @@ public class EnemyInfo
     public int defense;
     public int hp;
     public int mp;
+    public int speed;
 }
 
 [Serializable]

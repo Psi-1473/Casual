@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class Hero : Creature
 {
-    int hp;
-    int attack;
-    int armor;
-
-
     protected override void Awake()
     {
         base.Awake();
+        SetId();
+        stat.SetHeroInfo(Id);
     }
 
     protected override void FixedUpdate()
@@ -19,6 +16,14 @@ public class Hero : Creature
         base.FixedUpdate();
     }
 
-    
+    void SetId()
+    {
+        string sId = gameObject.name;
+        int idx = sId.IndexOf('(');
+        sId = sId.Substring(0, idx);
+        Id = int.Parse(sId);
+        Debug.Log($"Hero id : {Id}");
+    }
+
 
 }

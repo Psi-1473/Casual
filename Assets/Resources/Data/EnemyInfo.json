@@ -6,7 +6,8 @@
       "attack": 5,
       "defense": 10,
       "hp": 200,
-      "mp": 0
+      "mp": 0,
+      "speed": 0
     },
     {
       "id": 1,
@@ -14,7 +15,8 @@
       "attack": 5,
       "defense": 10,
       "hp": 150,
-      "mp": 0
+      "mp": 0,
+      "speed": 0
     },
     {
       "id": 2,
@@ -22,7 +24,8 @@
       "attack": 5,
       "defense": 10,
       "hp": 130,
-      "mp": 0
+      "mp": 0,
+      "speed": 0
     }
 
   ]

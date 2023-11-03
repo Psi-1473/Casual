@@ -31,7 +31,7 @@ public class UI_InGame : UI_Scene
 
         SpawnHero();
         SpawnEnemy();
-
+        Managers.Battle.ReadyBattle();
     }
 
     void SpawnHero()
@@ -48,6 +48,8 @@ public class UI_InGame : UI_Scene
                 hero.transform.localScale = new Vector3(-1f, 1f, 1f);
                 hero.transform.localScale *= 2;
                 hero.GetComponent<Creature>().MoveTo(Get<GameObject>((int)enumObj).transform);
+
+                // Battle 매니저에서 세팅
             }
         }
     }
