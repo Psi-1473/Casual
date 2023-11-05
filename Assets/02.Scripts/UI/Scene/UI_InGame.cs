@@ -29,9 +29,12 @@ public class UI_InGame : UI_Scene
 
         Bind<GameObject>(typeof(GameObjects));
 
+
         SpawnHero();
         SpawnEnemy();
-        Managers.Battle.ReadyBattle();
+        // 여기서 코루틴 설정 후 n초 뒤에 배틀 스타트 하기
+
+        StartCoroutine(Co_BattleStart());
     }
 
     void SpawnHero()
@@ -49,6 +52,8 @@ public class UI_InGame : UI_Scene
                 hero.transform.localScale *= 2;
                 hero.GetComponent<Creature>().MoveTo(Get<GameObject>((int)enumObj).transform);
 
+                
+                Managers.Battle.Heros[i] = hero;
                 // Battle 매니저에서 세팅
             }
         }
@@ -80,7 +85,15 @@ public class UI_InGame : UI_Scene
                 enemy.transform.localScale *= 2;
 
                 enemy.GetComponent<Creature>().MoveTo(Get<GameObject>((int)enumObj).transform);
+                Managers.Battle.Enemies[1 + i] = enemy;
             }
         }
+    }
+
+    IEnumerator Co_BattleStart()
+    {
+        yield return new WaitForSeconds(3.5f);
+        Managers.Battle.BeginBattle();
+        yield break;
     }
 }

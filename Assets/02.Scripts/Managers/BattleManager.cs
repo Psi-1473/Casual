@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class OrderInfo
+{
+    public Creature creature;
+    public int attackGage;
+}
+
 public class BattleManager : MonoBehaviour
 {
     const int MAX_GAGE = 10;
@@ -13,6 +19,11 @@ public class BattleManager : MonoBehaviour
 
     List<Tuple<Creature, int>> order = new List<Tuple<Creature, int>>();
     
+
+    public List<GameObject> Heros { get { return heros; }  }
+    public List<GameObject> Enemies { get { return enemies; } }
+
+
 
     public int NowChapter { get; set; }
     public int NowStage { get; set; }
@@ -33,7 +44,7 @@ public class BattleManager : MonoBehaviour
         enemies.Add(null);
         enemies.Add(null);
     }
-    
+
     public void SetHero(GameObject _hero, int _place)
     {
         heros[_place] = _hero;
@@ -51,39 +62,78 @@ public class BattleManager : MonoBehaviour
             enemies[i] = null;
     }
 
-    public void ReadyBattle()
-    {
-       // Debug.Log("배틀 준비");
-       // for (int i = 0; i < 6; i++)
-       // {
-       //     if (heros[i] != null)
-       //         PushOrder((Creature)heros[i].GetComponent<Hero>());
-       // }
-       //
-       // for (int i = 0; i < 6; i++)
-       // {
-       //     if (enemies[i] != null)
-       //         PushOrder((Creature)heros[i].GetComponent<Enemy>());
-       // }
-       //
-       // Invoke("BeginBattle", 2.5f);
-    }
 
     public void BeginBattle()
     {
         Debug.Log("배틀 시작");
+
+        for(int i = 0; i < 6; i++)
+        {
+            if (heros[i] != null)
+                PushOrder(heros[i].GetComponent<Creature>());
+        }
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (enemies[i] != null)
+                PushOrder(enemies[i].GetComponent<Creature>());
+        }
     }
 
-
-    void PushOrder(Creature _creature)
+    public void ProceedPhase()
     {
-        Tuple<Creature, int> tuple = new Tuple<Creature, int>(_creature, 0);
+        Tuple<Creature, int> tuple = PopOrder();
+        Creature target = FindTarget(tuple.Item1);
+        int attackerGage = tuple.Item2;
+
+
+        for(int i = 0; i < order.Count; i++)
+
+
+    }
+
+    Creature FindTarget(Creature _creature)
+    {
+        Creature target = null;
+        if (_creature.GetComponent<Hero>() != null)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    target = enemies[i].GetComponent<Creature>();
+                    break;
+                }
+            }
+        }
+        else if (_creature.GetComponent<Enemy>() != null)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (heros[i] != null)
+                {
+                    target = heros[i].GetComponent<Creature>();
+                    break;
+                }
+            }
+        }
+
+        return target;
+    }
+
+    void DecreaseAttackGage(int idx, int value)
+    {
+  
+    }
+    public void PushOrder(Creature _creature)
+    {
+        Tuple<Creature, int> tuple = new Tuple<Creature, int>(_creature, MAX_GAGE - _creature.Stat.Speed);
 
         order.Add(tuple);
 
         int now = order.Count - 1;
 
-        while(now > 0)
+        while (now > 0)
         {
             int next = (now - 1) / 2;
             if (order[now].Item2 >= order[next].Item2)
@@ -95,6 +145,8 @@ public class BattleManager : MonoBehaviour
 
             now = next;
         }
+
+        Debug.Log($"Push Creature! : {_creature.name}, {MAX_GAGE - _creature.Stat.Speed}");
     }
 
     Tuple<Creature, int> PopOrder()
@@ -113,7 +165,7 @@ public class BattleManager : MonoBehaviour
     void Heapify(int _lastIndex)
     {
         int now = 0;
-        while(true)
+        while (true)
         {
             int left = 2 * now + 1;
             int right = 2 * now + 2;
