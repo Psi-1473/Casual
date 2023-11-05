@@ -6,7 +6,7 @@ using UnityEngine;
 public class OrderInfo
 {
     public Creature creature;
-    public int attackGage;
+    public int remainToAttack;
 }
 
 public class BattleManager : MonoBehaviour
@@ -17,7 +17,7 @@ public class BattleManager : MonoBehaviour
     List<GameObject> heros = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
 
-    List<Tuple<Creature, int>> order = new List<Tuple<Creature, int>>();
+    List<OrderInfo> order = new List<OrderInfo>();
     
 
     public List<GameObject> Heros { get { return heros; }  }
@@ -82,14 +82,18 @@ public class BattleManager : MonoBehaviour
 
     public void ProceedPhase()
     {
-        Tuple<Creature, int> tuple = PopOrder();
-        Creature target = FindTarget(tuple.Item1);
-        int attackerGage = tuple.Item2;
+        // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
+        OrderInfo info = PopOrder();
+        Creature attacker = info.creature;
+        Creature target = FindTarget(attacker);
+        int remainToAttack = info.remainToAttack;
 
-
+        // 2. 공격할 Creature의 공격까지 남은 시간만큼 남은 애들 시간 차감
         for(int i = 0; i < order.Count; i++)
+            DecreaseAttackGage(i, remainToAttack);
 
-
+        // 3. 공격자가 타겟 공격하게 함
+        attacker.Attack(target);
     }
 
     Creature FindTarget(Creature _creature)
@@ -123,25 +127,30 @@ public class BattleManager : MonoBehaviour
 
     void DecreaseAttackGage(int idx, int value)
     {
-  
+        order[idx].remainToAttack -= value;
+
+        if (order[idx].remainToAttack < 0)
+            order[idx].remainToAttack = 0;
     }
     public void PushOrder(Creature _creature)
     {
-        Tuple<Creature, int> tuple = new Tuple<Creature, int>(_creature, MAX_GAGE - _creature.Stat.Speed);
+        OrderInfo info = new OrderInfo();
+        info.creature = _creature;
+        info.remainToAttack = MAX_GAGE - _creature.Stat.Speed;
 
-        order.Add(tuple);
+        order.Add(info);
 
         int now = order.Count - 1;
 
         while (now > 0)
         {
             int next = (now - 1) / 2;
-            if (order[now].Item2 >= order[next].Item2)
+            if (order[now].remainToAttack >= order[next].remainToAttack)
                 break;
 
-            Tuple<Creature, int> tempTuple = tuple;
+            OrderInfo tempInfo = info;
             order[now] = order[next];
-            order[next] = tempTuple;
+            order[next] = tempInfo;
 
             now = next;
         }
@@ -149,9 +158,9 @@ public class BattleManager : MonoBehaviour
         Debug.Log($"Push Creature! : {_creature.name}, {MAX_GAGE - _creature.Stat.Speed}");
     }
 
-    Tuple<Creature, int> PopOrder()
+    OrderInfo PopOrder()
     {
-        Tuple<Creature, int> retTuple = order[0];
+        OrderInfo retInfo = order[0];
         int lastIndex = order.Count - 1;
         order[0] = order[lastIndex];
         order.RemoveAt(lastIndex);
@@ -159,7 +168,7 @@ public class BattleManager : MonoBehaviour
 
         Heapify(lastIndex);
 
-        return retTuple;
+        return retInfo;
     }
 
     void Heapify(int _lastIndex)
@@ -171,18 +180,18 @@ public class BattleManager : MonoBehaviour
             int right = 2 * now + 2;
 
             int next = now;
-            if (left <= _lastIndex && order[next].Item2 >= order[left].Item2)
+            if (left <= _lastIndex && order[next].remainToAttack >= order[left].remainToAttack)
                 next = left;
 
-            if (right <= _lastIndex && order[next].Item2 >= order[right].Item2)
+            if (right <= _lastIndex && order[next].remainToAttack >= order[right].remainToAttack)
                 next = right;
 
             if (next == now)
                 break;
 
-            Tuple<Creature, int> tempTuple = order[now];
+            OrderInfo tempInfo = order[now];
             order[now] = order[next];
-            order[next] = tempTuple;
+            order[next] = tempInfo;
 
             now = next;
         }
