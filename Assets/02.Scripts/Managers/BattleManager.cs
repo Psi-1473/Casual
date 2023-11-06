@@ -78,6 +78,8 @@ public class BattleManager : MonoBehaviour
             if (enemies[i] != null)
                 PushOrder(enemies[i].GetComponent<Creature>());
         }
+
+        ProceedPhase();
     }
 
     public void ProceedPhase()
@@ -93,7 +95,12 @@ public class BattleManager : MonoBehaviour
             DecreaseAttackGage(i, remainToAttack);
 
         // 3. 공격자가 타겟 공격하게 함
-        attacker.Attack(target);
+        attacker.SetStateAttack(target);
+    }
+
+    public void EndBattle()
+    {
+
     }
 
     Creature FindTarget(Creature _creature)

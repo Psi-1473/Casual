@@ -25,5 +25,10 @@ public class Hero : Creature
         Debug.Log($"Hero id : {Id}");
     }
 
+    public void AttackEnd()
+    {
+        state = State.Return;
+    }
+
 
 }

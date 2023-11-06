@@ -50,7 +50,7 @@ public class UI_InGame : UI_Scene
                 hero.transform.position = new Vector3(hero.transform.position.x - 10f, hero.transform.position.y, hero.transform.position.z);
                 hero.transform.localScale = new Vector3(-1f, 1f, 1f);
                 hero.transform.localScale *= 2;
-                hero.GetComponent<Creature>().MoveTo(Get<GameObject>((int)enumObj).transform);
+                hero.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
 
                 
                 Managers.Battle.Heros[i] = hero;
@@ -84,7 +84,7 @@ public class UI_InGame : UI_Scene
                 enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
                 enemy.transform.localScale *= 2;
 
-                enemy.GetComponent<Creature>().MoveTo(Get<GameObject>((int)enumObj).transform);
+                enemy.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
         }

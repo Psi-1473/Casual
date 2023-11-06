@@ -24,4 +24,9 @@ public class Enemy : Creature
         Id = int.Parse(sId);
         Debug.Log($"Enemy id : {Id}");
     }
+
+    public void AttackEnd()
+    {
+        state = State.Return;
+    }
 }
