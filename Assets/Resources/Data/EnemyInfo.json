@@ -1,7 +1,7 @@
 {
   "enemies": [
     {
-      "id": 0,
+      "id": 1,
       "name": "방패 고블린",
       "attack": 5,
       "defense": 10,
@@ -11,7 +11,7 @@
       "role": 0
     },
     {
-      "id": 1,
+      "id": 2,
       "name": "고블린 궁수",
       "attack": 5,
       "defense": 10,
@@ -21,7 +21,7 @@
       "role": 2
     },
     {
-      "id": 2,
+      "id": 3,
       "name": "단검 고블린",
       "attack": 5,
       "defense": 10,

@@ -22,8 +22,6 @@ public class UI_StatBar : UI_Base
     {
         Bind<GameObject>(typeof(GameObjects));
         Owner.GetComponent<Creature>().OnStatChanged += SetHpAndMp;
-        if(Owner.transform.localScale.x < 0)
-            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1f, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
         SetHpAndMp();
     }
 
@@ -43,10 +41,11 @@ public class UI_StatBar : UI_Base
 
     void SetHpAndMp()
     {
-        Get<GameObject>((int)GameObjects.HpBar).GetComponent<Slider>().value = 0.5f;//Owner.GetComponent<Creature>().Stat.HpRatio;
-        Get<GameObject>((int)GameObjects.MpBar).GetComponent<Slider>().value = 0.5f;//Owner.GetComponent<Creature>().Stat.MpRatio;
+        Get<GameObject>((int)GameObjects.HpBar).GetComponent<Slider>().value = Owner.GetComponent<Creature>().Stat.HpRatio;
+        Get<GameObject>((int)GameObjects.MpBar).GetComponent<Slider>().value = Owner.GetComponent<Creature>().Stat.MpRatio;
 
         Debug.Log($"{Owner.GetComponent<Creature>().Stat.HpRatio}");
+        //
     }
 
 }

@@ -14,6 +14,9 @@ public class BattleManager : MonoBehaviour
     const int MAX_GAGE = 10;
     const int CREATURE_NONE = -1;
 
+    int enemyNum = 0;
+    int heroNum = 0;
+
     List<GameObject> heros = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
 
@@ -66,17 +69,25 @@ public class BattleManager : MonoBehaviour
     public void BeginBattle()
     {
         Debug.Log("배틀 시작");
+        heroNum = 0;
+        enemyNum = 0;
 
         for(int i = 0; i < 6; i++)
         {
             if (heros[i] != null)
+            {
                 PushOrder(heros[i].GetComponent<Creature>());
+                heroNum++;
+            }
         }
 
         for (int i = 0; i < 6; i++)
         {
             if (enemies[i] != null)
+            {
                 PushOrder(enemies[i].GetComponent<Creature>());
+                enemyNum++;
+            }
         }
 
         ProceedPhase();
@@ -85,17 +96,60 @@ public class BattleManager : MonoBehaviour
     public void ProceedPhase()
     {
         // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
-        OrderInfo info = PopOrder();
-        Creature attacker = info.creature;
-        Creature target = FindTarget(attacker);
-        int remainToAttack = info.remainToAttack;
+        if (heroNum == 0)
+        {
+            Debug.Log("플레이어 패배");
+        }
+        else if (enemyNum == 0)
+        {
+            Debug.Log("플레이어 승리");
+        }
+        else
+        {
+            OrderInfo info = PopOrder();
+            Creature attacker = info.creature;
 
-        // 2. 공격할 Creature의 공격까지 남은 시간만큼 남은 애들 시간 차감
-        for(int i = 0; i < order.Count; i++)
-            DecreaseAttackGage(i, remainToAttack);
+            if (attacker.IsDead)
+            {
+                ProceedPhase();
+                return;
+            }
 
-        // 3. 공격자가 타겟 공격하게 함
-        attacker.SetStateAttack(target);
+
+            Creature target = FindTarget(attacker);
+            int remainToAttack = info.remainToAttack;
+
+            // 2. 공격할 Creature의 공격까지 남은 시간만큼 남은 애들 시간 차감
+            for (int i = 0; i < order.Count; i++)
+                DecreaseAttackGage(i, remainToAttack);
+
+            // 3. 공격자가 타겟 공격하게 함
+            attacker.SetStateAttack(target);
+        }
+    }
+
+    public void RemoveCreature(GameObject obj, int formationNum)
+    {
+        
+        if (obj.GetComponent<Hero>() != null)
+        {
+            heros[formationNum] = null;
+            heroNum--;
+
+            Debug.Log($" Left Hero : {heroNum}");
+        }
+
+        if (obj.GetComponent<Enemy>() != null)
+        {
+            enemies[formationNum] = null;
+            enemyNum--;
+
+            Debug.Log($" Left Enemy : {enemyNum}");
+        }
+       //Creature creature = obj.GetComponent<Creature>();
+       //int idx = order.FindIndex((x) => x.creature.Equals(creature));
+       //order.RemoveAt(idx);
+
     }
 
     public void EndBattle()

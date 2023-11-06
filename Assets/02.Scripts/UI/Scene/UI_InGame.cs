@@ -51,8 +51,10 @@ public class UI_InGame : UI_Scene
                 hero.transform.localScale = new Vector3(-1f, 1f, 1f);
                 hero.transform.localScale *= 2;
                 hero.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
+                hero.GetComponent<Creature>().InitBarUI();
+                hero.GetComponent<Creature>().FormationNumber = i;
 
-                
+
                 Managers.Battle.Heros[i] = hero;
                 // Battle 매니저에서 세팅
             }
@@ -85,6 +87,9 @@ public class UI_InGame : UI_Scene
                 enemy.transform.localScale *= 2;
 
                 enemy.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
+                enemy.GetComponent<Creature>().InitBarUI();
+                enemy.GetComponent<Creature>().FormationNumber = i + 1;
+
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
         }
