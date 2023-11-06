@@ -11,9 +11,9 @@ public class Hero : Creature
         stat.SetHeroInfo(Id);
     }
 
-    protected override void FixedUpdate()
+    protected override void Update()
     {
-        base.FixedUpdate();
+        base.Update();
     }
 
     void SetId()
@@ -23,11 +23,6 @@ public class Hero : Creature
         sId = sId.Substring(0, idx);
         Id = int.Parse(sId);
         Debug.Log($"Hero id : {Id}");
-    }
-
-    public void AttackEnd()
-    {
-        state = State.Return;
     }
 
 
