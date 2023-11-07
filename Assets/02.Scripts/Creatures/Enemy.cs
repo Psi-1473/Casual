@@ -4,24 +4,8 @@ using UnityEngine;
 
 public class Enemy : Creature
 {
-    protected override void Awake()
+    public override void SetNewCreatureInfo(int Id)
     {
-        base.Awake();
-        SetId();
-        stat.SetEnemyInfo(Id);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
-    void SetId()
-    {
-        string sId = gameObject.name;
-        int idx = sId.IndexOf('(');
-        sId = sId.Substring(0, idx);
-        Id = int.Parse(sId);
-        Debug.Log($"Enemy id : {Id}");
+        // 이 클래스 근데 필요 없을 것 같은데 ..
     }
 }

@@ -21,7 +21,7 @@ public class UI_StatBar : UI_Base
     public override void Init()
     {
         Bind<GameObject>(typeof(GameObjects));
-        Owner.GetComponent<Creature>().OnStatChanged += SetHpAndMp;
+        Owner.GetComponent<AIController>().OnStatChanged += SetHpAndMp;
         SetHpAndMp();
     }
 
@@ -41,10 +41,10 @@ public class UI_StatBar : UI_Base
 
     void SetHpAndMp()
     {
-        Get<GameObject>((int)GameObjects.HpBar).GetComponent<Slider>().value = Owner.GetComponent<Creature>().Stat.HpRatio;
-        Get<GameObject>((int)GameObjects.MpBar).GetComponent<Slider>().value = Owner.GetComponent<Creature>().Stat.MpRatio;
+        Get<GameObject>((int)GameObjects.HpBar).GetComponent<Slider>().value = Owner.GetComponent<AIController>().Stat.HpRatio;
+        Get<GameObject>((int)GameObjects.MpBar).GetComponent<Slider>().value = Owner.GetComponent<AIController>().Stat.MpRatio;
 
-        Debug.Log($"{Owner.GetComponent<Creature>().Stat.HpRatio}");
+        Debug.Log($"{Owner.GetComponent<AIController>().Stat.HpRatio}");
         //
     }
 

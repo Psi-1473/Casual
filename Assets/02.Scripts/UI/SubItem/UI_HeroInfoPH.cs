@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class UI_HeroInfoPH : UI_Base
 {
-    public int HeroId { get; private set; }
+    public Hero RegisteredHero { get; private set; }
 
     UI_PlaceHero placeUI;
     enum Texts
@@ -34,16 +34,15 @@ public class UI_HeroInfoPH : UI_Base
         BindEvent(this.gameObject, (data) => { PlaceHero(); });
     }
 
-    public void SetHeroInfo(int _heroId, UI_PlaceHero _ui)
+    public void SetHeroInfo(Hero _hero, UI_PlaceHero _ui)
     {
-        HeroId = _heroId;
-        placeUI = _ui;
+        RegisteredHero = _hero;
+        placeUI = _ui;;
 
-        HeroInfo hero = Managers.Data.HeroDict[_heroId];
-        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = hero.name;
+        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
 
         string _grade = "";
-        switch(hero.grade)
+        switch(_hero.Grade)
         {
             case 0:
                 _grade = "³ë¸»";
@@ -59,16 +58,16 @@ public class UI_HeroInfoPH : UI_Base
 
         }
         Get<TextMeshProUGUI>((int)Texts.Text_Grade).text = _grade;
-        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_heroId}");
+        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
         GetImage((int)Images.Img_Hero).sprite = _heroSprite;
     }
 
     public void PlaceHero()
     {
-        int _placeNumber = Managers.GetPlayer.HeroComp.SetHeroFormation(HeroId);
+        int _placeNumber = Managers.GetPlayer.HeroComp.SetHeroFormation(RegisteredHero);
 
         if (_placeNumber != -1)
-            placeUI.PlaceHero(HeroId, _placeNumber);
+            placeUI.PlaceHero(RegisteredHero, _placeNumber);
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class OrderInfo
 {
-    public Creature creature;
+    public AIController creatureAI;
     public int remainToAttack;
 }
 
@@ -76,7 +76,7 @@ public class BattleManager : MonoBehaviour
         {
             if (heros[i] != null)
             {
-                PushOrder(heros[i].GetComponent<Creature>());
+                PushOrder(heros[i].GetComponent<AIController>());
                 heroNum++;
             }
         }
@@ -85,7 +85,7 @@ public class BattleManager : MonoBehaviour
         {
             if (enemies[i] != null)
             {
-                PushOrder(enemies[i].GetComponent<Creature>());
+                PushOrder(enemies[i].GetComponent<AIController>());
                 enemyNum++;
             }
         }
@@ -103,7 +103,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             OrderInfo info = PopOrder();
-            Creature attacker = info.creature;
+            AIController attacker = info.creatureAI;
 
             if (attacker.IsDead)
             {
@@ -112,7 +112,7 @@ public class BattleManager : MonoBehaviour
             }
 
 
-            Creature target = FindTarget(attacker);
+            AIController target = FindTarget(attacker);
             int remainToAttack = info.remainToAttack;
 
             // 2. 공격할 Creature의 공격까지 남은 시간만큼 남은 애들 시간 차감
@@ -127,7 +127,7 @@ public class BattleManager : MonoBehaviour
     public void RemoveCreature(GameObject obj, int formationNum)
     {
         
-        if (obj.GetComponent<Hero>() != null)
+        if (obj.GetComponent<AIController>().CType == CreatureType.CREATURE_HERO)
         {
             heros[formationNum] = null;
             heroNum--;
@@ -135,7 +135,7 @@ public class BattleManager : MonoBehaviour
             Debug.Log($" Left Hero : {heroNum}");
         }
 
-        if (obj.GetComponent<Enemy>() != null)
+        if (obj.GetComponent<AIController>().CType == CreatureType.CREATURE_ENEMY)
         {
             enemies[formationNum] = null;
             enemyNum--;
@@ -172,27 +172,27 @@ public class BattleManager : MonoBehaviour
         _ui.SetText(win);
     }
 
-    Creature FindTarget(Creature _creature)
+    AIController FindTarget(AIController _pawn)
     {
-        Creature target = null;
-        if (_creature.GetComponent<Hero>() != null)
+        AIController target = null;
+        if (_pawn.CType == CreatureType.CREATURE_HERO)
         {
             for (int i = 0; i < 6; i++)
             {
                 if (enemies[i] != null)
                 {
-                    target = enemies[i].GetComponent<Creature>();
+                    target = enemies[i].GetComponent<AIController>();
                     break;
                 }
             }
         }
-        else if (_creature.GetComponent<Enemy>() != null)
+        else if (_pawn.CType == CreatureType.CREATURE_ENEMY)
         {
             for (int i = 0; i < 6; i++)
             {
                 if (heros[i] != null)
                 {
-                    target = heros[i].GetComponent<Creature>();
+                    target = heros[i].GetComponent<AIController>();
                     break;
                 }
             }
@@ -201,18 +201,18 @@ public class BattleManager : MonoBehaviour
         return target;
     }
 
-    void DecreaseAttackGage(int idx, int value)
+    void DecreaseAttackGage(int _idx, int _value)
     {
-        order[idx].remainToAttack -= value;
+        order[_idx].remainToAttack -= _value;
 
-        if (order[idx].remainToAttack < 0)
-            order[idx].remainToAttack = 0;
+        if (order[_idx].remainToAttack < 0)
+            order[_idx].remainToAttack = 0;
     }
-    public void PushOrder(Creature _creature)
+    public void PushOrder(AIController _pawn)
     {
         OrderInfo info = new OrderInfo();
-        info.creature = _creature;
-        info.remainToAttack = MAX_GAGE - _creature.Stat.Speed;
+        info.creatureAI = _pawn;
+        info.remainToAttack = MAX_GAGE - _pawn.Stat.Speed;
 
         order.Add(info);
 
@@ -231,7 +231,7 @@ public class BattleManager : MonoBehaviour
             now = next;
         }
 
-        Debug.Log($"Push Creature! : {_creature.name}, {MAX_GAGE - _creature.Stat.Speed}");
+        Debug.Log($"Push Creature! : {_pawn.name}, {MAX_GAGE - _pawn.Stat.Speed}");
     }
 
     OrderInfo PopOrder()

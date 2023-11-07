@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class Hero : Creature
 {
-    protected override void Awake()
+    public override void SetNewCreatureInfo(int Id)
     {
-        base.Awake();
-        SetId();
-        stat.SetHeroInfo(Id);
+        HeroInfo heroInfo = Managers.Data.HeroDict[Id];
+
+        level = 1;
+        maxExp = 100; // temp
+        exp = 0; // temp
+
+        creatureName = heroInfo.name;
+        id = heroInfo.id;
+        maxHp = heroInfo.hp;
+        maxMp = heroInfo.mp ;
+        attack = heroInfo.attack;
+        defense = heroInfo.defense;
+        speed = heroInfo.speed;
+        role = heroInfo.role;
+        grade = heroInfo.grade;
     }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
-    void SetId()
-    {
-        string sId = gameObject.name;
-        int idx = sId.IndexOf('(');
-        sId = sId.Substring(0, idx);
-        Id = int.Parse(sId);
-        Debug.Log($"Hero id : {Id}");
-    }
-
-
 }

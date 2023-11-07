@@ -22,7 +22,8 @@ public class UI_BattleEnd : UI_Popup
         base.Init();
 
         Bind<GameObject>(typeof(GameObjects));
-
+        Canvas canvas = GetComponent<Canvas>();
+        canvas.sortingOrder = 10;
         BindEvent(Get<GameObject>((int)GameObjects.Btn_End), (data) => { Managers.SceneEx.LoadScene(Define.Scene.Lobby); });
     }
 

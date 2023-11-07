@@ -982,7 +982,7 @@ Animator:
   m_GameObject: {fileID: 2294565170456909548}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c2fc0aafc4ba14749a6cc196ffeb52b8, type: 2}
+  m_Controller: {fileID: 9100000, guid: 1fb495c732936b84db8db4cda4de43ae, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1003,8 +1003,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7493774249553815986}
   - component: {fileID: 2104709716535492090}
-  - component: {fileID: -3736077825348832448}
-  - component: {fileID: -6888196627242435232}
+  - component: {fileID: -1118024798497935704}
+  - component: {fileID: -3798223905708698140}
   m_Layer: 5
   m_Name: 15
   m_TagString: Untagged
@@ -1055,7 +1055,7 @@ MonoBehaviour:
   UnitTypeChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &-3736077825348832448
+--- !u!114 &-1118024798497935704
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1064,10 +1064,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2353921155423064202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 512f29c5ebda24b45a92a06b029e9770, type: 3}
+  m_Script: {fileID: 11500000, guid: 896ad88ccf46b6d468b9747c30f77edb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-6888196627242435232
+  hpBar: {fileID: 0}
+--- !u!114 &-3798223905708698140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -43,16 +43,17 @@ public class UI_PlaceHero : UI_Popup
         heroList.Add(null);
         heroList.Add(null);
         heroList.Add(null);
+        Managers.GetPlayer.HeroComp.Sort();
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
         HeroComponent comp = Managers.GetPlayer.HeroComp;
         LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
 
-        BindEvent(GetButton((int)Buttons.Btn_Form1).gameObject, (data) => { PlaceHero(-1, 1); });
-        BindEvent(GetButton((int)Buttons.Btn_Form2).gameObject, (data) => { PlaceHero(-1, 2); });
-        BindEvent(GetButton((int)Buttons.Btn_Form3).gameObject, (data) => { PlaceHero(-1, 3); });
-        BindEvent(GetButton((int)Buttons.Btn_Form4).gameObject, (data) => { PlaceHero(-1, 4); });
-        BindEvent(GetButton((int)Buttons.Btn_Form5).gameObject, (data) => { PlaceHero(-1, 5); });
+        BindEvent(GetButton((int)Buttons.Btn_Form1).gameObject, (data) => { PlaceHero(null, 1); });
+        BindEvent(GetButton((int)Buttons.Btn_Form2).gameObject, (data) => { PlaceHero(null, 2); });
+        BindEvent(GetButton((int)Buttons.Btn_Form3).gameObject, (data) => { PlaceHero(null, 3); });
+        BindEvent(GetButton((int)Buttons.Btn_Form4).gameObject, (data) => { PlaceHero(null, 4); });
+        BindEvent(GetButton((int)Buttons.Btn_Form5).gameObject, (data) => { PlaceHero(null, 5); });
         BindEvent(GetButton((int)Buttons.Btn_Play).gameObject, (data) => { StartGame(); });
 
         PlaceHeroByPlayerInfo();
@@ -80,36 +81,27 @@ public class UI_PlaceHero : UI_Popup
         }
     }
 
-    void LoadHeros(List<int> unique, List<int> rare, List<int> normal)
+    void LoadHeros(List<Hero> unique, List<Hero> rare, List<Hero> normal)
     {
         for (int i = 0; i < unique.Count; i++)
         {
-            for (int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[unique[i]]; j++)
-            {
-                UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(unique[i], this);
-            }
+            UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(unique[i], this);
         }
 
         for (int i = 0; i < rare.Count; i++)
         {
-            for (int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[rare[i]]; j++)
-            {
-                UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(rare[i], this);
-            }
+            UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(rare[i], this);
         }
 
         for (int i = 0; i < normal.Count; i++)
         {
-            for (int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[normal[i]]; j++)
-            {
-                UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(normal[i], this);
-            }
+            UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(normal[i], this);
         }
     }
 
@@ -117,17 +109,17 @@ public class UI_PlaceHero : UI_Popup
     {
         for(int i = 1; i < 6; i++)
         {
-            int hId = Managers.GetPlayer.HeroComp.HeroFormation[i];
-            if (hId != -1)
+            Hero hero = Managers.GetPlayer.HeroComp.HeroFormation[i];
+            if (hero != null)
             {
-                PlaceHero(hId, i);
+                PlaceHero(hero, i);
             }
         }
     }
 
-    public void PlaceHero(int _heroId, int _place)
+    public void PlaceHero(Hero _hero, int _place)
     {
-        if(_heroId == -1)
+        if(_hero == null)
         {
             Destroy(heroList[_place]);
             heroList[_place] = null;
@@ -135,10 +127,11 @@ public class UI_PlaceHero : UI_Popup
             return;
         }
 
+
         if (heroList[_place] != null)
             Destroy(heroList[_place]);
 
-        GameObject obj = Managers.Resource.Instantiate($"Heros/{_heroId}");
+        GameObject obj = Managers.Resource.Instantiate($"Heros/{_hero.Id}");
         GameObjects enumObj = (GameObjects)_place;
         obj.transform.position = Get<GameObject>((int)enumObj).gameObject.transform.position;
         obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - 0.5f, obj.transform.position.z);

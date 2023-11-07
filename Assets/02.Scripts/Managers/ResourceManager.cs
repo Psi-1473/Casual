@@ -17,7 +17,6 @@ public class ResourceManager
             Debug.Log($"Failed to load prefab : {path}");
             return null;
         }
-
         GameObject go = Object.Instantiate(prefab, parent);
         int index = go.name.IndexOf("(Clone)");
         if (index > 0)

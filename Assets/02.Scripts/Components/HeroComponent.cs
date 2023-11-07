@@ -2,6 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class HeroCompare : IComparer<Hero>
+{
+    public int Compare(Hero x, Hero y)
+    {
+        if (x.Level == y.Level && x.Exp == y.Exp)
+            return x.Id.CompareTo(y.Id);
+        else if (x.Level == y.Level && x.Exp != y.Exp)
+            return x.Exp.CompareTo(y.Exp);
+        else
+            return x.Level.CompareTo(y.Level);
+    }
+}
 
 
 public class HeroComponent : MonoBehaviour
@@ -9,17 +21,17 @@ public class HeroComponent : MonoBehaviour
     const int HERO_NONE = -1;
 
     Dictionary<int, int> heroCount = new Dictionary<int, int>();
-    List<int> uniqueHeros = new List<int>();
-    List<int> rareHeros = new List<int>();
-    List<int> normalHeros = new List<int>();
+    List<Hero> uniqueHeros = new List<Hero>();
+    List<Hero> rareHeros = new List<Hero>();
+    List<Hero> normalHeros = new List<Hero>();
 
-    public List<int> UniqueHero { get { return uniqueHeros; } }
-    public List<int> RareHero { get { return rareHeros; } }
-    public List<int> NormalHero { get { return normalHeros; } }
+    public List<Hero> UniqueHero { get { return uniqueHeros; } }
+    public List<Hero> RareHero { get { return rareHeros; } }
+    public List<Hero> NormalHero { get { return normalHeros; } }
     public Dictionary<int, int> HeroCount { get { return heroCount; } }
 
     [SerializeField]
-    public Dictionary<int, int> HeroFormation { get; private set; } = new Dictionary<int, int>();
+    public Dictionary<int, Hero> HeroFormation { get; private set; } = new Dictionary<int, Hero>();
 
     private void Start()
     {
@@ -28,58 +40,55 @@ public class HeroComponent : MonoBehaviour
 
     public void Init()
     {
-        HeroFormation.Add(1, HERO_NONE);
-        HeroFormation.Add(2, HERO_NONE);
-        HeroFormation.Add(3, HERO_NONE);
-        HeroFormation.Add(4, HERO_NONE);
-        HeroFormation.Add(5, HERO_NONE);
+        HeroFormation.Add(1, null);
+        HeroFormation.Add(2, null);
+        HeroFormation.Add(3, null);
+        HeroFormation.Add(4, null);
+        HeroFormation.Add(5, null);
     }
 
     public void TakeNewHero(int _heroId)
     {
-        HeroInfo _heroInfo = Managers.Data.HeroDict[_heroId];
-        if (heroCount.ContainsKey(_heroId))
-            heroCount[_heroId]++;
-        else
-        {
-            heroCount.Add(_heroId, 1);
-            if (_heroInfo.grade == (int)Define.HeroGrade.NORMAL)
-                normalHeros.Add(_heroId);
-            else if (_heroInfo.grade == (int)Define.HeroGrade.RARE)
-                rareHeros.Add(_heroId);
-            else if (_heroInfo.grade == (int)Define.HeroGrade.UNIQUE)
-                uniqueHeros.Add(_heroId);
-        }
+        Hero hero = new Hero();
+        hero.SetNewCreatureInfo(_heroId);
+
+        int grade = hero.Grade;
+
+        if (grade == (int)Define.HeroGrade.NORMAL)
+            normalHeros.Add(hero);
+        else if (grade == (int)Define.HeroGrade.RARE)
+            rareHeros.Add(hero);
+        else if (grade == (int)Define.HeroGrade.UNIQUE)
+                uniqueHeros.Add(hero);
         
     }
-
-    public void RemoveHero(int _heroId)
+    public void RemoveHero(Hero _hero)
     {
-        HeroInfo _heroInfo = Managers.Data.HeroDict[_heroId];
-        heroCount[_heroId]--;
+        int grade = _hero.Grade;
 
-        if (heroCount[_heroId] == 0)
-        {
-            heroCount.Remove(_heroId);
-            if (_heroInfo.grade == (int)Define.HeroGrade.NORMAL)
-                normalHeros.Remove(_heroId);
-            else if (_heroInfo.grade == (int)Define.HeroGrade.RARE)
-                rareHeros.Remove(_heroId);
-            else if (_heroInfo.grade == (int)Define.HeroGrade.UNIQUE)
-                uniqueHeros.Remove(_heroId);
-        }
-      
+        if (grade == (int)Define.HeroGrade.NORMAL)
+            normalHeros.Remove(_hero);
+        else if (grade == (int)Define.HeroGrade.RARE)
+            rareHeros.Remove(_hero);
+        else if (grade == (int)Define.HeroGrade.UNIQUE)
+            uniqueHeros.Remove(_hero); 
     }
-    
+    public void Sort()
+    {
+        uniqueHeros.Sort(new HeroCompare());
+        rareHeros.Sort(new HeroCompare());
+        normalHeros.Sort(new HeroCompare());
+    }
+
     public void SetOffHeroFormation(int _place)
     {
-        HeroFormation[_place] = -1;
+        HeroFormation[_place] = null;
     }
-    public int SetHeroFormation(int _heroId)
+    public int SetHeroFormation(Hero _hero)
     {
         for(int i = 1; i < 6; i++)
         {
-            if (HeroFormation[i] == _heroId)
+            if (HeroFormation[i] != null && HeroFormation[i].Id == _hero.Id)  
             {
                 //이미 중복된 영웅입니다.
                 Debug.Log("해당 영웅이 이미 배치되었습니다.");
@@ -96,7 +105,7 @@ public class HeroComponent : MonoBehaviour
         }
         else
         {
-            HeroFormation[setPlace] = _heroId;
+            HeroFormation[setPlace] = _hero;
             return setPlace;
         }
     }
@@ -106,7 +115,7 @@ public class HeroComponent : MonoBehaviour
     {
         for(int i = 1; i < 6; i++)
         {
-            if (HeroFormation[i] == HERO_NONE)
+            if (HeroFormation[i] == null)
                 return i;
         }
 

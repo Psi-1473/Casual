@@ -42,13 +42,14 @@ public class UI_Hero : UI_Popup
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(GameObjects));
 
+        Managers.GetPlayer.HeroComp.Sort();
         HeroComponent comp = Managers.GetPlayer.HeroComp;
         LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
-        SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().HeroId);
+        SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().RegisteredHero);
     }
 
     //10°³
-    void LoadHeros(List<int> unique, List<int> rare, List<int> normal)
+    void LoadHeros(List<Hero> unique, List<Hero> rare, List<Hero> normal)
     {
         int sum = 0;
         sum = unique.Count + rare.Count + normal.Count;
@@ -56,48 +57,38 @@ public class UI_Hero : UI_Popup
 
         for (int i = 0; i < unique.Count; i++)
         {
-            for(int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[unique[i]]; j++)
-            {
-                UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(unique[i], this);
-            }
+            UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(unique[i], this);
         }
 
         for (int i = 0; i < rare.Count; i++)
         {
-            for (int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[rare[i]]; j++)
-            {
-                UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(rare[i], this);
-            }
+            UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(rare[i], this);
         }
 
         for (int i = 0; i < normal.Count; i++)
         {
-            for (int j = 0; j < Managers.GetPlayer.HeroComp.HeroCount[normal[i]]; j++)
-            {
-                UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
-                _info.Init();
-                _info.SetHeroInfo(normal[i], this);
-            }
+            UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
+            _info.Init();
+            _info.SetHeroInfo(normal[i], this);
         }
     }
 
 
-    public void SetHero(int _heroId)
+    public void SetHero(Hero _hero)
     {
-        HeroInfo info = Managers.Data.HeroDict[_heroId];
 
-        Get<TextMeshProUGUI>((int)Texts.Text_HeroName).text = info.name;
-        Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{info.attack}";
-        Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{info.defense}";
+        Get<TextMeshProUGUI>((int)Texts.Text_HeroName).text = _hero.CreatureName;
+        Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{_hero.Attack}";
+        Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{_hero.Defense}";
 
         string role = "";
         string grade = "";
 
-        switch(info.grade)
+        switch(_hero.Grade)
         {
             case 0:
                 grade = "³ë¸»";
@@ -112,7 +103,7 @@ public class UI_Hero : UI_Popup
                 break;
         }
 
-        switch (info.role)
+        switch (_hero.Role)
         {
             case 0:
                 role = "ÅÊÄ¿";
@@ -133,8 +124,8 @@ public class UI_Hero : UI_Popup
         Get<TextMeshProUGUI>((int)Texts.Text_HeroGrade).text = grade;
         Get<TextMeshProUGUI>((int)Texts.Text_HeroClass).text = role;
 
-        GetImage((int)Images.Img_HeroMain).sprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_heroId}");
-        GetImage((int)Images.Img_HeroClass).sprite = Managers.Resource.Load<Sprite>($"Images/ClassImage/{info.role}");
+        GetImage((int)Images.Img_HeroMain).sprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        GetImage((int)Images.Img_HeroClass).sprite = Managers.Resource.Load<Sprite>($"Images/ClassImage/{_hero.Role}");
 
 
     }

@@ -41,21 +41,22 @@ public class UI_InGame : UI_Scene
     {
         for (int i = 1; i < 6; i++)
         {
-            int heroId = Managers.GetPlayer.HeroComp.HeroFormation[i];
-            if (heroId != -1)
+            Hero hero = Managers.GetPlayer.HeroComp.HeroFormation[i];
+            if (hero != null)
             {
-                GameObject hero = Managers.Resource.Instantiate($"Heros/{heroId}");
+                GameObject obj = Managers.Resource.Instantiate($"Heros/{hero.Id}");
                 GameObjects enumObj = (GameObjects)(i - 1);
-                hero.transform.position = Get<GameObject>((int)enumObj).transform.position;
-                hero.transform.position = new Vector3(hero.transform.position.x - 10f, hero.transform.position.y, hero.transform.position.z);
-                hero.transform.localScale = new Vector3(-1f, 1f, 1f);
-                hero.transform.localScale *= 2;
-                hero.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
-                hero.GetComponent<Creature>().InitBarUI();
-                hero.GetComponent<Creature>().FormationNumber = i;
+                obj.transform.position = Get<GameObject>((int)enumObj).transform.position;
+                obj.transform.position = new Vector3(obj.transform.position.x - 10f, obj.transform.position.y, obj.transform.position.z);
+                obj.transform.localScale = new Vector3(-1f, 1f, 1f);
+                obj.transform.localScale *= 2;
+                obj.GetComponent<AIController>().FixedTrans = Get<GameObject>((int)enumObj).transform;
+                obj.GetComponent<AIController>().SetHeroStat(hero);
+                obj.GetComponent<AIController>().InitBarUI();
+                obj.GetComponent<AIController>().FormationNumber = i;
 
 
-                Managers.Battle.Heros[i] = hero;
+                Managers.Battle.Heros[i] = obj;
                 // Battle 매니저에서 세팅
             }
         }
@@ -86,9 +87,11 @@ public class UI_InGame : UI_Scene
                 enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
                 enemy.transform.localScale *= 2;
 
-                enemy.GetComponent<Creature>().FixedTrans = Get<GameObject>((int)enumObj).transform;
-                enemy.GetComponent<Creature>().InitBarUI();
-                enemy.GetComponent<Creature>().FormationNumber = i + 1;
+                enemy.GetComponent<AIController>().FixedTrans = Get<GameObject>((int)enumObj).transform;
+                enemy.GetComponent<AIController>().SetEnemyStat(enemyId);
+                enemy.GetComponent<AIController>().InitBarUI();
+                enemy.GetComponent<AIController>().FormationNumber = i + 1;
+  
 
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
