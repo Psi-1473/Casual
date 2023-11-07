@@ -96,13 +96,9 @@ public class BattleManager : MonoBehaviour
     public void ProceedPhase()
     {
         // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
-        if (heroNum == 0)
+        if (heroNum == 0 || enemyNum == 0)
         {
-            Debug.Log("플레이어 패배");
-        }
-        else if (enemyNum == 0)
-        {
-            Debug.Log("플레이어 승리");
+            EndBattle();
         }
         else
         {
@@ -154,7 +150,26 @@ public class BattleManager : MonoBehaviour
 
     public void EndBattle()
     {
+        bool win = false;
+        if (enemyNum == 0) win = true;
 
+        order.Clear();
+
+        if(win)
+        {
+            // 1. 보상 주기(x)
+            // 2. Chpater, Stage 개방(o)
+            if(Managers.GetPlayer.StageComp.OpenedChapter == NowChapter || Managers.GetPlayer.StageComp.OpenedStage == NowChapter)
+            {
+                Managers.GetPlayer.StageComp.OpenedStage++;
+
+                // 마지막 챕터라면 다음 챕터 해방(x)
+            }
+        }
+
+        // 3. UI띄우기 - win 값에 따라 텍스트 세팅(o)
+        UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
+        _ui.SetText(win);
     }
 
     Creature FindTarget(Creature _creature)
