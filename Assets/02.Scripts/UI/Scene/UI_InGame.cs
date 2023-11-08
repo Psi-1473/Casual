@@ -50,12 +50,9 @@ public class UI_InGame : UI_Scene
                 obj.transform.position = new Vector3(obj.transform.position.x - 10f, obj.transform.position.y, obj.transform.position.z);
                 obj.transform.localScale = new Vector3(-1f, 1f, 1f);
                 obj.transform.localScale *= 2;
-                obj.GetComponent<AIController>().FixedTrans = Get<GameObject>((int)enumObj).transform;
-                obj.GetComponent<AIController>().SetHeroStat(hero);
-                obj.GetComponent<AIController>().InitBarUI();
-                obj.GetComponent<AIController>().FormationNumber = i;
 
 
+                obj.GetComponent<AIController>().SetHeroStat(hero, Get<GameObject>((int)enumObj).transform, i);
                 Managers.Battle.Heros[i] = obj;
                 // Battle 매니저에서 세팅
             }
@@ -87,12 +84,7 @@ public class UI_InGame : UI_Scene
                 enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
                 enemy.transform.localScale *= 2;
 
-                enemy.GetComponent<AIController>().FixedTrans = Get<GameObject>((int)enumObj).transform;
-                enemy.GetComponent<AIController>().SetEnemyStat(enemyId);
-                enemy.GetComponent<AIController>().InitBarUI();
-                enemy.GetComponent<AIController>().FormationNumber = i + 1;
-  
-
+                enemy.GetComponent<AIController>().SetEnemyStat(enemyId, Get<GameObject>((int)enumObj).transform, i + 1);
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
         }

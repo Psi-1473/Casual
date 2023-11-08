@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class Skill_6 : Skill
 {
-    public override void Execute()
+    void Awake()
     {
-        throw new System.NotImplementedException();
+        SType = SkillType.Melee;
+    }
+    public override void Execute(int heroId)
+    {
+        SpawnSkillPrefab(Target, heroId, 0f, 5f);
     }
 }

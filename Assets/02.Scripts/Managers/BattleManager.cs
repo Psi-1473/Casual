@@ -95,13 +95,16 @@ public class BattleManager : MonoBehaviour
 
     public void ProceedPhase()
     {
+        Debug.Log("Proceed Phase ! ");
         // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
         if (heroNum == 0 || enemyNum == 0)
         {
             EndBattle();
+            Debug.Log("END Battle");
         }
         else
         {
+
             OrderInfo info = PopOrder();
             AIController attacker = info.creatureAI;
 
@@ -110,7 +113,6 @@ public class BattleManager : MonoBehaviour
                 ProceedPhase();
                 return;
             }
-
 
             AIController target = FindTarget(attacker);
             int remainToAttack = info.remainToAttack;

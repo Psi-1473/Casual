@@ -6,7 +6,7 @@ public class StatComponent : MonoBehaviour
 {
     // AI Controller를 가진 객체가 게임 씬에 생성 되었을 때, Creature 클래스의 정보를 받아 초기화
     // InGame씬에서 객체끼리 전투를 할 때만 사용
-
+    int id;
     string heroName;
     int maxHp;
     int hp;
@@ -18,6 +18,7 @@ public class StatComponent : MonoBehaviour
     int role;
     int grade;
 
+    public int Id { get { return id; } set { id = value; } }
     public string Name { get { return heroName; } set { heroName = value; } }
     public int Hp { get { return hp; } set { hp = value; gameObject.GetComponent<AIController>().OnStatChanged.Invoke(); } }
     public int Mp { get { return mp; } set { mp = value; gameObject.GetComponent<AIController>().OnStatChanged.Invoke(); } }
@@ -33,6 +34,7 @@ public class StatComponent : MonoBehaviour
 
     public void SetStatByHeroInfo(Hero _hero)
     {
+        id = _hero.Id;
         SetStat(_hero.CreatureName, _hero.MaxHp, _hero.MaxMp, _hero.Attack, _hero.Defense, 0, _hero.Role, _hero.Grade);
     }
     public void SetStatByEnemyInfo(int _enemyId)

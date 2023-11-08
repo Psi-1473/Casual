@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Skil_18 : Skill
 {
-    public override void Execute()
+    public override void Execute(int heroId)
     {
         throw new System.NotImplementedException();
     }

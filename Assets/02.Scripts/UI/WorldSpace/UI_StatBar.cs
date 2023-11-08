@@ -43,9 +43,6 @@ public class UI_StatBar : UI_Base
     {
         Get<GameObject>((int)GameObjects.HpBar).GetComponent<Slider>().value = Owner.GetComponent<AIController>().Stat.HpRatio;
         Get<GameObject>((int)GameObjects.MpBar).GetComponent<Slider>().value = Owner.GetComponent<AIController>().Stat.MpRatio;
-
-        Debug.Log($"{Owner.GetComponent<AIController>().Stat.HpRatio}");
-        //
     }
 
 }

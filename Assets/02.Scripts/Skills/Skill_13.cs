@@ -4,8 +4,20 @@ using UnityEngine;
 
 public class Skill_13 : Skill
 {
-    public override void Execute()
+    void Awake()
     {
-        throw new System.NotImplementedException();
+        SType = SkillType.RangeMulti;
+    }
+    public override void Execute(int heroId)
+    {
+        List<GameObject> targets = FindAllEnemies();
+        for(int i = 0; i < targets.Count; i++)
+        {
+            GameObject target = targets[i];
+            if (target == null)
+                return;
+
+            SpawnSkillPrefab(target, heroId, 1f);
+        }
     }
 }
