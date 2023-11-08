@@ -26,11 +26,10 @@ public class AIController : MonoBehaviour
     Animator anim;
     StatComponent stat;
 
-
+    
     [SerializeField]
     Slider hpBar;
     Slider mpBar;
-    int Id;
 
     public bool IsDead { get; set; } = false;
     public int FormationNumber { get; set; }
