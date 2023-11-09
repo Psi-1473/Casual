@@ -6,10 +6,18 @@ public class Skill_6 : Skill
 {
     void Awake()
     {
-        SType = SkillType.Melee;
+        SType = SkillType.MeleeMulti;
     }
     public override void Execute(int heroId)
     {
-        SpawnSkillPrefab(Target, heroId, 0f, 5f);
+        List<GameObject> targets = FindFrontEnemies();
+        for (int i = 0; i < targets.Count; i++)
+        {
+            GameObject target = targets[i];
+            if (target == null)
+                return;
+
+            SpawnSkillPrefab(target, heroId, 0.5f, 8);
+        }
     }
 }

@@ -6,6 +6,7 @@ public class SkillAnimEvent : MonoBehaviour
 {
     public GameObject Target { get; set; }
     public AIController Owner { get; set; }
+    public int Damage { get; set; } = 2;
 
     public void AttackEnd()
     {
@@ -16,6 +17,6 @@ public class SkillAnimEvent : MonoBehaviour
 
     public void AttackTarget()
     {
-        Target.GetComponent<AIController>().OnDamaged(20);
+        Target.GetComponent<AIController>().OnDamaged(Damage);
     }
 }

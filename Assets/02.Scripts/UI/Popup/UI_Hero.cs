@@ -11,6 +11,7 @@ public class UI_Hero : UI_Popup
     {
         Img_HeroMain,
         Img_HeroClass,
+        Img_Skill
     }
 
     enum Texts
@@ -46,6 +47,10 @@ public class UI_Hero : UI_Popup
         HeroComponent comp = Managers.GetPlayer.HeroComp;
         LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
         SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().RegisteredHero);
+
+        BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Enter);
+        BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, CloseSkillInfo, Define.UIEvent.Exit);
+
     }
 
     //10°³
@@ -127,6 +132,23 @@ public class UI_Hero : UI_Popup
         GetImage((int)Images.Img_HeroMain).sprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
         GetImage((int)Images.Img_HeroClass).sprite = Managers.Resource.Load<Sprite>($"Images/ClassImage/{_hero.Role}");
 
+        Sprite skill = Managers.Resource.Load<Sprite>($"Images/SkillImage/Hero/{_hero.Id}");
 
+        if (skill != null)
+            GetImage((int)Images.Img_Skill).sprite = skill;
+
+        // null ÀÌ¸é ºó Ä­À¸·Î
+
+
+    }
+
+    void PopupSkillInfo(PointerEventData data)
+    {
+        Debug.Log("Popup Skill Info");
+    }
+
+    void CloseSkillInfo(PointerEventData data)
+    {
+        Debug.Log("Close Skill Info");
     }
 }

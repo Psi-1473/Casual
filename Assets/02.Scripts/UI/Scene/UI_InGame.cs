@@ -16,6 +16,7 @@ public class UI_InGame : UI_Scene
         E_Transform_3,
         E_Transform_4,
         E_Transform_5,
+        Transform_Center,
     }
 
     void Awake()
@@ -52,7 +53,7 @@ public class UI_InGame : UI_Scene
                 obj.transform.localScale *= 2;
 
 
-                obj.GetComponent<AIController>().SetHeroStat(hero, Get<GameObject>((int)enumObj).transform, i);
+                obj.GetComponent<AIController>().SetHeroStat(hero, Get<GameObject>((int)enumObj).transform, i, Get<GameObject>((int)GameObjects.Transform_Center).transform);
                 Managers.Battle.Heros[i] = obj;
                 // Battle 매니저에서 세팅
             }
@@ -84,7 +85,7 @@ public class UI_InGame : UI_Scene
                 enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
                 enemy.transform.localScale *= 2;
 
-                enemy.GetComponent<AIController>().SetEnemyStat(enemyId, Get<GameObject>((int)enumObj).transform, i + 1);
+                enemy.GetComponent<AIController>().SetEnemyStat(enemyId, Get<GameObject>((int)enumObj).transform, i + 1, Get<GameObject>((int)GameObjects.Transform_Center).transform);
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
         }

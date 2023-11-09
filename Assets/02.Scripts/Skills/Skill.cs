@@ -5,6 +5,7 @@ using UnityEngine;
 public enum SkillType
 {
     Melee,
+    MeleeMulti,
     RangeSingle,
     RangeMulti,
 }
@@ -38,5 +39,44 @@ public abstract class Skill : MonoBehaviour
 
         return targets;
     }
-    
+    protected List<GameObject> FindFrontEnemies()
+    {
+        List<GameObject> targets = new List<GameObject>();
+
+        for (int i = 1; i < 3; i++)
+        {
+            if (Managers.Battle.Enemies[i] != null)
+                targets.Add(Managers.Battle.Enemies[i]);
+        }
+
+        if(targets.Count == 0)
+        {
+            for (int i = 3; i < 6; i++)
+            {
+                if (Managers.Battle.Enemies[i] != null)
+                    targets.Add(Managers.Battle.Enemies[i]);
+            }
+        }
+        return targets;
+    }
+    protected List<GameObject> FindBackEnemies()
+    {
+        List<GameObject> targets = new List<GameObject>();
+
+        for (int i = 3; i < 6; i++)
+        {
+            if (Managers.Battle.Enemies[i] != null)
+                targets.Add(Managers.Battle.Enemies[i]);
+        }
+
+        if (targets.Count == 0)
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                if (Managers.Battle.Enemies[i] != null)
+                    targets.Add(Managers.Battle.Enemies[i]);
+            }
+        }
+        return targets;
+    }
 }

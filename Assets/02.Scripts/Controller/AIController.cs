@@ -35,6 +35,7 @@ public class AIController : MonoBehaviour
     public bool IsDead { get; set; } = false;
     public int FormationNumber { get; set; }
     public Transform FixedTrans { get; set; }
+    public Transform CenterTrans { get; set; }
     public GameObject Target { get; set; }
     public StatComponent Stat { get { return stat; } private set { stat = value; } }
     public State CreatureState { get { return state; } set { 
@@ -156,9 +157,14 @@ public class AIController : MonoBehaviour
   
 
         GameObject sTarget = GetComponent<Skill>().Target;
-        Vector3 _dest = new Vector3(sTarget.transform.position.x + (2.3f * gameObject.transform.localScale.x / 2),
-            sTarget.transform.position.y,
-            sTarget.transform.position.z);
+        Vector3 _dest;
+
+        if (GetComponent<Skill>().SType == SkillType.MeleeMulti)
+            _dest = CenterTrans.position;
+        else
+            _dest = new Vector3(sTarget.transform.position.x + (2.3f * gameObject.transform.localScale.x / 2),
+               sTarget.transform.position.y,
+               sTarget.transform.position.z);
 
         if (Vector3.Distance(_dest, transform.position) >= 0.1f)
         {
@@ -202,7 +208,7 @@ public class AIController : MonoBehaviour
         stat.Mp++;
         StopCoroutine(Co_Wait());
         StartCoroutine(Co_Wait());
-        _target.OnDamaged(20);
+        _target.OnDamaged(2);
     }
     public void OnDamaged(int _damage)
     {
@@ -219,22 +225,25 @@ public class AIController : MonoBehaviour
     #endregion
 
     #region Setting Functions (public)
-    public void SetHeroStat(Hero _hero, Transform _trans, int _formation)
+    public void SetHeroStat(Hero _hero, Transform _trans, int _formation, Transform _center)
     {
         cType = CreatureType.CREATURE_HERO;
         FixedTrans = _trans;
+        CenterTrans = _center;
         FormationNumber = _formation;
         stat.SetStatByHeroInfo(_hero);
         InitBarUI();
         SetSkill();
     }
-    public void SetEnemyStat(int _enemyId, Transform _trans, int _formation)
+    public void SetEnemyStat(int _enemyId, Transform _trans, int _formation, Transform _center)
     {
         cType = CreatureType.CREATURE_ENEMY;
         FixedTrans = _trans;
+        CenterTrans = _center;
         FormationNumber = _formation;
         stat.SetStatByEnemyInfo(_enemyId);
         InitBarUI();
+        
         //SetSkill();
     }
     public void SetStateAttack(AIController _target)
