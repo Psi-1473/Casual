@@ -23,11 +23,14 @@ public class UI_Hero : UI_Popup
         Text_HeroClass,
         Text_Attack,
         Text_Armor,
+        Text_SkillName,
+        Text_SkillInfo
     }
 
     enum GameObjects
     {
         Content,
+        Obj_SkillInfo
     }
 
     void Awake()
@@ -50,6 +53,8 @@ public class UI_Hero : UI_Popup
 
         BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Enter);
         BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, CloseSkillInfo, Define.UIEvent.Exit);
+
+        Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
 
     }
 
@@ -137,7 +142,7 @@ public class UI_Hero : UI_Popup
         if (skill != null)
             GetImage((int)Images.Img_Skill).sprite = skill;
 
-        // null ÀÌ¸é ºó Ä­À¸·Î
+        // null ÀÌ¸é ºó Ä­À¸·Îs
 
 
     }
@@ -145,10 +150,12 @@ public class UI_Hero : UI_Popup
     void PopupSkillInfo(PointerEventData data)
     {
         Debug.Log("Popup Skill Info");
+        Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(true);
     }
 
     void CloseSkillInfo(PointerEventData data)
     {
         Debug.Log("Close Skill Info");
+        Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
     }
 }
