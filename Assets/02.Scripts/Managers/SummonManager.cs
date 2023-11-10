@@ -15,12 +15,12 @@ public class SummonManager
         int heroId;
         if(value <= 50)
         {
-            idx = Random.Range(0, normals.Count - 1);
+            idx = Random.Range(0, normals.Count);
             heroId = normals[idx];
         }
         else
         {
-            idx = Random.Range(0, rares.Count - 1);
+            idx = Random.Range(0, rares.Count);
             heroId = rares[idx];
         }
 
@@ -36,12 +36,12 @@ public class SummonManager
         int heroId;
         if (value <= 50)
         {
-            idx = Random.Range(0, uniques.Count - 1);
+            idx = Random.Range(0, uniques.Count);
             heroId = uniques[idx];
         }
         else
         {
-            idx = Random.Range(0, rares.Count - 1);
+            idx = Random.Range(0, rares.Count);
             heroId = rares[idx];
         }
 

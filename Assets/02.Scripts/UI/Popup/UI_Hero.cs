@@ -7,6 +7,9 @@ using TMPro;
 
 public class UI_Hero : UI_Popup
 {
+    int clickedHeroId = -1;
+
+    public int ClickedHeroId { get { return clickedHeroId; }  set { clickedHeroId = value; } }
     enum Images
     {
         Img_HeroMain,
@@ -24,13 +27,17 @@ public class UI_Hero : UI_Popup
         Text_Attack,
         Text_Armor,
         Text_SkillName,
-        Text_SkillInfo
+        Text_SkillInfo,
+        Text_Level1,
+        Text_Level2,
+        Text_Level3,
     }
 
     enum GameObjects
     {
         Content,
-        Obj_SkillInfo
+        Obj_SkillInfo,
+        ClosePopup
     }
 
     void Awake()
@@ -51,10 +58,11 @@ public class UI_Hero : UI_Popup
         LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
         SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().RegisteredHero);
 
-        BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Enter);
-        BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, CloseSkillInfo, Define.UIEvent.Exit);
+        BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Click);
+        BindEvent(Get<GameObject>((int)GameObjects.ClosePopup).gameObject, CloseSkillInfo, Define.UIEvent.Click);
 
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
+        Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(false);
 
     }
 
@@ -91,6 +99,7 @@ public class UI_Hero : UI_Popup
     public void SetHero(Hero _hero)
     {
 
+        clickedHeroId = _hero.Id;
         Get<TextMeshProUGUI>((int)Texts.Text_HeroName).text = _hero.CreatureName;
         Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{_hero.Attack}";
         Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{_hero.Defense}";
@@ -151,11 +160,35 @@ public class UI_Hero : UI_Popup
     {
         Debug.Log("Popup Skill Info");
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(true);
+        Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(true);
+        SetSkillInfo();
     }
 
     void CloseSkillInfo(PointerEventData data)
     {
         Debug.Log("Close Skill Info");
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
+        Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(false);
+        
+    }
+
+    void SetSkillInfo()
+    {
+        if (clickedHeroId == -1)
+            return;
+        Debug.Log($"스킬 인포 : {Managers.Data.SkillDict[0].name}");
+
+        //SkillInfo _info;
+        if (Managers.Data.SkillDict.TryGetValue(clickedHeroId, out var _info))
+        {
+            
+            Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = $"{_info.name}";
+            Get<TextMeshProUGUI>((int)Texts.Text_SkillInfo).text = $"{_info.description}";
+            Get<TextMeshProUGUI>((int)Texts.Text_Level1).text = $"Lv. 1 : {_info.lv1}%";
+            Get<TextMeshProUGUI>((int)Texts.Text_Level2).text = $"Lv. 2 : {_info.lv2}%";
+            Get<TextMeshProUGUI>((int)Texts.Text_Level3).text = $"Lv. 3 : {_info.lv3}%";
+        }
+
+
     }
 }

@@ -21,7 +21,7 @@ public enum CreatureType
 
 public class AIController : MonoBehaviour
 {
-    Creature originalCreature;
+    Creature originalCreature; // 경험치 적용시킬 용도
     State state = State.Setting;
     CreatureType cType = CreatureType.CREATURE_HERO;
     Animator anim;
@@ -130,7 +130,7 @@ public class AIController : MonoBehaviour
         if (Vector3.Distance(_dest, transform.position) >= 0.1f)
         {
             Vector3 dir = _dest - transform.position;
-            transform.position += dir * Time.deltaTime * 3.5f;
+            transform.position += dir * Time.deltaTime * 4.5f;
             anim.SetBool("Move", true);
         }
         else if (Vector3.Distance(_dest, transform.position) <= 0.1f)
@@ -169,7 +169,7 @@ public class AIController : MonoBehaviour
         if (Vector3.Distance(_dest, transform.position) >= 0.1f)
         {
             Vector3 dir = _dest - transform.position;
-            transform.position += dir * Time.deltaTime * 3.5f;
+            transform.position += dir * Time.deltaTime * 4.5f;
             anim.SetBool("Move", true);
         }
         else if (Vector3.Distance(_dest, transform.position) <= 0.1f)
@@ -185,7 +185,7 @@ public class AIController : MonoBehaviour
         {
             Vector3 dir = FixedTrans.position - transform.position;
             anim.SetBool("Move", true);
-            transform.position += dir * Time.deltaTime * 3.5f;
+            transform.position += dir * Time.deltaTime * 4.5f;
 
         }
         else if (Vector3.Distance(FixedTrans.position, transform.position) <= 0.1f)
@@ -208,7 +208,7 @@ public class AIController : MonoBehaviour
         stat.Mp++;
         StopCoroutine(Co_Wait());
         StartCoroutine(Co_Wait());
-        _target.OnDamaged(2);
+        _target.OnDamaged(10);
     }
     public void OnDamaged(int _damage)
     {
@@ -268,7 +268,10 @@ public class AIController : MonoBehaviour
             gameObject.AddComponent(skillType);
             Skill skill = gameObject.GetComponent(skillType) as Skill;
             skill.Caster = this;
+            skill.Center = CenterTrans;
         }
+
+        
     }
     void InitBarUI()
     {

@@ -63,7 +63,34 @@ public class EnemyInfoData : ILoader<int, EnemyInfo>
 }
 #endregion
 
+#region SkillInfo
+[Serializable]
+public class SkillInfo
+{
+    public int id;
+    public string name;
+    public string description;
+    public int lv1;
+    public int lv2;
+    public int lv3;
+    public int statEffect;
+    public int skillType;
+}
 
+[Serializable]
+public class SkillInfoData : ILoader<int, SkillInfo>
+{
+    public List<SkillInfo> skills = new List<SkillInfo>();
+
+    public Dictionary<int, SkillInfo> MakeDic()
+    {
+        Dictionary<int, SkillInfo> dict = new Dictionary<int, SkillInfo>();
+        foreach (SkillInfo skill in skills)
+            dict.Add(skill.id, skill);
+        return dict;
+    }
+}
+#endregion
 #region StageInfo
 [Serializable]
 public class StageInfo

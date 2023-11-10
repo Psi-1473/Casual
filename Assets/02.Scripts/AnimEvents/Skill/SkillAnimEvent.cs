@@ -6,7 +6,7 @@ public class SkillAnimEvent : MonoBehaviour
 {
     public GameObject Target { get; set; }
     public AIController Owner { get; set; }
-    public int Damage { get; set; } = 2;
+    public int Damage { get; set; } = 20;
 
     public void AttackEnd()
     {

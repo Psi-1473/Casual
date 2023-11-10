@@ -1,0 +1,124 @@
+{
+  "skills": [
+    {
+      "id": 0,
+      "name": "신의 가호",
+      "description": "에일린이 자신의 방어력을 상승시키고 그 절반만큼 아군의 방어력도 상승시킵니다.",
+      "lv1": 20,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 3
+    },
+    {
+      "id": 1,
+      "name": "가드",
+      "description": "클리포드가 자신의 방어력을 끌어 올려 더 단단해집니다.",
+      "lv1": 10,
+      "lv2": 15,
+      "lv3": 25,
+      "statEffect": 0,
+      "skillType": 2
+    },
+    {
+      "id": 2,
+      "name": "해머 슬래시",
+      "description": "케인이 적에게 다가가 망치로 강하게 내려 찍습니다.",
+      "lv1": 80,
+      "lv2": 120,
+      "lv3": 150,
+      "statEffect": 0,
+      "skillType": 0
+    },
+    {
+      "id": 6,
+      "name": "무자비",
+      "description": "라우라가 전방의 적들을 우선으로 강하게 타격한 뒤 기절시킵니다.",
+      "lv1": 80,
+      "lv2": 120,
+      "lv3": 150,
+      "statEffect": 0,
+      "skillType": 1
+    },
+    {
+      "id": 7,
+      "name": "X자 베기",
+      "description": "카이가 가까운 적을 강하게 베어버립니다.",
+      "lv1": 120,
+      "lv2": 150,
+      "lv3": 200,
+      "statEffect": 0,
+      "skillType": 0
+    },
+    {
+      "id": 8,
+      "name": "할퀴기",
+      "description": "로즈가 적에게 다가가 마구 할퀴어댑니다. 공격을 당한 적은 잠시동안 출혈 상태가 됩니다.",
+      "lv1": 100,
+      "lv2": 140,
+      "lv3": 180,
+      "statEffect": 0,
+      "skillType": 0
+    },
+    {
+      "id": 9,
+      "name": "블러디 ",
+      "description": "라우라가 검을 휘둘러 전방의 적들을 우선으로 강하게 공격합니다.",
+      "lv1": 100,
+      "lv2": 140,
+      "lv3": 170,
+      "statEffect": 0,
+      "skillType": 1
+    },
+    {
+      "id": 13,
+      "name": "라이트닝 애로우",
+      "description": "엘 보우가 적 전체에게 공격을 가하는 번개 활을 떨어트립니다.",
+      "lv1": 80,
+      "lv2": 110,
+      "lv3": 140,
+      "statEffect": 0,
+      "skillType": 3
+    },
+    {
+      "id": 14,
+      "name": "블레이즈",
+      "description": "루이스가 후방 적을 우선으로 불길을 내뿜어 공격합니다. 공격을 당한 적은 화상 상태가 됩니다.",
+      "lv1": 90,
+      "lv2": 130,
+      "lv3": 155,
+      "statEffect": 0,
+      "skillType": 3
+    },
+    {
+      "id": 15,
+      "name": "아이스 스피어",
+      "description": "알리샤가 적에게 얼음 마법으로 공격한 뒤 빙결 상태로 만들어버립니다.",
+      "lv1": 100,
+      "lv2": 150,
+      "lv3": 180,
+      "statEffect": 0,
+      "skillType": 2
+    },
+    {
+      "id": 18,
+      "name": "홀리 브레스",
+      "description": "카야가 아군 전체의 체력을 회복합니다.",
+      "lv1": 30,
+      "lv2": 50,
+      "lv3": 70,
+      "statEffect": 0,
+      "skillType": 3
+    },
+    {
+      "id": 19,
+      "name": "오스카",
+      "description": "오스카가 가장 체력이 낮은 아군 1명을 회복합니다.",
+      "lv1": 50,
+      "lv2": 70,
+      "lv3": 100,
+      "statEffect": 0,
+      "skillType": 2
+    }
+  ]
+}
