@@ -68,6 +68,7 @@ public class Managers : MonoBehaviour
     public static void Clear()
     {
         SceneEx.Clear();
+        UI.Clear();
     }
 
     public static void SetPlayer(Player player)

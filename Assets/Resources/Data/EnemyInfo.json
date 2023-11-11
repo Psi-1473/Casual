@@ -29,6 +29,56 @@
       "mp": 0,
       "speed": 0,
       "role": 1
+    },
+    {
+      "id": 4,
+      "name": "오크",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0,
+      "speed": 0,
+      "role": 1
+    },
+    {
+      "id": 5,
+      "name": "오크 궁수",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0,
+      "speed": 0,
+      "role": 1
+    },
+    {
+      "id": 6,
+      "name": "변이 오크",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0,
+      "speed": 0,
+      "role": 1
+    },
+    {
+      "id": 7,
+      "name": "변이 오크 검사",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0,
+      "speed": 0,
+      "role": 1
+    },
+    {
+      "id": 8,
+      "name": "변이 오크 족장",
+      "attack": 5,
+      "defense": 10,
+      "hp": 130,
+      "mp": 0,
+      "speed": 0,
+      "role": 1
     }
 
   ]

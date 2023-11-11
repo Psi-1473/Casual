@@ -161,12 +161,15 @@ public class BattleManager : MonoBehaviour
         {
             // 1. 보상 주기(x)
             // 2. Chpater, Stage 개방(o)
-            if(Managers.GetPlayer.StageComp.OpenedChapter == NowChapter || Managers.GetPlayer.StageComp.OpenedStage == NowChapter)
-            {
-                Managers.GetPlayer.StageComp.OpenedStage++;
+            Debug.Log($"Opened : {Managers.GetPlayer.StageComp.OpenedChapter}-{Managers.GetPlayer.StageComp.OpenedStage}, Now : {NowChapter} - {NowStage}");
+            if (Managers.GetPlayer.StageComp.OpenedChapter != NowChapter)
+                return;
+            if (Managers.GetPlayer.StageComp.OpenedStage != NowStage)
+                return;
+
+            Managers.GetPlayer.StageComp.OpenedStage++;
 
                 // 마지막 챕터라면 다음 챕터 해방(x)
-            }
         }
 
         // 3. UI띄우기 - win 값에 따라 텍스트 세팅(o)

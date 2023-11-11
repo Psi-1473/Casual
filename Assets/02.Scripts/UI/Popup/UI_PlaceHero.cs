@@ -143,6 +143,7 @@ public class UI_PlaceHero : UI_Popup
     {
         chapter = _chapter;
         stage = _stage;
+        Debug.Log($"Chapter : {chapter}, stage  {stage}");
     }
 
     public override void OnExit()

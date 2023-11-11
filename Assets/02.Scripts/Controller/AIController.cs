@@ -218,6 +218,9 @@ public class AIController : MonoBehaviour
     }
     void Die()
     {
+        if (IsDead)
+            return;
+
         anim.SetTrigger("Death");
         IsDead = true;
         Managers.Battle.RemoveCreature(gameObject, FormationNumber);

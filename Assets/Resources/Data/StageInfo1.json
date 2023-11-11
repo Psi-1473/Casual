@@ -2,11 +2,11 @@
   "stages": [
     {
       "id": 1,
-      "frontTop": 1,
-      "frontBottom": 1,
-      "backTop": 2,
-      "backMiddle": -1,
-      "backBottom": -1,
+      "frontTop": 4,
+      "frontBottom": 6,
+      "backTop": 7,
+      "backMiddle": 5,
+      "backBottom": 8,
       "heroExp": 0,
       "playerExp": 0,
       "gold": 0
@@ -46,11 +46,11 @@
     },
     {
       "id": 5,
-      "frontTop": -1,
-      "frontBottom": -1,
-      "backTop": -1,
-      "backMiddle": -1,
-      "backBottom": -1,
+      "frontTop": 4,
+      "frontBottom": 6,
+      "backTop": 7,
+      "backMiddle": 5,
+      "backBottom": 8,
       "heroExp": 0,
       "playerExp": 0,
       "gold": 0
