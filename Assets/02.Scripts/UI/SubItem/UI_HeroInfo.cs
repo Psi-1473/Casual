@@ -11,6 +11,7 @@ public class UI_HeroInfo : UI_Base
     enum Texts
     {
         Text_Name,
+        Text_Level,
     }
 
     enum Images
@@ -35,6 +36,7 @@ public class UI_HeroInfo : UI_Base
         RegisteredHero = _hero;
 
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
+        Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
 
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
         Sprite _frameSprite = Managers.Resource.Load<Sprite>($"Images/ClassFrame/{_hero.Grade}");

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager
 {
-    int _order = -9;
+    int _order = -8;
     // 0.94
 
 
@@ -34,6 +34,7 @@ public class UIManager
         {
             canvas.sortingOrder = _order;
             _order++;
+            Debug.Log($"Order : {_order}");
         }
         else
         {
@@ -120,6 +121,7 @@ public class UIManager
         Managers.Resource.Destroy(popup.gameObject);
         popup = null;
         _order--;
+        Debug.Log($"Order : {_order}");
     }
 
     public void CloseAllPopupUI()

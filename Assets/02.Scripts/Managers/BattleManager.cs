@@ -9,7 +9,7 @@ public class OrderInfo
     public int remainToAttack;
 }
 
-public class BattleManager : MonoBehaviour
+public class BattleManager
 {
     const int MAX_GAGE = 10;
     const int CREATURE_NONE = -1;

@@ -91,6 +91,32 @@ public class SkillInfoData : ILoader<int, SkillInfo>
     }
 }
 #endregion
+
+#region ItemInfo
+[Serializable]
+public class ItemInfo
+{
+    public int id;
+    public string name;
+    public string description;
+    public int itemType;
+    public int power;
+}
+
+[Serializable]
+public class ItemInfoData : ILoader<int, ItemInfo>
+{
+    public List<ItemInfo> items = new List<ItemInfo>();
+
+    public Dictionary<int, ItemInfo> MakeDic()
+    {
+        Dictionary<int, ItemInfo> dict = new Dictionary<int, ItemInfo>();
+        foreach (ItemInfo item in items)
+            dict.Add(item.id, item);
+        return dict;
+    }
+}
+#endregion
 #region StageInfo
 [Serializable]
 public class StageInfo

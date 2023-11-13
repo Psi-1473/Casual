@@ -13,6 +13,7 @@ public class UI_HeroInfoPH : UI_Base
     {
         Text_Grade,
         Text_Name,
+        Text_Level,
     }
 
     enum Images
@@ -58,6 +59,7 @@ public class UI_HeroInfoPH : UI_Base
 
         }
         Get<TextMeshProUGUI>((int)Texts.Text_Grade).text = _grade;
+        Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
         GetImage((int)Images.Img_Hero).sprite = _heroSprite;
     }

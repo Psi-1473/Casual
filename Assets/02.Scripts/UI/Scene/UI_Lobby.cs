@@ -11,7 +11,7 @@ public class UI_Lobby : UI_Scene
     {
         Btn_Achievement,
         Btn_Hero,
-        Btn_Shop,
+        Btn_Inventory,
         Btn_Spawn,
         Btn_Options,
         Btn_Play
@@ -39,7 +39,7 @@ public class UI_Lobby : UI_Scene
 
         BindEvent(GetButton((int)Buttons.Btn_Hero).gameObject, OnHeroClicked);
         BindEvent(GetButton((int)Buttons.Btn_Achievement).gameObject, OnAchieveClicked);
-        BindEvent(GetButton((int)Buttons.Btn_Shop).gameObject, OnShopClicked);
+        BindEvent(GetButton((int)Buttons.Btn_Inventory).gameObject, OnInventoryClicked);
         BindEvent(GetButton((int)Buttons.Btn_Spawn).gameObject, OnSpawnClicked);
         BindEvent(GetButton((int)Buttons.Btn_Options).gameObject, OnOptionsClicked);
         BindEvent(GetButton((int)Buttons.Btn_Play).gameObject, OnPlayClicked);
@@ -59,9 +59,10 @@ public class UI_Lobby : UI_Scene
         Debug.Log("Achieve");
     }
 
-    public void OnShopClicked(PointerEventData data)
+    public void OnInventoryClicked(PointerEventData data)
     {
-        Debug.Log("Shop");
+        UI_Inventory _ui = Managers.UI.ShowPopupUI<UI_Inventory>();
+        _ui.SetItems(ItemType.Equip);
     }
 
     public void OnSpawnClicked(PointerEventData data)
