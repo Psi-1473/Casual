@@ -18,6 +18,7 @@ public class UI_HeroInfo : UI_Base
     {
         Img_HeroImg,
         Img_Class,
+        Img_Picked,
         HeroInfoFrame,
     }
 
@@ -45,6 +46,9 @@ public class UI_HeroInfo : UI_Base
         GetImage((int)Images.Img_HeroImg).sprite = _heroSprite;
         GetImage((int)Images.HeroInfoFrame).sprite = _frameSprite;
         GetImage((int)Images.Img_Class).sprite = _roleSprite;
+
+        if (!_hero.IsPicked)
+            GetImage((int)Images.Img_Picked).gameObject.SetActive(false);
     }
 
 }

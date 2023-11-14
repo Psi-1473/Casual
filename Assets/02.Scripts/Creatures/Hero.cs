@@ -5,6 +5,10 @@ using UnityEngine;
 public class Hero : Creature
 {
     int skillDamage;
+    bool isPicked = false;
+
+    public int SkillDamage { get { return skillDamage; } set { skillDamage = value; } }
+    public bool IsPicked { get { return isPicked; } set { isPicked = value; } }
 
     public override void SetNewCreatureInfo(int Id)
     {
@@ -23,14 +27,13 @@ public class Hero : Creature
 
         skillDamage = Managers.Data.SkillDict[Id].lv1;
     }
-
     public void LevelUp()
     {
         level++;
 
         maxHp += (int)(maxHp * 0.1f);
         maxMp += (int)(maxMp * 0.1f);
-        attack += (int)(attack * 0.1f);
+        attack += (int)(attack * 0.2f);
         defense += (int)(defense * 0.1f);
 
         if(level == 5)
@@ -38,5 +41,9 @@ public class Hero : Creature
 
         if(level == 10)
             skillDamage = Managers.Data.SkillDict[Id].lv3;
+    }
+    public void EquipItem(Item _item)
+    {
+        // 여기서 스탯 추가
     }
 }

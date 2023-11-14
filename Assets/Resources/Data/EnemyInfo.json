@@ -3,9 +3,9 @@
     {
       "id": 1,
       "name": "방패 고블린",
-      "attack": 5,
+      "attack": 20,
       "defense": 10,
-      "hp": 200,
+      "hp": 120,
       "mp": 0,
       "speed": 0,
       "role": 0
@@ -13,9 +13,9 @@
     {
       "id": 2,
       "name": "고블린 궁수",
-      "attack": 5,
+      "attack": 35,
       "defense": 10,
-      "hp": 150,
+      "hp": 90,
       "mp": 0,
       "speed": 0,
       "role": 2
@@ -24,8 +24,8 @@
       "id": 3,
       "name": "단검 고블린",
       "attack": 5,
-      "defense": 10,
-      "hp": 130,
+      "defense": 40,
+      "hp": 100,
       "mp": 0,
       "speed": 0,
       "role": 1
@@ -33,9 +33,9 @@
     {
       "id": 4,
       "name": "오크",
-      "attack": 5,
+      "attack": 45,
       "defense": 10,
-      "hp": 130,
+      "hp": 300,
       "mp": 0,
       "speed": 0,
       "role": 1
@@ -43,19 +43,19 @@
     {
       "id": 5,
       "name": "오크 궁수",
-      "attack": 5,
+      "attack": 70,
       "defense": 10,
-      "hp": 130,
+      "hp": 280,
       "mp": 0,
       "speed": 0,
-      "role": 1
+      "role": 2
     },
     {
       "id": 6,
       "name": "변이 오크",
-      "attack": 5,
+      "attack": 55,
       "defense": 10,
-      "hp": 130,
+      "hp": 400,
       "mp": 0,
       "speed": 0,
       "role": 1
@@ -63,9 +63,9 @@
     {
       "id": 7,
       "name": "변이 오크 검사",
-      "attack": 5,
+      "attack": 80,
       "defense": 10,
-      "hp": 130,
+      "hp": 400,
       "mp": 0,
       "speed": 0,
       "role": 1
@@ -74,8 +74,8 @@
       "id": 8,
       "name": "변이 오크 족장",
       "attack": 5,
-      "defense": 10,
-      "hp": 130,
+      "defense": 80,
+      "hp": 600,
       "mp": 0,
       "speed": 0,
       "role": 1

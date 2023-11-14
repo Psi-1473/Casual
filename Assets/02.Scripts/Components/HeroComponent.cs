@@ -6,12 +6,14 @@ public class HeroCompare : IComparer<Hero>
 {
     public int Compare(Hero x, Hero y)
     {
-        if (x.Level == y.Level && x.Grade == y.Grade)
+        if(x.IsPicked == y.IsPicked && x.Level == y.Level && x.Grade == y.Grade)
             return x.Id.CompareTo(y.Id);
-        else if(x.Level == y.Level && x.Grade != y.Grade)
+        if (x.IsPicked == y.IsPicked && x.Level == y.Level && x.Grade != y.Grade)
             return y.Grade.CompareTo(x.Grade);
-        else
+        else if(x.IsPicked == y.IsPicked && x.Level != y.Level)
             return y.Level.CompareTo(x.Level);
+        else
+            return y.IsPicked.CompareTo(x.IsPicked);
     }
 }
 
@@ -61,6 +63,7 @@ public class HeroComponent : MonoBehaviour
 
     public void SetOffHeroFormation(int _place)
     {
+        HeroFormation[_place].IsPicked = false;
         HeroFormation[_place] = null;
     }
     public int SetHeroFormation(Hero _hero)
@@ -85,6 +88,7 @@ public class HeroComponent : MonoBehaviour
         else
         {
             HeroFormation[setPlace] = _hero;
+            _hero.IsPicked = true;
             return setPlace;
         }
     }

@@ -208,10 +208,11 @@ public class AIController : MonoBehaviour
         stat.Mp++;
         StopCoroutine(Co_Wait());
         StartCoroutine(Co_Wait());
-        _target.OnDamaged(10);
+        _target.OnDamaged(stat.Attack);
     }
     public void OnDamaged(int _damage)
     {
+        Debug.Log($"Damaged! : {_damage}");
         Stat.Hp = Stat.Hp - _damage;
         if (Stat.Hp <= 0)
             Die();

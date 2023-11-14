@@ -92,6 +92,18 @@ public class UI_PlaceHero : UI_Popup
         }
     }
 
+    void RenewHeros()
+    {
+        Managers.GetPlayer.HeroComp.Sort();
+        List<Hero> _heros = Managers.GetPlayer.HeroComp.Heros;
+
+        for (int i = 0; i < _heros.Count; i++)
+        {
+            UI_HeroInfoPH _info = Get<GameObject>((int)GameObjects.Content).transform.GetChild(i).GetComponent<UI_HeroInfoPH>();
+            _info.SetHeroInfo(_heros[i], this);
+        }
+    }
+
     void PlaceHeroByPlayerInfo()
     {
         for(int i = 1; i < 6; i++)
@@ -111,6 +123,7 @@ public class UI_PlaceHero : UI_Popup
             Destroy(heroList[_place]);
             heroList[_place] = null;
             Managers.GetPlayer.HeroComp.SetOffHeroFormation(_place);
+            RenewHeros();
             return;
         }
 
@@ -124,6 +137,7 @@ public class UI_PlaceHero : UI_Popup
         obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y - 0.5f, obj.transform.position.z);
         obj.transform.localScale = new Vector3(-1f, 1f, 1f);
         heroList[_place] = obj;
+        RenewHeros();
     }
 
     public void SetStage(int _chapter, int _stage)

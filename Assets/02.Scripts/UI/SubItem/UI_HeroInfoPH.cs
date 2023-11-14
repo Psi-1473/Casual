@@ -19,6 +19,7 @@ public class UI_HeroInfoPH : UI_Base
     enum Images
     {
         Img_Hero,
+        Img_Picked,
     }
 
     void Awake()
@@ -62,6 +63,11 @@ public class UI_HeroInfoPH : UI_Base
         Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
         GetImage((int)Images.Img_Hero).sprite = _heroSprite;
+
+        if(!_hero.IsPicked)
+            GetImage((int)Images.Img_Picked).gameObject.SetActive(false);
+        else
+            GetImage((int)Images.Img_Picked).gameObject.SetActive(true);
     }
 
     public void PlaceHero()
@@ -69,7 +75,10 @@ public class UI_HeroInfoPH : UI_Base
         int _placeNumber = Managers.GetPlayer.HeroComp.SetHeroFormation(RegisteredHero);
 
         if (_placeNumber != -1)
+        {
+            SetHeroInfo(RegisteredHero, placeUI);
             placeUI.PlaceHero(RegisteredHero, _placeNumber);
+        }
     }
 
 }

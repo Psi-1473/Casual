@@ -8,7 +8,6 @@ using UnityEngine.UI;
 
 public abstract class Creature
 {
-
     protected string creatureName;
 
     protected int id;

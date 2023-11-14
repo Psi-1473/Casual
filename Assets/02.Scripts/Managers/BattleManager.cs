@@ -161,18 +161,10 @@ public class BattleManager
         {
             // 1. 보상 주기(x)
             // 2. Chpater, Stage 개방(o)
-            Debug.Log($"Opened : {Managers.GetPlayer.StageComp.OpenedChapter}-{Managers.GetPlayer.StageComp.OpenedStage}, Now : {NowChapter} - {NowStage}");
-            if (Managers.GetPlayer.StageComp.OpenedChapter != NowChapter)
-                return;
-            if (Managers.GetPlayer.StageComp.OpenedStage != NowStage)
-                return;
-
-            Managers.GetPlayer.StageComp.OpenedStage++;
-
+            if (Managers.GetPlayer.StageComp.OpenedChapter == NowChapter && Managers.GetPlayer.StageComp.OpenedStage == NowStage)
+                Managers.GetPlayer.StageComp.OpenedStage++;
                 // 마지막 챕터라면 다음 챕터 해방(x)
         }
-
-        // 3. UI띄우기 - win 값에 따라 텍스트 세팅(o)
         UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
         _ui.SetText(win);
     }

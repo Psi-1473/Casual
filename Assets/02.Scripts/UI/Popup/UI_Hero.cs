@@ -79,14 +79,25 @@ public class UI_Hero : UI_Popup
     //10개
     void LoadHeros(List<Hero> _heros)
     {
-        Managers.GetPlayer.HeroComp.Sort();
         Get<TextMeshProUGUI>((int)Texts.Text_HeroNum).text = $"{_heros.Count}";
-       
 
         for (int i = 0; i < _heros.Count; i++)
         {
             UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
             _info.Init();
+        }
+        RenewHeroInfo();
+    }
+
+    void RenewHeroInfo()
+    {
+        Managers.GetPlayer.HeroComp.Sort();
+        List<Hero> _heros = Managers.GetPlayer.HeroComp.Heros;
+        Get<TextMeshProUGUI>((int)Texts.Text_HeroNum).text = $"{_heros.Count}";
+
+        for (int i = 0; i < _heros.Count; i++)
+        {
+            UI_HeroInfo _info = Get<GameObject>((int)GameObjects.Content).transform.GetChild(i).GetComponent<UI_HeroInfo>();
             _info.SetHeroInfo(_heros[i], this);
         }
     }
@@ -162,7 +173,6 @@ public class UI_Hero : UI_Popup
         Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(true);
         SetSkillInfo();
     }
-
     void CloseSkillInfo(PointerEventData data)
     {
         Debug.Log("Close Skill Info");
@@ -170,17 +180,13 @@ public class UI_Hero : UI_Popup
         Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(false);
         
     }
-
     void SetSkillInfo()
     {
         if (clickedHero == null)
             return;
-        Debug.Log($"스킬 인포 : {Managers.Data.SkillDict[0].name}");
 
-        //SkillInfo _info;
         if (Managers.Data.SkillDict.TryGetValue(clickedHero.Id, out var _info))
         {
-            
             Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = $"{_info.name}";
             Get<TextMeshProUGUI>((int)Texts.Text_SkillInfo).text = $"{_info.description}";
             Get<TextMeshProUGUI>((int)Texts.Text_Level1).text = $"Lv. 1 : {_info.lv1}%";
@@ -200,5 +206,6 @@ public class UI_Hero : UI_Popup
         Managers.GetPlayer.Inven.ExpStone -= maxExp;
         clickedHero.LevelUp();
         SetHero(ClickedHero);
+        RenewHeroInfo();
     }
 }
