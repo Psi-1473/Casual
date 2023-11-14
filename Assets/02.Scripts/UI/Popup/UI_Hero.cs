@@ -7,9 +7,14 @@ using TMPro;
 
 public class UI_Hero : UI_Popup
 {
-    int clickedHeroId = -1;
+    Hero clickedHero = null;
 
-    public int ClickedHeroId { get { return clickedHeroId; }  set { clickedHeroId = value; } }
+    public Hero ClickedHero { get { return clickedHero; }  set { clickedHero = value; } }
+    enum Buttons
+    {
+        Btn_LevelUp,
+    }
+
     enum Images
     {
         Img_HeroMain,
@@ -28,9 +33,11 @@ public class UI_Hero : UI_Popup
         Text_Armor,
         Text_SkillName,
         Text_SkillInfo,
+        Text_Level,
         Text_Level1,
         Text_Level2,
         Text_Level3,
+        Text_ExpStone,
     }
 
     enum GameObjects
@@ -50,6 +57,7 @@ public class UI_Hero : UI_Popup
         base.Init();
         
         Bind<Image>(typeof(Images));
+        Bind<Button>(typeof(Buttons));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(GameObjects));
 
@@ -60,6 +68,7 @@ public class UI_Hero : UI_Popup
 
         BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Click);
         BindEvent(Get<GameObject>((int)GameObjects.ClosePopup).gameObject, CloseSkillInfo, Define.UIEvent.Click);
+        BindEvent(Get<Button>((int)Buttons.Btn_LevelUp).gameObject, ClickLevelUp, Define.UIEvent.Click);
 
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
         Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(false);
@@ -72,6 +81,8 @@ public class UI_Hero : UI_Popup
         int sum = 0;
         sum = unique.Count + rare.Count + normal.Count;
         Get<TextMeshProUGUI>((int)Texts.Text_HeroNum).text = $"{sum}";
+       
+
 
         for (int i = 0; i < unique.Count; i++)
         {
@@ -99,13 +110,19 @@ public class UI_Hero : UI_Popup
     public void SetHero(Hero _hero)
     {
 
-        clickedHeroId = _hero.Id;
+        clickedHero = _hero;
+        string role = "";
+        string grade = "";
+        int maxExp = Managers.Data.ExpDict[clickedHero.Level].exp;
+        int nowExp = Managers.GetPlayer.Inven.ExpStone;
+        
         Get<TextMeshProUGUI>((int)Texts.Text_HeroName).text = _hero.CreatureName;
         Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{_hero.Attack}";
         Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{_hero.Defense}";
+        Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"Lv. {_hero.Level}";
+        Get<TextMeshProUGUI>((int)Texts.Text_ExpStone).text = $"{nowExp} / {maxExp}";
 
-        string role = "";
-        string grade = "";
+
 
         switch(_hero.Grade)
         {
@@ -121,7 +138,6 @@ public class UI_Hero : UI_Popup
             default:
                 break;
         }
-
         switch (_hero.Role)
         {
             case 0:
@@ -152,8 +168,6 @@ public class UI_Hero : UI_Popup
             GetImage((int)Images.Img_Skill).sprite = skill;
 
         // null ÀÌ¸é ºó Ä­À¸·Îs
-
-
     }
 
     void PopupSkillInfo(PointerEventData data)
@@ -174,12 +188,12 @@ public class UI_Hero : UI_Popup
 
     void SetSkillInfo()
     {
-        if (clickedHeroId == -1)
+        if (clickedHero == null)
             return;
         Debug.Log($"½ºÅ³ ÀÎÆ÷ : {Managers.Data.SkillDict[0].name}");
 
         //SkillInfo _info;
-        if (Managers.Data.SkillDict.TryGetValue(clickedHeroId, out var _info))
+        if (Managers.Data.SkillDict.TryGetValue(clickedHero.Id, out var _info))
         {
             
             Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = $"{_info.name}";
@@ -188,7 +202,18 @@ public class UI_Hero : UI_Popup
             Get<TextMeshProUGUI>((int)Texts.Text_Level2).text = $"Lv. 2 : {_info.lv2}%";
             Get<TextMeshProUGUI>((int)Texts.Text_Level3).text = $"Lv. 3 : {_info.lv3}%";
         }
+    }
 
+    void ClickLevelUp(PointerEventData data)
+    {
+        int maxExp = Managers.Data.ExpDict[clickedHero.Level].exp;
+        int nowExp = Managers.GetPlayer.Inven.ExpStone;
 
+        if (nowExp < maxExp)
+            return;
+
+        Managers.GetPlayer.Inven.ExpStone -= maxExp;
+        clickedHero.LevelUp();
+        SetHero(ClickedHero);
     }
 }

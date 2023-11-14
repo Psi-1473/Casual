@@ -6,10 +6,10 @@ public class HeroCompare : IComparer<Hero>
 {
     public int Compare(Hero x, Hero y)
     {
-        if (x.Level == y.Level && x.Exp == y.Exp)
+        if (x.Level == y.Level && x.Grade == y.Grade)
             return x.Id.CompareTo(y.Id);
-        else if (x.Level == y.Level && x.Exp != y.Exp)
-            return x.Exp.CompareTo(y.Exp);
+        else if(x.Level == y.Level && x.Grade != y.Grade)
+            return x.Grade.CompareTo(y.Grade);
         else
             return x.Level.CompareTo(y.Level);
     }

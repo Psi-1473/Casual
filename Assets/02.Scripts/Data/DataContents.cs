@@ -146,4 +146,26 @@ public class StageInfoData : ILoader<int, StageInfo>
     }
 }
 #endregion
+#region ExpInfo
+[Serializable]
+public class ExpInfo
+{
+    public int level;
+    public int exp;
+}
 
+[Serializable]
+public class ExpInfoData : ILoader<int, ExpInfo>
+{
+    public List<ExpInfo> exp = new List<ExpInfo>();
+
+    public Dictionary<int, ExpInfo> MakeDic()
+    {
+        Dictionary<int, ExpInfo> dict = new Dictionary<int, ExpInfo>();
+        foreach (ExpInfo value in exp)
+            dict.Add(value.level, value);
+        return dict;
+    }
+}
+
+#endregion

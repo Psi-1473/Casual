@@ -10,15 +10,18 @@ public class Inventory : MonoBehaviour
 
     List<List<Item>> items = new List<List<Item>>();
     int gold;
+    int expStone;
 
 
     public List<List<Item>> Items { get { return items; } }
     public int Gold { get { return gold; } set { gold = value; } }
+    public int ExpStone { get { return expStone; } set { expStone = value; } }
 
     private void Awake()
     {
         // Temp
         gold = 10000;
+        expStone = 10000;
         items.Add(equips);
         items.Add(misc);
     }
