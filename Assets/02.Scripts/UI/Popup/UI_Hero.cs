@@ -19,7 +19,9 @@ public class UI_Hero : UI_Popup
     {
         Img_HeroMain,
         Img_HeroClass,
-        Img_Skill
+        Img_Skill,
+        Img_Weapon,
+        Img_Armor,
     }
 
     enum Texts
@@ -68,6 +70,8 @@ public class UI_Hero : UI_Popup
         SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().RegisteredHero);
 
         BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Click);
+        BindEvent(Get<Image>((int)Images.Img_Weapon).gameObject, (data) => { ClickEquip("Weapon"); });
+        BindEvent(Get<Image>((int)Images.Img_Armor).gameObject, (data) => { ClickEquip("Armor"); });
         BindEvent(Get<GameObject>((int)GameObjects.ClosePopup).gameObject, CloseSkillInfo, Define.UIEvent.Click);
         BindEvent(Get<Button>((int)Buttons.Btn_LevelUp).gameObject, ClickLevelUp, Define.UIEvent.Click);
 
@@ -161,7 +165,15 @@ public class UI_Hero : UI_Popup
         Sprite skill = Managers.Resource.Load<Sprite>($"Images/SkillImage/Hero/{_hero.Id}");
 
         if (skill != null)
+        {
+            GetImage((int)Images.Img_Skill).color = new Color(255f, 255f, 255f, 255f);
             GetImage((int)Images.Img_Skill).sprite = skill;
+        }
+        else
+        {
+            GetImage((int)Images.Img_Skill).color = new Color(250f, 255f, 0f, 20f);
+            GetImage((int)Images.Img_Skill).sprite = null;
+        }
 
         // null 이면 빈 칸으로s
     }
@@ -207,5 +219,16 @@ public class UI_Hero : UI_Popup
         clickedHero.LevelUp();
         SetHero(ClickedHero);
         RenewHeroInfo();
+    }
+
+    void ClickEquip(string type)
+    {
+        // 나중에 아이템 Data 추가할 때, Equip Type을 추가하자 (Armor, Weapon)
+
+        if (type == "Weapon")
+            Debug.Log("Weapon ! ");
+        else if (type == "Armor")
+            Debug.Log("Armor ! ");
+        
     }
 }
