@@ -63,7 +63,8 @@ public class UI_Hero : UI_Popup
 
         Managers.GetPlayer.HeroComp.Sort();
         HeroComponent comp = Managers.GetPlayer.HeroComp;
-        LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
+        //, comp.RareHero, comp.NormalHero
+        LoadHeros(comp.Heros);
         SetHero(Get<GameObject>((int)GameObjects.Content).transform.GetChild(0).GetComponent<UI_HeroInfo>().RegisteredHero);
 
         BindEvent(Get<Image>((int)Images.Img_Skill).gameObject, PopupSkillInfo, Define.UIEvent.Click);
@@ -76,33 +77,17 @@ public class UI_Hero : UI_Popup
     }
 
     //10°³
-    void LoadHeros(List<Hero> unique, List<Hero> rare, List<Hero> normal)
+    void LoadHeros(List<Hero> _heros)
     {
-        int sum = 0;
-        sum = unique.Count + rare.Count + normal.Count;
-        Get<TextMeshProUGUI>((int)Texts.Text_HeroNum).text = $"{sum}";
+        Managers.GetPlayer.HeroComp.Sort();
+        Get<TextMeshProUGUI>((int)Texts.Text_HeroNum).text = $"{_heros.Count}";
        
 
-
-        for (int i = 0; i < unique.Count; i++)
+        for (int i = 0; i < _heros.Count; i++)
         {
             UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
             _info.Init();
-            _info.SetHeroInfo(unique[i], this);
-        }
-
-        for (int i = 0; i < rare.Count; i++)
-        {
-            UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
-            _info.Init();
-            _info.SetHeroInfo(rare[i], this);
-        }
-
-        for (int i = 0; i < normal.Count; i++)
-        {
-            UI_HeroInfo _info = Managers.UI.MakeSubItem<UI_HeroInfo>(Get<GameObject>((int)GameObjects.Content).transform);
-            _info.Init();
-            _info.SetHeroInfo(normal[i], this);
+            _info.SetHeroInfo(_heros[i], this);
         }
     }
 

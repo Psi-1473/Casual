@@ -47,7 +47,7 @@ public class UI_PlaceHero : UI_Popup
         Bind<GameObject>(typeof(GameObjects));
         Bind<Button>(typeof(Buttons));
         HeroComponent comp = Managers.GetPlayer.HeroComp;
-        LoadHeros(comp.UniqueHero, comp.RareHero, comp.NormalHero);
+        LoadHeros(comp.Heros);
 
         BindEvent(GetButton((int)Buttons.Btn_Form1).gameObject, (data) => { PlaceHero(null, 1); });
         BindEvent(GetButton((int)Buttons.Btn_Form2).gameObject, (data) => { PlaceHero(null, 2); });
@@ -81,27 +81,14 @@ public class UI_PlaceHero : UI_Popup
         }
     }
 
-    void LoadHeros(List<Hero> unique, List<Hero> rare, List<Hero> normal)
+    void LoadHeros(List<Hero> _heros)
     {
-        for (int i = 0; i < unique.Count; i++)
+        Managers.GetPlayer.HeroComp.Sort();
+        for (int i = 0; i < _heros.Count; i++)
         {
             UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
             _info.Init();
-            _info.SetHeroInfo(unique[i], this);
-        }
-
-        for (int i = 0; i < rare.Count; i++)
-        {
-            UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
-            _info.Init();
-            _info.SetHeroInfo(rare[i], this);
-        }
-
-        for (int i = 0; i < normal.Count; i++)
-        {
-            UI_HeroInfoPH _info = Managers.UI.MakeSubItem<UI_HeroInfoPH>(Get<GameObject>((int)GameObjects.Content).transform);
-            _info.Init();
-            _info.SetHeroInfo(normal[i], this);
+            _info.SetHeroInfo(_heros[i], this);
         }
     }
 

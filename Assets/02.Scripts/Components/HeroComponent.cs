@@ -9,9 +9,9 @@ public class HeroCompare : IComparer<Hero>
         if (x.Level == y.Level && x.Grade == y.Grade)
             return x.Id.CompareTo(y.Id);
         else if(x.Level == y.Level && x.Grade != y.Grade)
-            return x.Grade.CompareTo(y.Grade);
+            return y.Grade.CompareTo(x.Grade);
         else
-            return x.Level.CompareTo(y.Level);
+            return y.Level.CompareTo(x.Level);
     }
 }
 
@@ -21,13 +21,10 @@ public class HeroComponent : MonoBehaviour
     const int HERO_NONE = -1;
 
     Dictionary<int, int> heroCount = new Dictionary<int, int>();
-    List<Hero> uniqueHeros = new List<Hero>();
-    List<Hero> rareHeros = new List<Hero>();
-    List<Hero> normalHeros = new List<Hero>();
 
-    public List<Hero> UniqueHero { get { return uniqueHeros; } }
-    public List<Hero> RareHero { get { return rareHeros; } }
-    public List<Hero> NormalHero { get { return normalHeros; } }
+    List<Hero> heros = new List<Hero>();
+
+    public List<Hero> Heros { get { return heros; } }
     public Dictionary<int, int> HeroCount { get { return heroCount; } }
 
     [SerializeField]
@@ -51,33 +48,15 @@ public class HeroComponent : MonoBehaviour
     {
         Hero hero = new Hero();
         hero.SetNewCreatureInfo(_heroId);
-
-        int grade = hero.Grade;
-
-        if (grade == (int)Define.HeroGrade.NORMAL)
-            normalHeros.Add(hero);
-        else if (grade == (int)Define.HeroGrade.RARE)
-            rareHeros.Add(hero);
-        else if (grade == (int)Define.HeroGrade.UNIQUE)
-                uniqueHeros.Add(hero);
-        
+        heros.Add(hero);
     }
     public void RemoveHero(Hero _hero)
     {
-        int grade = _hero.Grade;
-
-        if (grade == (int)Define.HeroGrade.NORMAL)
-            normalHeros.Remove(_hero);
-        else if (grade == (int)Define.HeroGrade.RARE)
-            rareHeros.Remove(_hero);
-        else if (grade == (int)Define.HeroGrade.UNIQUE)
-            uniqueHeros.Remove(_hero); 
+        heros.Remove(_hero);
     }
     public void Sort()
     {
-        uniqueHeros.Sort(new HeroCompare());
-        rareHeros.Sort(new HeroCompare());
-        normalHeros.Sort(new HeroCompare());
+        heros.Sort(new HeroCompare());
     }
 
     public void SetOffHeroFormation(int _place)
