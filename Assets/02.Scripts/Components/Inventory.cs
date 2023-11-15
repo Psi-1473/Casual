@@ -28,7 +28,7 @@ public class Inventory : MonoBehaviour
 
     public void GainItem(ItemInfo _info, int _count = 1)
     {
-        List<Item> _items = items[(int)_info.itemType];
+        List<Item> _items = items[GetItemTypeId(_info.itemType)];
         int idx = _items.FindIndex(x => x.Id == _info.id);
 
         Debug.Log($"{_info.itemType}");
@@ -41,5 +41,16 @@ public class Inventory : MonoBehaviour
         }
 
         _items[idx].Number += _count;
+    }
+
+    int GetItemTypeId(string type)
+    {
+        switch(type)
+        {
+            case "Misc":
+                return 1;
+            default:
+                return 0;
+        }
     }
 }

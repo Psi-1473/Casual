@@ -223,12 +223,18 @@ public class UI_Hero : UI_Popup
 
     void ClickEquip(string type)
     {
-        // 나중에 아이템 Data 추가할 때, Equip Type을 추가하자 (Armor, Weapon)
+        // 나중에 아이템 Data 추가할 때, Equip Type을 추가하자(Armor, Weapon)
 
-        if (type == "Weapon")
-            Debug.Log("Weapon ! ");
-        else if (type == "Armor")
-            Debug.Log("Armor ! ");
-        
+        string equipType = type;
+
+        if(type == "Weapon")
+        {
+            if (clickedHero.Role == 0 || clickedHero.Role == 1) equipType = "Sword";
+            else if (clickedHero.Role == 2) equipType = "Bow";
+            else equipType = "Staff"; 
+        }
+
+        UI_Equipment _ui = Managers.UI.ShowPopupUI<UI_Equipment>();
+        _ui.SetSlots(equipType);
     }
 }

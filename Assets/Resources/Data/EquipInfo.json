@@ -1,0 +1,100 @@
+{
+  "items": [
+    {
+      "id": 0,
+      "name": "낡은 검",
+      "description": "",
+      "power": 3,
+      "itemType": "Sword",
+      "grade": 0
+    },
+    {
+      "id": 1,
+      "name": "낡은 활",
+      "description": "",
+      "power": 3,
+      "itemType": "Bow",
+      "grade": 0
+    },
+    {
+      "id": 2,
+      "name": "낡은 지팡이",
+      "description": "",
+      "power": 3,
+      "itemType": "Staff",
+      "grade": 0
+    },
+    {
+      "id": 3,
+      "name": "다듬어진 검",
+      "description": "",
+      "power": 5,
+      "itemType": "Sword",
+      "grade": 1
+    },
+    {
+      "id": 4,
+      "name": "나무 활",
+      "description": "",
+      "power": 5,
+      "itemType": "Bow",
+      "grade": 1
+    },
+    {
+      "id": 5,
+      "name": "스태프",
+      "description": "",
+      "power": 5,
+      "itemType": "Staff",
+      "grade": 1
+    },
+    {
+      "id": 6,
+      "name": "군용 검",
+      "description": "",
+      "power": 10,
+      "itemType": "Sword",
+      "grade": 2
+    },
+    {
+      "id": 7,
+      "name": "군용 활",
+      "description": "",
+      "power": 10,
+      "itemType": "Bow",
+      "grade": 2
+    },
+    {
+      "id": 8,
+      "name": "군용 지팡이",
+      "description": "",
+      "power": 10,
+      "itemType": "Staff",
+      "grade": 2
+    },
+    {
+      "id": 9,
+      "name": "낡은 옷",
+      "description": "",
+      "power": 3,
+      "itemType": "Armor",
+      "grade": 0
+    },
+    {
+      "id": 10,
+      "name": "가죽 옷",
+      "description": "",
+      "power": 5,
+      "itemType": "Armor",
+      "grade": 1
+    },
+    {
+      "id": 11,
+      "name": "갑옷",
+      "description": "",
+      "power": 10,
+      "itemType": "Armor",
+      "grade": 2
+    }
+  ]
+}

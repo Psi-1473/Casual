@@ -4,8 +4,9 @@
       "id": 0,
       "name": "경험치석",
       "description": "영웅의 경험치를 올리기 위한 재료 아이템이다.",
-      "itemType": 1,
-      "power": 0
+      "power": 0,
+      "itemType": "Misc",
+      "grade": 0
     }
   ]
 }

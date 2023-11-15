@@ -49,7 +49,7 @@ public class UI_Inventory : UI_Popup
         for (int i = 0; i < items.Count; i++)
         {
             UI_InvenSlot _ui = Managers.UI.MakeSubItem<UI_InvenSlot>(Get<GameObject>((int)GameObjects.GridBox).transform);
-            //_ui.SetItem(items[i]);
+            _ui.SetItem(items[i]);
         }
     }
 
