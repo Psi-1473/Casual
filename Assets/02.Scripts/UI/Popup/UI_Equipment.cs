@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UI_Equipment : UI_Popup
 {
+    Hero clickedHero;
     int itemCount = 0;
     enum Buttons
     {
@@ -53,18 +54,45 @@ public class UI_Equipment : UI_Popup
         Debug.Log("UnEquip !");
     }
 
-    public void SetSlots(string type)
+    public void SetSlots(Hero _hero, string _type)
     {
+        clickedHero = _hero;
+        if(_type == "Armor") SetEquipment(clickedHero.Armor);
+        else SetEquipment(clickedHero.Weapon);
         List<Item> items = Managers.GetPlayer.Inven.Items[(int)ItemType.Equip];
+
         for(int i = 0; i < items.Count; i++)
         {
-            if (items[i].ITypeString == type)
+            if (items[i].ITypeString == _type)
             {
                 UI_EquipSlot _ui = Managers.UI.MakeSubItem<UI_EquipSlot>(Get<GameObject>((int)GameObjects.Content).transform);
                 _ui.SetInfo(items[i]);
                 itemCount++;
             }
         }
+    }
+
+    public void SetEquipment(Item _equipment)
+    {
+        string equipName = "";
+        string damage = "";
+        string grade = "";
+
+        if(_equipment != null)
+        {
+            Get<Image>((int)Images.Img_Equiped).sprite = Managers.Resource.Load<Sprite>($"Images/Items/{(int)_equipment.IType}/{_equipment.Id}");
+            equipName = _equipment.ItemName;
+            damage = (_equipment.ITypeString == "Armor") ? $"방어력 : {_equipment.Power}" : $"공격력 : {_equipment.Power}";
+
+            if (_equipment.Grade == 0) grade = "노말";
+            if (_equipment.Grade == 1) grade = "레어";
+            if (_equipment.Grade == 2) grade = "유니크";
+        }
+
+        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = equipName;
+        Get<TextMeshProUGUI>((int)Texts.Text_Power).text = damage;
+        Get<TextMeshProUGUI>((int)Texts.Text_Grade).text = grade;
+
     }
 
     void RenewSlot(string type)

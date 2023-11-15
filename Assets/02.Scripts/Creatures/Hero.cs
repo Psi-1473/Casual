@@ -6,9 +6,13 @@ public class Hero : Creature
 {
     int skillDamage;
     bool isPicked = false;
+    Item weapon;
+    Item armor;
 
     public int SkillDamage { get { return skillDamage; } set { skillDamage = value; } }
     public bool IsPicked { get { return isPicked; } set { isPicked = value; } }
+    public Item Weapon { get { return weapon; }}
+    public Item Armor { get { return armor; }}
 
     public override void SetNewCreatureInfo(int Id)
     {
@@ -42,8 +46,19 @@ public class Hero : Creature
         if(level == 10)
             skillDamage = Managers.Data.SkillDict[Id].lv3;
     }
+
+
     public void EquipItem(Item _item)
     {
-        // 여기서 스탯 추가
+        if(_item.ItemName == "Armor")
+        {
+            armor = _item;
+            // 방어력 상승
+        }
+        else
+        {
+            weapon = _item;
+            // 공격력 상승
+        }
     }
 }

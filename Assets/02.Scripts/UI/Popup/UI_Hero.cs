@@ -235,6 +235,6 @@ public class UI_Hero : UI_Popup
         }
 
         UI_Equipment _ui = Managers.UI.ShowPopupUI<UI_Equipment>();
-        _ui.SetSlots(equipType);
+        _ui.SetSlots(clickedHero, equipType);
     }
 }
