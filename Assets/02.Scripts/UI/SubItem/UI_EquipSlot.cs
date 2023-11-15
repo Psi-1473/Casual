@@ -7,9 +7,11 @@ using UnityEngine.UI;
 
 public class UI_EquipSlot : UI_Base
 {
-
+    Hero clickedHero;
     Item equipment;
-   // UI_Equipment
+    UI_Equipment baseUI;
+    string equipType;
+
     enum Buttons
     {
         Btn_Equip,
@@ -42,9 +44,12 @@ public class UI_EquipSlot : UI_Base
         BindEvent(Get<Button>((int)Buttons.Btn_Equip).gameObject, EquipItem);
     }
 
-    public void SetInfo(Item _equip)
+    public void SetInfo(Hero _hero, Item _equip, UI_Equipment _baseUI, string _equipType)
     {
+        clickedHero = _hero;
         equipment = _equip;
+        baseUI = _baseUI;
+        equipType = _equipType;
         Get<Image>((int)Images.Img_Equipment).sprite = Managers.Resource.Load<Sprite>($"Images/Items/{(int)_equip.IType}/{_equip.Id}");
 
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _equip.ItemName;
@@ -61,5 +66,15 @@ public class UI_EquipSlot : UI_Base
     void EquipItem(PointerEventData data)
     {
         Debug.Log("Equip !");
+        clickedHero.EquipItem(equipment);
+
+        bool swaped;
+
+        if (equipType == "Armor")
+            swaped = (clickedHero.Armor == null) ? false : true;
+        else
+            swaped = (clickedHero.Weapon == null) ? false : true;
+
+        baseUI.RenewSlot(equipType, swaped);
     }
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -1186,21 +1186,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/02.Scripts/Creatures
+    - Assets/02.Scripts/Controller
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/02.Scripts/Creatures
+  - Assets/02.Scripts/Controller
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Percy\Desktop\UnityProject\Casual\Casual
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 339}
-    m_SelectedIDs: 12660000
-    m_LastClickedID: 26130
+    scrollPos: {x: 0, y: 307}
+    m_SelectedIDs: 0e660000
+    m_LastClickedID: 26126
     m_ExpandedIDs: 000000005e60000060600000626000006460000066600000686000006a6000006c6000006e60000070600000726000007460000076600000786000007a6000007c6000007e600000806000008260000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
