@@ -65,16 +65,7 @@ public class UI_EquipSlot : UI_Base
 
     void EquipItem(PointerEventData data)
     {
-        Debug.Log("Equip !");
         clickedHero.EquipItem(equipment);
-
-        bool swaped;
-
-        if (equipType == "Armor")
-            swaped = (clickedHero.Armor == null) ? false : true;
-        else
-            swaped = (clickedHero.Weapon == null) ? false : true;
-
-        baseUI.RenewSlot(equipType, swaped);
+        baseUI.RenewSlot(equipType);
     }
 }

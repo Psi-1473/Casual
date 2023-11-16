@@ -21,6 +21,7 @@ public class StatComponent : MonoBehaviour
 
     public int Id { get { return id; } set { id = value; } }
     public string Name { get { return heroName; } set { heroName = value; } }
+    public int MaxHp { get { return maxHp; } }
     public int Hp { get { return hp; } set { hp = value; gameObject.GetComponent<AIController>().OnStatChanged.Invoke(); } }
     public int Mp { get { return mp; } set { mp = value; gameObject.GetComponent<AIController>().OnStatChanged.Invoke(); } }
     public int Attack { get { return attack; } set { attack = value; } }
@@ -42,6 +43,11 @@ public class StatComponent : MonoBehaviour
         int damage = attack + addDamage;
         Debug.Log($" Skill Damage ! : {damage} (Original Damage : {attack}, Increased : {addDamage}) (Percentage : {percent}, {skillDamage} * 0.01f)");
         return damage;
+    }
+
+    public float GetHealPercentage()
+    {
+        return (skillDamage * 0.01f);
     }
 
 

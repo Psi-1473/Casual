@@ -217,6 +217,17 @@ public class AIController : MonoBehaviour
         if (Stat.Hp <= 0)
             Die();
     }
+    public void Heal(float percentage)
+    {
+        int value = (int)(Stat.MaxHp * percentage);
+        Stat.Hp = Stat.Hp + value;
+        if (Stat.Hp > Stat.MaxHp)
+            Stat.Hp = Stat.MaxHp;
+        Debug.Log($"Heal! : + {value},  {Stat.Hp}");
+        
+
+        
+    }
     void Die()
     {
         if (IsDead)

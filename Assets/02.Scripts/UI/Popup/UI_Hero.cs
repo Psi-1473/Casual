@@ -92,7 +92,6 @@ public class UI_Hero : UI_Popup
         }
         RenewHeroInfo();
     }
-
     void RenewHeroInfo()
     {
         Managers.GetPlayer.HeroComp.Sort();
@@ -105,7 +104,6 @@ public class UI_Hero : UI_Popup
             _info.SetHeroInfo(_heros[i], this);
         }
     }
-
 
     public void SetHero(Hero _hero)
     {
@@ -175,19 +173,17 @@ public class UI_Hero : UI_Popup
             GetImage((int)Images.Img_Skill).sprite = null;
         }
 
-        // null 이면 빈 칸으로s
+        RenewItem();
     }
 
     void PopupSkillInfo(PointerEventData data)
     {
-        Debug.Log("Popup Skill Info");
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(true);
         Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(true);
         SetSkillInfo();
     }
     void CloseSkillInfo(PointerEventData data)
     {
-        Debug.Log("Close Skill Info");
         Get<GameObject>((int)GameObjects.Obj_SkillInfo).gameObject.SetActive(false);
         Get<GameObject>((int)GameObjects.ClosePopup).gameObject.SetActive(false);
         
@@ -220,11 +216,8 @@ public class UI_Hero : UI_Popup
         SetHero(ClickedHero);
         RenewHeroInfo();
     }
-
     void ClickEquip(string type)
     {
-        // 나중에 아이템 Data 추가할 때, Equip Type을 추가하자(Armor, Weapon)
-
         string equipType = type;
 
         if(type == "Weapon")
@@ -235,6 +228,22 @@ public class UI_Hero : UI_Popup
         }
 
         UI_Equipment _ui = Managers.UI.ShowPopupUI<UI_Equipment>();
-        _ui.SetSlots(clickedHero, equipType);
+        _ui.SetSlots(clickedHero, equipType, this);
+    }
+
+    public void RenewItem()
+    {
+        if(clickedHero.Weapon != null)
+            Get<Image>((int)Images.Img_Weapon).sprite = Managers.Resource.Load<Sprite>($"Images/Items/{(int)clickedHero.Weapon.IType}/{clickedHero.Weapon.Id}");
+        else
+            Get<Image>((int)Images.Img_Weapon).sprite = Managers.Resource.Load<Sprite>("Images/Items/Item_None");
+
+
+        if (clickedHero.Armor != null)
+            Get<Image>((int)Images.Img_Armor).sprite = Managers.Resource.Load<Sprite>($"Images/Items/{(int)clickedHero.Armor.IType}/{clickedHero.Armor.Id}");
+        else
+            Get<Image>((int)Images.Img_Armor).sprite = Managers.Resource.Load<Sprite>("Images/Items/Item_None");
+
+
     }
 }

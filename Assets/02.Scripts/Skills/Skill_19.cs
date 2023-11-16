@@ -28,8 +28,7 @@ public class Skill_19 : Skill
                 targetHero = target;
         }
 
-
-        // 힐 주는 효과 추가하기
+        targetHero.GetComponent<AIController>().Heal(Caster.Stat.GetHealPercentage());
         SpawnSkillPrefab(targetHero, heroId, 1f);
     }
 }

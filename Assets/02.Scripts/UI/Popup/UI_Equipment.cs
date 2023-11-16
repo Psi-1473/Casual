@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class UI_Equipment : UI_Popup
 {
     Hero clickedHero;
-    int itemCount = 0;
+    UI_Hero baseUI;
+    Item item;
     List<UI_EquipSlot> slotList = new List<UI_EquipSlot>();
 
     enum Buttons
@@ -51,37 +52,23 @@ public class UI_Equipment : UI_Popup
         BindEvent(Get<Button>((int)Buttons.Btn_UnEquip).gameObject, UnEquip);
     }
 
-    public void UnEquip(PointerEventData data)
-    {
-        Debug.Log("UnEquip !");
-    }
-
-    public void SetSlots(Hero _hero, string _type)
+    public void SetSlots(Hero _hero, string _type, UI_Hero _baseUI)
     {
         clickedHero = _hero;
-        if(_type == "Armor") SetEquipment(clickedHero.Armor);
-        else SetEquipment(clickedHero.Weapon);
-        List<Item> items = Managers.GetPlayer.Inven.Items[(int)ItemType.Equip];
-
-        for(int i = 0; i < items.Count; i++)
-        {
-            if (items[i].ITypeString == _type)
-            {
-                UI_EquipSlot _ui = Managers.UI.MakeSubItem<UI_EquipSlot>(Get<GameObject>((int)GameObjects.Content).transform);
-                _ui.SetInfo(clickedHero, items[i], this, _type);
-                slotList.Add(_ui);
-                itemCount++;
-            }
-        }
+        baseUI = _baseUI;
+        SetEquipmentByType(_type);
+        CreateNewSlot(_type);
     }
-
-    public void SetEquipment(Item _equipment)
+    void SetEquipment(Item _equipment)
     {
         string equipName = "";
         string damage = "";
         string grade = "";
+        item = _equipment;
 
-        if(_equipment != null)
+        if (_equipment == null) Get<Image>((int)Images.Img_Equiped).sprite = Managers.Resource.Load<Sprite>("Images/Items/Item_None");
+
+        if (_equipment != null)
         {
             Get<Image>((int)Images.Img_Equiped).sprite = Managers.Resource.Load<Sprite>($"Images/Items/{(int)_equipment.IType}/{_equipment.Id}");
             equipName = _equipment.ItemName;
@@ -96,28 +83,74 @@ public class UI_Equipment : UI_Popup
         Get<TextMeshProUGUI>((int)Texts.Text_Power).text = damage;
         Get<TextMeshProUGUI>((int)Texts.Text_Grade).text = grade;
 
+       
+        baseUI.RenewItem();
+
+    }
+    public void RenewSlot(string _type)
+    {
+        SetEquipmentByType(_type);
+
+        List<Item> items = Managers.GetPlayer.Inven.Items[(int)ItemType.Equip];
+        List<Item> itemsToSet = new List<Item>();
+
+        int itemCount = 0;
+        for (int i = 0; i < items.Count; i++)
+            if (items[i].ITypeString == _type)
+            {
+                itemsToSet.Add(items[i]);
+                itemCount += items[i].Number;
+            }
+        int slotCount = slotList.Count;
+
+        if(itemCount < slotCount)
+        {
+            UI_EquipSlot _ui = slotList[slotCount - 1];
+            slotList.RemoveAt(slotCount - 1);
+            Destroy(_ui.gameObject);
+        }
+        else if(itemCount > slotCount)
+        {
+            UI_EquipSlot _ui = Managers.UI.MakeSubItem<UI_EquipSlot>(Get<GameObject>((int)GameObjects.Content).transform);
+            slotList.Add(_ui);
+        }
+
+        int sIdx = 0;
+        for (int i = 0; i < itemsToSet.Count; i++)
+            for (int j = 0; j < itemsToSet[i].Number; j++)
+            {
+                slotList[sIdx].SetInfo(clickedHero, itemsToSet[i], this, itemsToSet[i].ITypeString);
+                sIdx++;
+            } 
+
     }
 
-    public void RenewSlot(string _type, bool _isSwap)
+    void CreateNewSlot(string _type)
+    {
+        List<Item> items = Managers.GetPlayer.Inven.Items[(int)ItemType.Equip];
+
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i].ITypeString != _type) continue;
+            for (int j = 0; j < items[i].Number; j++)
+            {
+                UI_EquipSlot _ui = Managers.UI.MakeSubItem<UI_EquipSlot>(Get<GameObject>((int)GameObjects.Content).transform);
+                _ui.SetInfo(clickedHero, items[i], this, _type);
+                slotList.Add(_ui);
+            }
+        }
+    }
+    void SetEquipmentByType(string _type)
     {
         if (_type == "Armor") SetEquipment(clickedHero.Armor);
         else SetEquipment(clickedHero.Weapon);
-
-        // 1. 장착 해제로 슬롯이 하나 더 생겨야 하는 경우
-        // 2. 스와핑이라 슬롯 신경 안써도 될 경우
-        // 3. 장착인데 원래 끼던 무기가 없어서 슬롯이 하나 사라져야 하는 경우
-
-
-        // 방법 1) 슬롯을 다 지우고 인벤토리 돌면서 다시 생성
-        // 방법 2) 슬롯 UI를 리스트로 가지게 한 뒤
-        //          1. List[Index] 체크
-        //          2. null이 아니라면 정보만 수정
-        //          3. null이라면 ui 생성 후 정보 업데이트
-        //          4. 아이템 수보다 슬롯 수가 많으면 그 이후는 삭제
-
-        // 일단 방법2 ㄱㄱ
-        // 리스트는 만들었고 위에 적어놓은 1~4 알고리즘만
-
-        
     }
+
+    #region BindFunc
+    public void UnEquip(PointerEventData data)
+    {
+        clickedHero.UnEquipItem(item.ITypeString);
+        RenewSlot(item.ITypeString);
+    }
+    #endregion
 }

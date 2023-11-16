@@ -52,7 +52,6 @@ public class UI_Inventory : UI_Popup
             _ui.SetItem(items[i]);
         }
     }
-
     void SetMisc(PointerEventData data = null)
     {
         Clear();
@@ -64,7 +63,6 @@ public class UI_Inventory : UI_Popup
             _ui.SetItem(items[i]);
         }
     }
-
     void Clear()
     {
         for(int i = 0; i < Get<GameObject>((int)GameObjects.GridBox).transform.childCount; i++)

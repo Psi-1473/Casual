@@ -17,7 +17,7 @@ public class Skill_18 : Skill
             if (target == null)
                 return;
 
-            // 힐 주는 효과 추가하기
+            target.GetComponent<AIController>().Heal(Caster.Stat.GetHealPercentage());
             SpawnSkillPrefab(target, heroId, 1f);
         }
     }

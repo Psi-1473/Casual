@@ -42,6 +42,31 @@ public class Inventory : MonoBehaviour
 
         _items[idx].Number += _count;
     }
+    public void GainItem(Item _item, int _count = 1)
+    {
+        List<Item> _items = items[GetItemTypeId(_item.ITypeString)];
+        int idx = _items.FindIndex(x => x.Id == _item.Id);
+
+        if (idx == ITEM_NONE)
+        {
+            _items.Add(_item);
+            return;
+        }
+
+        _items[idx].Number += _count;
+    }
+
+    public void RemoveItem(Item _item, int _number = 1)
+    {
+        List<Item> _items = items[GetItemTypeId(_item.ITypeString)];
+        int index = _items.FindIndex(x => x.Id == _item.Id);
+
+        if (index == -1) return;
+
+        if (_items[index].Number > _number)
+            _items[index].Number--;
+        else _items.RemoveAt(index);
+    }
 
     int GetItemTypeId(string type)
     {

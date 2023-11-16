@@ -29,6 +29,7 @@ public class Hero : Creature
         role = heroInfo.role;
         grade = heroInfo.grade;
 
+        if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
         skillDamage = Managers.Data.SkillDict[Id].lv1;
     }
     public void LevelUp()
@@ -40,7 +41,9 @@ public class Hero : Creature
         attack += (int)(attack * 0.2f);
         defense += (int)(defense * 0.1f);
 
-        if(level == 5)
+        if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
+
+        if (level == 5)
             skillDamage = Managers.Data.SkillDict[Id].lv2;
 
         if(level == 10)
@@ -50,15 +53,33 @@ public class Hero : Creature
 
     public void EquipItem(Item _item)
     {
-        if(_item.ItemName == "Armor")
+        if(_item.ITypeString == "Armor")
         {
+            if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
             armor = _item;
             // ¹æ¾î·Â »ó½Â
         }
         else
         {
+            if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
             weapon = _item;
             // °ø°Ý·Â »ó½Â
         }
+
+        Managers.GetPlayer.Inven.RemoveItem(_item);
+    }
+
+    public void UnEquipItem(string _type)
+    {
+        if (_type == "Armor")
+        {
+            Managers.GetPlayer.Inven.GainItem(armor);
+            armor = null;
+        }
+        else
+        {
+            Managers.GetPlayer.Inven.GainItem(weapon);
+            weapon = null;
+        } 
     }
 }
