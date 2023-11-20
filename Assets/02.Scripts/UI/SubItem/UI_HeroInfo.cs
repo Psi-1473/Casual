@@ -35,12 +35,13 @@ public class UI_HeroInfo : UI_Base
     {
         heroUI = _ui;
         RegisteredHero = _hero;
+        int _grade = _hero.Grade / 3;
 
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
         Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
 
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
-        Sprite _frameSprite = Managers.Resource.Load<Sprite>($"Images/ClassFrame/{_hero.Grade}");
+        Sprite _frameSprite = Managers.Resource.Load<Sprite>($"Images/ClassFrame/{_grade}");
         Sprite _roleSprite = Managers.Resource.Load<Sprite>($"Images/ClassImage/{_hero.Role}");
 
         GetImage((int)Images.Img_HeroImg).sprite = _heroSprite;

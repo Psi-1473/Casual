@@ -44,7 +44,7 @@ public class UI_HeroInfoPH : UI_Base
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
 
         string _grade = "";
-        switch(_hero.Grade)
+        switch(_hero.Grade / 3)
         {
             case 0:
                 _grade = "³ë¸»";

@@ -56,6 +56,7 @@ public class UI_Lobby : UI_Scene
 
     public void OnAchieveClicked(PointerEventData data)
     {
+        UI_Evolution _ui = Managers.UI.ShowPopupUI<UI_Evolution>();
         Debug.Log("Achieve");
     }
 
