@@ -1,0 +1,49 @@
+{
+  "info": [
+    {
+      "grade": 0,
+      "sameHero": 1,
+      "sameGrade": 0
+    },
+    {
+      "grade": 1,
+      "sameHero": 0,
+      "sameGrade": 2
+    },
+    {
+      "grade": 2,
+      "sameHero": 1,
+      "sameGrade": 2
+    },
+    {
+      "grade": 3,
+      "sameHero": 1,
+      "sameGrade": 0
+    },
+    {
+      "grade": 4,
+      "sameHero": 0,
+      "sameGrade": 2
+    },
+    {
+      "grade": 5,
+      "sameHero": 1,
+      "sameGrade": 2
+    },
+    {
+      "grade": 6,
+      "sameHero": 1,
+      "sameGrade": 0
+    },
+    {
+      "grade": 7,
+      "sameHero": 0,
+      "sameGrade": 2
+    },
+    {
+      "grade": 8,
+      "sameHero": 1,
+      "sameGrade": 2
+    }
+  ]
+}

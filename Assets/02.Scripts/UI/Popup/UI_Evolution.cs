@@ -10,6 +10,7 @@ public class UI_Evolution : UI_Popup
     Hero hero;
     UI_EvolutionSlot clickedSlot;
 
+    List<Hero> selectedHeros = new List<Hero>();
 
     enum Buttons
     {
@@ -113,18 +114,19 @@ public class UI_Evolution : UI_Popup
         if (hero == null)
             return;
 
-        if(hero.Grade % 3 == 0 || hero.Grade % 3 == 2)
+        UpgradeInfo info = Managers.Data.UpgradeDict[hero.Grade];
+
+        for(int i = 0; i < info.sameHero; i++)
         {
             UI_Selected _ui = Managers.UI.MakeSubItem<UI_Selected>(Get<GameObject>((int)GameObjects.Condition).transform);
             _ui.SetInfo(hero, SelectedType.SAME_HERO);
         }
 
-        if(hero.Grade % 3 == 1 || hero.Grade % 3 == 2)
+        for (int i = 0; i < info.sameGrade; i++)
         {
             UI_Selected _ui = Managers.UI.MakeSubItem<UI_Selected>(Get<GameObject>((int)GameObjects.Condition).transform);
-            _ui.SetInfo(null, SelectedType.SAME_GRADE);
+            _ui.SetInfo(hero, SelectedType.SAME_GRADE);
         }
-
     }
 
     void ClickConfirm(PointerEventData data)

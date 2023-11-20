@@ -15,6 +15,7 @@ public class DataManager
     public Dictionary<int, ItemInfo> MiscDict { get; private set; } = new Dictionary<int, ItemInfo>();
     public Dictionary<int, ItemInfo> EquipDict { get; private set; } = new Dictionary<int, ItemInfo>();
     public Dictionary<int, ExpInfo> ExpDict { get; private set; } = new Dictionary<int, ExpInfo>();
+    public Dictionary<int, UpgradeInfo> UpgradeDict { get; private set; } = new Dictionary<int, UpgradeInfo>();
 
     public List<Dictionary<int, StageInfo>> StageDicts { get; private set; } = new List<Dictionary<int, StageInfo>>();
     public Dictionary<int, StageInfo> Stage1Dict { get; private set; } = new Dictionary<int, StageInfo>();
@@ -28,6 +29,7 @@ public class DataManager
         EquipDict = LoadJson<ItemInfoData, int, ItemInfo>("EquipInfo").MakeDic();
         MiscDict = LoadJson<ItemInfoData, int, ItemInfo>("ItemInfo").MakeDic();
         ExpDict = LoadJson<ExpInfoData, int, ExpInfo>("ExpInfo").MakeDic();
+        UpgradeDict = LoadJson<UpgradeInfoData, int, UpgradeInfo>("UpgradeInfo").MakeDic();
 
 
         Stage1Dict = LoadJson<StageInfoData, int, StageInfo>("StageInfo1").MakeDic();

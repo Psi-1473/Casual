@@ -170,3 +170,26 @@ public class ExpInfoData : ILoader<int, ExpInfo>
 }
 
 #endregion
+#region UpgradeInfo
+[Serializable]
+public class UpgradeInfo
+{
+    public int grade;
+    public int sameHero;
+    public int sameGrade;
+}
+
+[Serializable]
+public class UpgradeInfoData : ILoader<int, UpgradeInfo>
+{
+    public List<UpgradeInfo> info = new List<UpgradeInfo>();
+
+    public Dictionary<int, UpgradeInfo> MakeDic()
+    {
+        Dictionary<int, UpgradeInfo> dict = new Dictionary<int, UpgradeInfo>();
+        foreach (UpgradeInfo value in info)
+            dict.Add(value.grade, value);
+        return dict;
+    }
+}
+#endregion

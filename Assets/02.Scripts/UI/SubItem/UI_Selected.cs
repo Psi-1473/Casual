@@ -45,7 +45,8 @@ public class UI_Selected : UI_Base
     {
         Get<Image>((int)Images.Img_Hero).gameObject.SetActive(true);
         selectedHero = _hero;
-
+        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        GetImage((int)Images.Img_Hero).sprite = _heroSprite;
         // 이미지 불러오기
     }
 
