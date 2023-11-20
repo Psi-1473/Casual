@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class UI_Evolution : UI_Popup
 {
     Hero hero;
+    UI_EvolutionSlot clickedSlot;
+
+
     enum Buttons
     {
         Btn_Confirm,
@@ -40,17 +43,22 @@ public class UI_Evolution : UI_Popup
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
         Bind<GameObject>(typeof(GameObjects));
+        Managers.GetPlayer.HeroComp.Sort();
 
-        
         CreateSlot();
 
         Get<GameObject>((int)GameObjects.TargetInfo).SetActive(false);
     }
 
-    public void SetTargetInfo(Hero _hero)
+    public void SetTargetInfo(Hero _hero, UI_EvolutionSlot _slot)
     {
+        if (clickedSlot != null)
+            clickedSlot.SetSelectedImage(false);
+
         Get<GameObject>((int)GameObjects.TargetInfo).SetActive(true);
         hero = _hero;
+        clickedSlot = _slot;
+        if (clickedSlot != null) clickedSlot.SetSelectedImage(true);
         int grade = _hero.Grade / 3;
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
 
@@ -84,13 +92,13 @@ public class UI_Evolution : UI_Popup
         if(hero.Grade % 3 == 0 || hero.Grade % 3 == 2)
         {
             UI_Selected _ui = Managers.UI.MakeSubItem<UI_Selected>(Get<GameObject>((int)GameObjects.Condition).transform);
-            _ui.SetInfo(hero, -1);
+            _ui.SetInfo(hero, SelectedType.SAME_HERO);
         }
 
         if(hero.Grade % 3 == 1 || hero.Grade % 3 == 2)
         {
             UI_Selected _ui = Managers.UI.MakeSubItem<UI_Selected>(Get<GameObject>((int)GameObjects.Condition).transform);
-            _ui.SetInfo(null, hero.Grade);
+            _ui.SetInfo(null, SelectedType.SAME_GRADE);
         }
 
     }

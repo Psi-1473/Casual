@@ -14,6 +14,7 @@ public class UI_EvolutionSlot : UI_Base
     {
         Img_Hero,
         Img_Grade,
+        Img_Selected,
     }
     enum Texts
     {
@@ -29,6 +30,7 @@ public class UI_EvolutionSlot : UI_Base
         Bind<Image>(typeof(Images));
         Bind<TextMeshProUGUI>(typeof(Texts));
 
+        SetSelectedImage(false);
         BindEvent(gameObject, OnClicked);
     }
 
@@ -41,10 +43,15 @@ public class UI_EvolutionSlot : UI_Base
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
         GetImage((int)Images.Img_Hero).sprite = _heroSprite;
     }
-
+    public void SetSelectedImage(bool value)
+    {
+        GetImage((int)Images.Img_Selected).gameObject.SetActive(value);
+    }
     void OnClicked(PointerEventData data)
     {
-        baseUI.SetTargetInfo(hero);
+        baseUI.SetTargetInfo(hero, this);
     }
+
+
 
 }
