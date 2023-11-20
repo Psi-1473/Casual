@@ -51,6 +51,9 @@ public class UI_Selected : UI_Base
 
     void OnClicked(PointerEventData data)
     {
+        // 정보를 추가하자
+        // SameHero Slot 개수
+        // SameGrade Slot 개수
         UI_Ingredients _ui = Managers.UI.ShowPopupUI<UI_Ingredients>();
         _ui.CreateSlot(baseHero, type, this);
     }

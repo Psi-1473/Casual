@@ -50,6 +50,12 @@ public class Hero : Creature
             skillDamage = Managers.Data.SkillDict[Id].lv3;
     }
 
+    public void UpGrade()
+    {
+        Debug.Log("Hero Upgrade");
+        grade++;
+    }
+
 
     public void EquipItem(Item _item)
     {
@@ -81,5 +87,33 @@ public class Hero : Creature
             Managers.GetPlayer.Inven.GainItem(weapon);
             weapon = null;
         } 
+    }
+
+    public Color GetStarColor()
+    {
+        int _grade = grade / 3;
+
+        Color color = new Color();
+        color.a = 1f;
+        switch (_grade)
+        {
+            case 0:
+                color.r = 1f;
+                color.g = 1f;
+                color.b = 1f;
+                break;
+            case 1:
+                color.r = 0f;
+                color.g = 1f;
+                color.b = 0f;
+                break;
+            case 2:
+                color.r = 1f;
+                color.g = 0.3f;
+                color.b = 0.3f;
+                break;
+        }
+
+        return color;
     }
 }

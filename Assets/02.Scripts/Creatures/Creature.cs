@@ -33,4 +33,6 @@ public abstract class Creature
     public int Grade { get { return grade; } set { grade = value; } }
 
     public abstract void SetNewCreatureInfo(int Id);
+
+    
 }

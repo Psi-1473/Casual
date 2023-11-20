@@ -30,6 +30,7 @@ public class UI_Ingredients : UI_Popup
 
     public override void Init()
     {
+        base.Init();
         Bind<Button>(typeof(Buttons));
         Bind<GameObject>(typeof(GameObjects));
 

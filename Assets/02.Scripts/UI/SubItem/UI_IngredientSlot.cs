@@ -39,8 +39,11 @@ public class UI_IngredientSlot : UI_Base
         baseUI = _baseUI;
 
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{_hero.Grade % 3}");
 
         GetImage((int)Images.Img_Hero).sprite = _heroSprite;
+        GetImage((int)Images.Img_Grade).sprite = _gradeSprite;
+        GetImage((int)Images.Img_Grade).color = _hero.GetStarColor();
     }
 
     void OnClicked(PointerEventData data)
