@@ -124,7 +124,6 @@ public class UI_Equipment : UI_Popup
             } 
 
     }
-
     void CreateNewSlot(string _type)
     {
         List<Item> items = Managers.GetPlayer.Inven.Items[(int)ItemType.Equip];
@@ -149,6 +148,9 @@ public class UI_Equipment : UI_Popup
     #region BindFunc
     public void UnEquip(PointerEventData data)
     {
+        if (item == null)
+            return;
+
         clickedHero.UnEquipItem(item.ITypeString);
         RenewSlot(item.ITypeString);
     }

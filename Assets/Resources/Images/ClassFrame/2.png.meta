@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 72fe1b22dc90347e8b2dff8609aee358
+guid: dac36d6f9b8e462408c8948de541c4e2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -48,7 +48,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 313, y: 55, z: 53, w: 271}
+  spriteBorder: {x: 113, y: 22, z: 17, w: 116}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -62,7 +62,7 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 0
+  applyGammaDecoding: 1
   cookieLightType: 1
   platformSettings:
   - serializedVersion: 3

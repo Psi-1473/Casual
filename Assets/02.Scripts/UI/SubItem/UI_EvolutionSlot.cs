@@ -19,6 +19,7 @@ public class UI_EvolutionSlot : UI_Base
     enum Texts
     {
         Text_Name,
+        Text_MaxGrade,
     }
     void Awake()
     {
@@ -31,6 +32,7 @@ public class UI_EvolutionSlot : UI_Base
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         SetSelectedImage(false);
+
         BindEvent(gameObject, OnClicked);
     }
 
@@ -38,20 +40,41 @@ public class UI_EvolutionSlot : UI_Base
     {
         hero = _hero;
         baseUI = _base;
-        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
-        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{_hero.Grade % 3}");
-
-        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
-        GetImage((int)Images.Img_Hero).sprite = _heroSprite;
-        GetImage((int)Images.Img_Grade).sprite = _gradeSprite;
-        GetImage((int)Images.Img_Grade).color = _hero.GetStarColor();
+        SetTexts(_hero);
+        SetImages(_hero);
     }
     public void SetSelectedImage(bool value)
     {
         GetImage((int)Images.Img_Selected).gameObject.SetActive(value);
     }
+
+    void SetTexts(Hero _hero)
+    {
+        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
+        if (hero.MaxGrade != hero.Grade)
+            Get<TextMeshProUGUI>((int)Texts.Text_MaxGrade).gameObject.SetActive(false);
+        else
+            Get<TextMeshProUGUI>((int)Texts.Text_MaxGrade).gameObject.SetActive(true);
+    }
+
+    void SetImages(Hero _hero)
+    {
+        int grade = (_hero.Grade == 9) ? 3 : _hero.Grade % 3;
+        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{grade}");
+
+        GetImage((int)Images.Img_Hero).sprite = _heroSprite;
+        GetImage((int)Images.Img_Grade).sprite = _gradeSprite;
+        GetImage((int)Images.Img_Grade).color = _hero.GetStarColor();
+    }
+
+
     void OnClicked(PointerEventData data)
     {
+        if (hero.MaxGrade == hero.Grade)
+            return;
+
+        Managers.Upgrade.Clear();
         baseUI.SetTargetInfo(hero, this);
     }
 

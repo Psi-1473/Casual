@@ -16,8 +16,6 @@ public class UI_Selected : UI_Base
     Hero baseHero = null;
     Hero selectedHero = null;
 
-    public Hero SelectedHero { get { return selectedHero;  } set { selectedHero = value; } }
-
     enum Images
     {
         Img_Hero,
@@ -43,20 +41,27 @@ public class UI_Selected : UI_Base
 
     public void SetSelectedHero(Hero _hero)
     {
-        Get<Image>((int)Images.Img_Hero).gameObject.SetActive(true);
+        if(selectedHero != null)
+            Managers.Upgrade.RemoveIngredient(selectedHero);
+
+        Managers.Upgrade.RegisterIngredient(_hero);
         selectedHero = _hero;
-        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
-        GetImage((int)Images.Img_Hero).sprite = _heroSprite;
-        // 이미지 불러오기
+        SetImage(_hero);
     }
 
+    void SetImage(Hero _hero)
+    {
+        Get<Image>((int)Images.Img_Hero).gameObject.SetActive(true);
+        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        GetImage((int)Images.Img_Hero).sprite = _heroSprite;
+    }
+
+    #region BindFunc
     void OnClicked(PointerEventData data)
     {
-        // 정보를 추가하자
-        // SameHero Slot 개수
-        // SameGrade Slot 개수
         UI_Ingredients _ui = Managers.UI.ShowPopupUI<UI_Ingredients>();
         _ui.CreateSlot(baseHero, type, this);
     }
+    #endregion
 
 }

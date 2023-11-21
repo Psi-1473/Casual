@@ -9,7 +9,7 @@ public class UI_Lobby : UI_Scene
 {
     enum Buttons
     {
-        Btn_Achievement,
+        Btn_Evolution,
         Btn_Hero,
         Btn_Inventory,
         Btn_Spawn,
@@ -38,7 +38,7 @@ public class UI_Lobby : UI_Scene
         Bind<TextMeshProUGUI>(typeof(Texts));
 
         BindEvent(GetButton((int)Buttons.Btn_Hero).gameObject, OnHeroClicked);
-        BindEvent(GetButton((int)Buttons.Btn_Achievement).gameObject, OnAchieveClicked);
+        BindEvent(GetButton((int)Buttons.Btn_Evolution).gameObject, OnEvolutionClicked);
         BindEvent(GetButton((int)Buttons.Btn_Inventory).gameObject, OnInventoryClicked);
         BindEvent(GetButton((int)Buttons.Btn_Spawn).gameObject, OnSpawnClicked);
         BindEvent(GetButton((int)Buttons.Btn_Options).gameObject, OnOptionsClicked);
@@ -50,14 +50,12 @@ public class UI_Lobby : UI_Scene
 
     public void OnHeroClicked(PointerEventData data)
     {
-        Debug.Log("Hero");
         Managers.UI.ShowPopupUI<UI_Hero>();
     }
 
-    public void OnAchieveClicked(PointerEventData data)
+    public void OnEvolutionClicked(PointerEventData data)
     {
         UI_Evolution _ui = Managers.UI.ShowPopupUI<UI_Evolution>();
-        Debug.Log("Achieve");
     }
 
     public void OnInventoryClicked(PointerEventData data)
@@ -68,7 +66,6 @@ public class UI_Lobby : UI_Scene
 
     public void OnSpawnClicked(PointerEventData data)
     {
-        Debug.Log("Spawn");
         Managers.UI.ShowPopupUI<UI_Spawn>();
     }
 
@@ -79,7 +76,6 @@ public class UI_Lobby : UI_Scene
 
     public void OnPlayClicked(PointerEventData data)
     {
-        Debug.Log("Play");
         UI_Stage _ui = Managers.UI.ShowPopupUI<UI_Stage>();
         _ui.SetByChpater(1);
 

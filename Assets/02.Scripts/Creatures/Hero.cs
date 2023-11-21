@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Hero : Creature
 {
+    int maxGrade;
     int skillDamage;
     bool isPicked = false;
     Item weapon;
     Item armor;
 
+
+
     public int SkillDamage { get { return skillDamage; } set { skillDamage = value; } }
+    public int MaxGrade { get { return maxGrade; } set { maxGrade = value; } }
     public bool IsPicked { get { return isPicked; } set { isPicked = value; } }
     public Item Weapon { get { return weapon; }}
     public Item Armor { get { return armor; }}
@@ -28,18 +32,19 @@ public class Hero : Creature
         speed = heroInfo.speed;
         role = heroInfo.role;
         grade = heroInfo.grade;
+        SetMaxGrade(grade);
 
         if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
         skillDamage = Managers.Data.SkillDict[Id].lv1;
     }
     public void LevelUp()
     {
+        HeroInfo heroInfo = Managers.Data.HeroDict[Id];
         level++;
 
-        maxHp += (int)(maxHp * 0.1f);
-        maxMp += (int)(maxMp * 0.1f);
-        attack += (int)(attack * 0.2f);
-        defense += (int)(defense * 0.1f);
+        maxHp += (int)(heroInfo.hp * 0.1f);
+        attack += (int)(heroInfo.attack * 0.2f);
+        defense += (int)(heroInfo.defense * 0.1f);
 
         if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
 
@@ -54,9 +59,11 @@ public class Hero : Creature
     {
         Debug.Log("Hero Upgrade");
         grade++;
+        HeroInfo heroInfo = Managers.Data.HeroDict[Id];
+        maxHp += (int)(heroInfo.hp * 0.5f);
+        attack += (int)(heroInfo.attack * 0.5f);
+        defense += (int)(heroInfo.defense * 0.5f);
     }
-
-
     public void EquipItem(Item _item)
     {
         if(_item.ITypeString == "Armor")
@@ -74,19 +81,25 @@ public class Hero : Creature
 
         Managers.GetPlayer.Inven.RemoveItem(_item);
     }
-
     public void UnEquipItem(string _type)
     {
         if (_type == "Armor")
         {
-            Managers.GetPlayer.Inven.GainItem(armor);
+            if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
             armor = null;
         }
         else
         {
-            Managers.GetPlayer.Inven.GainItem(weapon);
+            if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
             weapon = null;
         } 
+    }
+    public void UnEquipAllItems()
+    {
+        if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
+        if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
+        armor = null;
+        weapon = null;
     }
 
     public Color GetStarColor()
@@ -112,8 +125,29 @@ public class Hero : Creature
                 color.g = 0.3f;
                 color.b = 0.3f;
                 break;
+            case 3:
+                color.r = 1f;
+                color.g = 1f;
+                color.b = 0f;
+                break;
         }
 
         return color;
+    }
+
+    void SetMaxGrade(int startGrade)
+    {
+        switch(startGrade)
+        {
+            case 0:
+                maxGrade = 5;
+                break;
+            case 3:
+                maxGrade = 8;
+                break;
+            case 6:
+                maxGrade = 9;
+                break;
+        }
     }
 }

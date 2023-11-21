@@ -8,8 +8,8 @@ public class UI_Ingredients : UI_Popup
 {
     Hero targetHero;
     Hero clickedHero;
-    UI_Selected baseUI;
     UI_IngredientSlot clickedUI;
+    UI_Selected baseUI;
 
     public Hero ClickedHero { get { return clickedHero; } set { clickedHero = value; } }
     public UI_IngredientSlot ClickedUI { get { return clickedUI; } set { clickedUI = value; } }
@@ -40,8 +40,8 @@ public class UI_Ingredients : UI_Popup
 
     public void CreateSlot(Hero _hero, SelectedType _type, UI_Selected _baseUI)
     {
-        baseUI = _baseUI;
         targetHero = _hero;
+        baseUI = _baseUI;
         if (_type == SelectedType.SAME_HERO) CreateSlotSameHero();
         else if(_type == SelectedType.SAME_GRADE) CreateSlotSameGrade();
     }
@@ -53,6 +53,8 @@ public class UI_Ingredients : UI_Popup
         for(int i = 0; i < heros.Count; i++)
         {
             if (heros[i] == targetHero) continue;
+            if (Managers.Upgrade.IsRegisteredHero(heros[i])) continue;
+
             if (heros[i].Grade == targetHero.Grade && heros[i].Id == targetHero.Id)
             {
                 UI_IngredientSlot _ui = Managers.UI.MakeSubItem<UI_IngredientSlot>(Get<GameObject>((int)GameObjects.Content).transform);
@@ -68,6 +70,8 @@ public class UI_Ingredients : UI_Popup
         for (int i = 0; i < heros.Count; i++)
         {
             if (heros[i] == targetHero) continue;
+            if (Managers.Upgrade.IsRegisteredHero(heros[i])) continue;
+
             if (heros[i].Grade == targetHero.Grade)
             {
                 UI_IngredientSlot _ui = Managers.UI.MakeSubItem<UI_IngredientSlot>(Get<GameObject>((int)GameObjects.Content).transform);

@@ -19,6 +19,7 @@ public class UI_HeroInfo : UI_Base
         Img_HeroImg,
         Img_Class,
         Img_Picked,
+        Img_Grade,
         HeroInfoFrame,
     }
 
@@ -35,18 +36,31 @@ public class UI_HeroInfo : UI_Base
     {
         heroUI = _ui;
         RegisteredHero = _hero;
-        int _grade = _hero.Grade / 3;
 
+        SetTexts(_hero);
+        SetImages(_hero);
+    }
+
+    void SetTexts(Hero _hero)
+    {
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
         Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
+    }
+
+    void SetImages(Hero _hero)
+    {
+        int grade = (_hero.Grade == 9) ? 3 : _hero.Grade % 3;
 
         Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
-        Sprite _frameSprite = Managers.Resource.Load<Sprite>($"Images/ClassFrame/{_grade}");
+        Sprite _frameSprite = Managers.Resource.Load<Sprite>($"Images/ClassFrame/{_hero.Grade / 3}");
         Sprite _roleSprite = Managers.Resource.Load<Sprite>($"Images/ClassImage/{_hero.Role}");
+        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{grade}");
 
         GetImage((int)Images.Img_HeroImg).sprite = _heroSprite;
         GetImage((int)Images.HeroInfoFrame).sprite = _frameSprite;
         GetImage((int)Images.Img_Class).sprite = _roleSprite;
+        GetImage((int)Images.Img_Grade).sprite = _gradeSprite;
+        GetImage((int)Images.Img_Grade).color = _hero.GetStarColor();
 
         if (!_hero.IsPicked)
             GetImage((int)Images.Img_Picked).gameObject.SetActive(false);

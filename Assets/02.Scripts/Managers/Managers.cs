@@ -17,6 +17,7 @@ public class Managers : MonoBehaviour
     SummonManager _summon = new SummonManager();
     SceneManagerEx _scene = new SceneManagerEx();
     BattleManager _battle = new BattleManager();
+    UpgradeManager _upgrade = new UpgradeManager();
 
 
     public static InputManager Input { get { return Instance._input; } }
@@ -26,6 +27,7 @@ public class Managers : MonoBehaviour
     public static SummonManager Sunmmon { get { return Instance._summon; } }
     public static SceneManagerEx SceneEx { get { return Instance._scene; } }
     public static BattleManager Battle { get { return Instance._battle; } }
+    public static UpgradeManager Upgrade { get { return Instance._upgrade; } }
    
 
     void Start()

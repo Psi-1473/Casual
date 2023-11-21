@@ -5,12 +5,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+// 1. 선택된 캐릭터 정보 업뎃
+// 2. 가진 영웅 정보 업뎃
 public class UI_Evolution : UI_Popup
 {
     Hero hero;
     UI_EvolutionSlot clickedSlot;
-
-    List<Hero> selectedHeros = new List<Hero>();
 
     enum Buttons
     {
@@ -60,19 +60,23 @@ public class UI_Evolution : UI_Popup
         if (clickedSlot != null)
             clickedSlot.SetSelectedImage(false);
 
-        Get<GameObject>((int)GameObjects.TargetInfo).SetActive(true);
+        if (_hero == null)
+        {
+            Get<GameObject>((int)GameObjects.TargetInfo).SetActive(false);
+            return;
+        }
+
+        Managers.Upgrade.MainHero = _hero;
         hero = _hero;
         clickedSlot = _slot;
-        if (clickedSlot != null) clickedSlot.SetSelectedImage(true);
-        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
-        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{_hero.Grade % 3}");
 
-        Get<TextMeshProUGUI>((int)Texts.Text_TargetName).text = _hero.CreatureName;
-        GetImage((int)Images.Img_TargetHero).sprite = _heroSprite;
-        GetImage((int)Images.Img_TargetGrade).sprite = _gradeSprite;
-        GetImage((int)Images.Img_TargetGrade).color = _hero.GetStarColor();
+        Get<GameObject>((int)GameObjects.TargetInfo).SetActive(true);
 
-        CreateConditionSlot();
+        if (clickedSlot != null) 
+            clickedSlot.SetSelectedImage(true);
+
+        SetTargetInfoImages(_hero);
+        CreateIngredientSlot();
     }
 
     void CreateSlot()
@@ -85,7 +89,6 @@ public class UI_Evolution : UI_Popup
             _ui.SetHeroInfo(heros[i], this);   
         }
     }
-
     void RenewSlot()
     {
         Managers.GetPlayer.HeroComp.Sort();
@@ -103,8 +106,7 @@ public class UI_Evolution : UI_Popup
             _ui.SetHeroInfo(heros[i], this);
         }
     }
-
-    void CreateConditionSlot()
+    void CreateIngredientSlot()
     {
         int cnt = Get<GameObject>((int)GameObjects.Condition).transform.childCount;
 
@@ -129,27 +131,37 @@ public class UI_Evolution : UI_Popup
         }
     }
 
+    void SetTargetInfoImages(Hero _hero)
+    {
+        int grade = (_hero.Grade == 9) ? 3 : _hero.Grade % 3;
+        Sprite _heroSprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_hero.Id}");
+        Sprite _gradeSprite = Managers.Resource.Load<Sprite>($"Images/GradeImg/{grade}");
+
+        Get<TextMeshProUGUI>((int)Texts.Text_TargetName).text = _hero.CreatureName;
+        GetImage((int)Images.Img_TargetHero).sprite = _heroSprite;
+        GetImage((int)Images.Img_TargetGrade).sprite = _gradeSprite;
+        GetImage((int)Images.Img_TargetGrade).color = _hero.GetStarColor();
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+
+        Managers.Upgrade.Clear();
+    }
+    #region BindFunc
     void ClickConfirm(PointerEventData data)
     {
-        int cnt = Get<GameObject>((int)GameObjects.Condition).transform.childCount;
-        List<Hero> heros = new List<Hero>();
-
-        for(int i = 0; i < cnt; i++)
+        if (Managers.Upgrade.Upgrade())
         {
-            Hero _hero = Get<GameObject>((int)GameObjects.Condition).transform.GetChild(i).GetComponent<UI_Selected>().SelectedHero;
-            if (_hero != null)
-                heros.Add(_hero);
-        }
-
-        if(heros.Count == cnt)
-        {
-            for (int i = 0; i < heros.Count; i++)
-                Managers.GetPlayer.HeroComp.RemoveHero(heros[i]);
-
-            hero.UpGrade();
+            Managers.Upgrade.Clear();
             RenewSlot();
+            for (int i = 0; i < Get<GameObject>((int)GameObjects.Condition).transform.childCount; i++)
+                Destroy(Get<GameObject>((int)GameObjects.Condition).transform.GetChild(i).gameObject);
+
+            SetTargetInfo(null, clickedSlot);
+
         }
-
-
     }
+    #endregion
 }
