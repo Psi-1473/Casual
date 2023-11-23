@@ -38,4 +38,11 @@ public class Define
         RARE,
         UNIQUE,
     }
+
+    public enum EBuff
+    {
+        Freeze,
+        Burn,
+        Bleed,
+    }
 }

@@ -2703,6 +2703,12 @@
       "url": "https://json.schemastore.org/mkdocs-1.0.json"
     },
     {
+      "name": "MLOS Configs",
+      "description": "Config files for the mlos_bench utility in MLOS",
+      "fileMatch": ["*.mlos.jsonc", "*.mlos.json", "*.mlos.yaml", "*.mlos.yml"],
+      "url": "https://raw.githubusercontent.com/microsoft/MLOS/main/mlos_bench/mlos_bench/config/schemas/mlos-bench-config-schema.json"
+    },
+    {
       "name": "monospace.yml",
       "description": "MonoSpace configuration file",
       "fileMatch": ["monospace.yml"],
@@ -5573,6 +5579,32 @@
       "description": "Problem object per RFC 9457",
       "fileMatch": [],
       "url": "https://json.schemastore.org/problem-object-rfc9457.json"
+    },
+    {
+      "name": "apko",
+      "description": "apko (apk-based OCI image builder) config",
+      "fileMatch": [
+        "apko.json",
+        "*.apko.json",
+        "apko.yaml",
+        "*.apko.yaml",
+        "apko.yml",
+        "*.apko.yml"
+      ],
+      "url": "https://raw.githubusercontent.com/chainguard-dev/apko/main/pkg/build/types/schema.json"
+    },
+    {
+      "name": "Melange",
+      "description": "Melange pipeline config",
+      "fileMatch": [
+        "melange.json",
+        "*.melange.json",
+        "melange.yaml",
+        "*.melange.yaml",
+        "melange.yml",
+        "*.melange.yml"
+      ],
+      "url": "https://raw.githubusercontent.com/chainguard-dev/melange/main/pkg/config/schema.json"
     }
   ],
   "version": 1
