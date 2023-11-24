@@ -11,7 +11,7 @@ public class SkillAnimEvent : MonoBehaviour
     public void AttackEnd()
     {
         Owner.CreatureState = State.Return;
-        Debug.Log("Attack End");
+        //Debug.Log("Attack End");
         Destroy(gameObject);
     }
 

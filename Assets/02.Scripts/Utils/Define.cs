@@ -41,8 +41,10 @@ public class Define
 
     public enum EBuff
     {
-        Freeze,
-        Burn,
-        Bleed,
+        None = 0 << 0,
+        Freeze = 1 << 0,
+        Burn = 1 << 1,
+        Bleed = 1 << 2,
+        Stun = 1 << 3,
     }
 }

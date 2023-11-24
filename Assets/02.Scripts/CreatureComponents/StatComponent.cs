@@ -41,7 +41,7 @@ public class StatComponent : MonoBehaviour
         float percent = skillDamage * 0.01f;
         int addDamage = (int)(attack * percent);
         int damage = attack + addDamage;
-        Debug.Log($" Skill Damage ! : {damage} (Original Damage : {attack}, Increased : {addDamage}) (Percentage : {percent}, {skillDamage} * 0.01f)");
+        //Debug.Log($" Skill Damage ! : {damage} (Original Damage : {attack}, Increased : {addDamage}) (Percentage : {percent}, {skillDamage} * 0.01f)");
         return damage;
     }
 

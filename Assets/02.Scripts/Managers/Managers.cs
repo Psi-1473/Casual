@@ -18,6 +18,7 @@ public class Managers : MonoBehaviour
     SceneManagerEx _scene = new SceneManagerEx();
     BattleManager _battle = new BattleManager();
     UpgradeManager _upgrade = new UpgradeManager();
+    BuffManager _buff = new BuffManager();
 
 
     public static InputManager Input { get { return Instance._input; } }
@@ -28,6 +29,7 @@ public class Managers : MonoBehaviour
     public static SceneManagerEx SceneEx { get { return Instance._scene; } }
     public static BattleManager Battle { get { return Instance._battle; } }
     public static UpgradeManager Upgrade { get { return Instance._upgrade; } }
+    public static BuffManager BuffMgr { get { return Instance._buff; } }
    
 
     void Start()
@@ -55,6 +57,7 @@ public class Managers : MonoBehaviour
             s_instance = go.GetComponent<Managers>();
             s_instance._data.Init();
             s_instance._battle.Init();
+            s_instance._buff.Init();
 
 
 

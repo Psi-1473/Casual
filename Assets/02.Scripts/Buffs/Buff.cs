@@ -2,36 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Buff : MonoBehaviour
+public abstract class Buff
 {
-    AIController caster;
-    int turn = 0;
-    int effectPercentage = 0;
+    protected Define.EBuff buffType;
+    protected BuffComponent owningComp;
+    protected AIController caster;
+    protected int turn = 0;
+    protected int effectPercentage = 0;
+    protected bool turnEnd = false;
 
+    public int Turn { get { return turn; } }
+    public Define.EBuff BuffType { get { return buffType; } }
 
-    public void Execute()
+    public bool Execute()
     {
         SpawnParticle();
         PlayAnim();
         PlaySound();
         ApplyEffect();
+
+        turn--;
+        Debug.Log($"Left Turn {turn}");
+        //if (turn <= 0)
+        //{
+        //    //owningComp.RemoveBuff(buffType);
+        //    Debug.Log("Ready to Remove");
+        //}
+        return turnEnd;
     }
-    public Buff Clone(AIController _caster, int _turn, int _effectPercentage)
-    {
-        Buff newBuff = new Buff();
-        SetInfo(_caster, _turn, _effectPercentage);
-        return newBuff;
-    }
-    void SetInfo(AIController _caster, int _turn, int _effectPercentage)
+
+    protected void SetInfo(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)
     {
         caster = _caster;
         turn = _turn;
         effectPercentage = _effectPercentage;
+        owningComp = _owningComp;
+        buffType = _buffType;
     }
 
-    protected virtual void SpawnParticle() { }
-    protected virtual void PlayAnim() { }
-    protected virtual void PlaySound() { }
-    protected virtual void ApplyEffect() { }
+    public abstract Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType);
+
+
+    protected abstract void SpawnParticle();
+    protected abstract void PlayAnim();
+    protected abstract void PlaySound();
+    protected abstract void ApplyEffect();
 
 }

@@ -95,7 +95,7 @@ public class BattleManager
 
     public void ProceedPhase()
     {
-        Debug.Log("Proceed Phase ! ");
+        //Debug.Log("Proceed Phase ! ");
         // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
         if (heroNum == 0 || enemyNum == 0)
         {
@@ -228,7 +228,7 @@ public class BattleManager
             now = next;
         }
 
-        Debug.Log($"Push Creature! : {_pawn.name}, {MAX_GAGE - _pawn.Stat.Speed}");
+        //Debug.Log($"Push Creature! : {_pawn.name}, {MAX_GAGE - _pawn.Stat.Speed}");
     }
 
     OrderInfo PopOrder()

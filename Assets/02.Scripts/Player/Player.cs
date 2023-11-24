@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
+enum test
+{
+
+}
 public class Player : MonoBehaviour
 {
     [SerializeField]
@@ -49,6 +53,25 @@ public class Player : MonoBehaviour
         Inven.GainItem(Managers.Data.EquipDict[11]);
         Debug.Log($"Player - Item 0 : {Managers.Data.MiscDict[0].itemType} ");
         Managers.SetPlayer(this);
+
+
+        string k = "00001011";
+        int a = 0 << 8;
+
+        for(int i = 0; i < k.Length; i++)
+        {
+            a = a << 1;
+            int num = 0 << 7;
+            num += k[i] - '0' << 0;
+
+            a = a | num;
+            Debug.Log($"num : {num}, a = {a}");
+
+        }
+
+        Debug.Log($"¿Ï : {a}");
+
+
     }
 
     // Update is called once per frame

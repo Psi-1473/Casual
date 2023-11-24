@@ -19,6 +19,8 @@ public abstract class Creature
     protected int speed;
     protected int role;
     protected int grade;
+    protected string buffCode;
+   
 
     public string CreatureName { get { return creatureName; } set { creatureName = value; } }
 
@@ -31,6 +33,7 @@ public abstract class Creature
     public int Speed { get { return speed; } set { speed = value; } }
     public int Role { get { return role; } set { role = value; } }
     public int Grade { get { return grade; } set { grade = value; } }
+    public string BuffCode { get { return buffCode; } }
 
     public abstract void SetNewCreatureInfo(int Id);
 

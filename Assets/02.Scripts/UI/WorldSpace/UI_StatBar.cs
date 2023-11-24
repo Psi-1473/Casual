@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UI_StatBar : UI_Base
 {
+    const float horseHeight = 0.6f;
+
     public GameObject Owner { get; set; }
-    float horseHeight = 0;
     enum GameObjects
     {
         HpBar,
@@ -15,7 +17,7 @@ public class UI_StatBar : UI_Base
 
     private void Update()
     {
-        SetPos();
+        //SetPos();
     }
 
     public override void Init()
@@ -25,17 +27,14 @@ public class UI_StatBar : UI_Base
         SetHpAndMp();
     }
 
-    public void SetHorse()
-    {
-        horseHeight = 0.6f;
-    }
-
-    void SetPos()
+    public void SetPos(bool isHorse = false)
     {
         if (Owner == null)
             return;
+        float value = 1.2f;
+        if (isHorse) value += horseHeight;
 
-        gameObject.transform.position = new Vector3(Owner.transform.position.x, Owner.transform.position.y + 1.2f + horseHeight, Owner.transform.position.z);
+        gameObject.transform.position = new Vector3(Owner.transform.position.x, Owner.transform.position.y + value, Owner.transform.position.z);
        
     }
 

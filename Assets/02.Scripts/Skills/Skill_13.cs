@@ -18,6 +18,7 @@ public class Skill_13 : Skill
                 return;
 
             SpawnSkillPrefab(target, heroId, 1f);
+            ApplyBuff(target, 1);
         }
     }
 }

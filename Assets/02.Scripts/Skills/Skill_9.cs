@@ -16,7 +16,7 @@ public class Skill_9 : Skill
             GameObject target = targets[i];
             if (target == null)
                 return;
-
+            ApplyBuff(target);
             SpawnSkillPrefab(target, heroId, 0.5f, 8);
         }
     }

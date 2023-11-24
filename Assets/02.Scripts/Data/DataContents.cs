@@ -75,6 +75,7 @@ public class SkillInfo
     public int lv3;
     public int statEffect;
     public int skillType;
+    public string buffType;
 }
 
 [Serializable]

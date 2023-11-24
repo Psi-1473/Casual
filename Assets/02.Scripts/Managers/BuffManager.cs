@@ -11,18 +11,58 @@ public class BuffManager
         FreezeDebuff _freeze = new FreezeDebuff();
         BurnDebuff _burn  = new BurnDebuff();
         BleedDebuff _bleed = new BleedDebuff();
+        StunDebuff _stun = new StunDebuff();
 
         buffDict.Add(Define.EBuff.Freeze, _freeze);
         buffDict.Add(Define.EBuff.Burn, _burn);
         buffDict.Add(Define.EBuff.Bleed, _bleed);
+        buffDict.Add(Define.EBuff.Stun, _stun);
     }
 
-    void TakeBuff(Define.EBuff _buffType, AIController _caster, AIController _target, int _turn, int _effectPercentage)
+    public void TakeBuff(Define.EBuff _buffType, AIController _caster, AIController _target, int _turn, int _effectPercentage)
     {
-        Buff newBuff = buffDict[_buffType].Clone(_caster, _turn, _effectPercentage);
-        //_target한테 newBuff 주기
-        // 이미 타겟이 그 버프를 가지고 있으면
-        // 1. 캐스터 비교, 더 강한 애 버프로 덮어쓰기
-        // 2. 남은 턴만 올리기
+        
+        BuffComponent buffComp = _target.GetComponent<BuffComponent>();
+        Buff newBuff = buffDict[_buffType].Clone(_caster, _turn, _effectPercentage, buffComp, _buffType);
+        buffComp.GetNewBuff(_buffType, newBuff);
+    }
+
+    public List<Define.EBuff> GetBuffTypes(string _buffCodeString)
+    {
+        int _buffCode = ConvertBuffCode(_buffCodeString);
+
+        List<Define.EBuff> eBuffs = new List<Define.EBuff>();
+
+        CheckAndAddBuffType(eBuffs, Define.EBuff.Freeze, _buffCode);
+        CheckAndAddBuffType(eBuffs, Define.EBuff.Burn, _buffCode);
+        CheckAndAddBuffType(eBuffs, Define.EBuff.Bleed, _buffCode);
+        CheckAndAddBuffType(eBuffs, Define.EBuff.Stun, _buffCode);
+
+
+        return eBuffs;
+    }
+
+    void CheckAndAddBuffType(List<Define.EBuff> _buffList, Define.EBuff _buffType, int _buffCode)
+    {
+        if ((_buffCode & (int)_buffType) == (int)_buffType) _buffList.Add(_buffType);
+    }
+
+    int ConvertBuffCode(string _code)
+    {
+        int a = 0 << 8;
+
+        for (int i = 0; i < _code.Length; i++)
+        {
+            a = a << 1;
+            int num = 0 << 7;
+            num += _code[i] - '0' << 0;
+
+            a = a | num;
+            Debug.Log($"num : {num}, a = {a}");
+
+        }
+
+        Debug.Log($"완 : {a}");
+        return a;
     }
 }

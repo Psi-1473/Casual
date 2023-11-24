@@ -35,7 +35,9 @@ public class Hero : Creature
         SetMaxGrade(grade);
 
         if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
+        
         skillDamage = Managers.Data.SkillDict[Id].lv1;
+        buffCode = Managers.Data.SkillDict[Id].buffType;
     }
     public void LevelUp()
     {

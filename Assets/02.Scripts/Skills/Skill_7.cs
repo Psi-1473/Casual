@@ -11,5 +11,6 @@ public class Skill_7 : Skill
     public override void Execute(int heroId)
     {
         SpawnSkillPrefab(Target, heroId, 0.5f, 8);
+        ApplyBuff(Target);
     }
 }

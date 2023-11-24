@@ -26,6 +26,7 @@ public class AIController : MonoBehaviour
     CreatureType cType = CreatureType.CREATURE_HERO;
     Animator anim;
     StatComponent stat;
+    BuffComponent buffComp;
 
     
     [SerializeField]
@@ -38,14 +39,8 @@ public class AIController : MonoBehaviour
     public Transform CenterTrans { get; set; }
     public GameObject Target { get; set; }
     public StatComponent Stat { get { return stat; } private set { stat = value; } }
-    public State CreatureState { get { return state; } set { 
-            if(value == State.Return)
-            {             
-                StopCoroutine(Co_Wait());
-                StartCoroutine(Co_Wait());
-            }
-            state = value;
-        } }
+    public BuffComponent BuffComp { get { return buffComp; } private set { buffComp = value; } }
+    public State CreatureState { get { return state; } set {   state = value; } }
     public CreatureType CType { get { return cType; } private set { cType = value; } }
     public Action OnStatChanged = null;
 
@@ -54,6 +49,7 @@ public class AIController : MonoBehaviour
     {
         anim = GetComponentInChildren<Animator>();
         stat = GetComponent<StatComponent>();
+        buffComp = GetComponent<BuffComponent>();
         transform.GetChild(0).gameObject.AddComponent<CreatureAnimEvent>();
  
     }
@@ -193,8 +189,8 @@ public class AIController : MonoBehaviour
             anim.SetBool("Move", false);
             Target = null;
             state = State.Idle;
-            Managers.Battle.PushOrder(this);
-            Managers.Battle.ProceedPhase();
+            StopCoroutine("Co_TurnEnd");
+            StartCoroutine("Co_TurnEnd", 0.3f);
         }
 
     }
@@ -206,13 +202,13 @@ public class AIController : MonoBehaviour
         // 공격하고 자기자리로
         anim.SetTrigger("Attack");
         stat.Mp++;
-        StopCoroutine(Co_Wait());
-        StartCoroutine(Co_Wait());
+        StopCoroutine("Co_Wait");
+        StartCoroutine(Co_Wait(1f));
         _target.OnDamaged(stat.Attack);
     }
     public void OnDamaged(int _damage)
     {
-        Debug.Log($"Damaged! : {_damage}");
+        //Debug.Log($"Damaged! : {_damage}");
         Stat.Hp = Stat.Hp - _damage;
         if (Stat.Hp <= 0)
             Die();
@@ -248,7 +244,8 @@ public class AIController : MonoBehaviour
         FormationNumber = _formation;
         stat.SetStatByHeroInfo(_hero);
         InitBarUI();
-        SetSkill();
+        InitBuffUI();
+        SetSkill(_hero);
     }
     public void SetEnemyStat(int _enemyId, Transform _trans, int _formation, Transform _center)
     {
@@ -258,19 +255,25 @@ public class AIController : MonoBehaviour
         FormationNumber = _formation;
         stat.SetStatByEnemyInfo(_enemyId);
         InitBarUI();
-        
+        InitBuffUI();
         //SetSkill();
     }
     public void SetStateAttack(AIController _target)
     {
-        Debug.Log($"Set Attack : {gameObject.name}, Target : {_target}");
+        if(buffComp.ExecuteBuffs())
+        {
+            StopCoroutine("Co_TurnEnd");
+            StartCoroutine("Co_TurnEnd", 1f);
+            return;
+        }
+
         Target = _target.gameObject;
         state = State.Attack;
     }
     #endregion
 
     #region Setting Functions (private)
-    void SetSkill()
+    void SetSkill(Creature _creature)
     {
         Type skillType;
         if (cType == CreatureType.CREATURE_HERO)
@@ -284,6 +287,7 @@ public class AIController : MonoBehaviour
             Skill skill = gameObject.GetComponent(skillType) as Skill;
             skill.Caster = this;
             skill.Center = CenterTrans;
+            skill.SetBuff(_creature.BuffCode);
         }
 
         
@@ -296,18 +300,42 @@ public class AIController : MonoBehaviour
         UI_StatBar _bar = Managers.UI.MakeWorldSpaceUI<UI_StatBar>(transform);
         _bar.Owner = gameObject;
         _bar.Init();
+        _bar.SetPos(GetComponent<SPUM_Prefabs>()._horse);
         _bar.gameObject.transform.localScale *= 2;
 
-        if (GetComponent<SPUM_Prefabs>()._horse == true)
-            _bar.SetHorse();
+    }
+
+    void InitBuffUI()
+    {
+        if (Managers.SceneEx.CurrentScene.SceneType != Define.Scene.InGame)
+            return;
+
+        UI_BuffBar _bar = Managers.UI.MakeWorldSpaceUI<UI_BuffBar>(transform);
+        _bar.transform.position = new Vector3 (transform.position.x, transform.position.y + 1.9f, transform.position.z);
+        _bar.Owner = gameObject;
+        _bar.Init();
+        _bar.SetPos(GetComponent<SPUM_Prefabs>()._horse);
+        _bar.gameObject.transform.localScale *= 2;
     }
     #endregion
 
 
-    IEnumerator Co_Wait()
+    IEnumerator Co_Wait(float _time)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(_time);
         yield break;
 
+    }
+
+    IEnumerator Co_TurnEnd(float _time)
+    {
+        yield return new WaitForSeconds(_time);
+        Debug.Log("Turn End !");
+
+        Target = null;
+        state = State.Idle;
+        Managers.Battle.PushOrder(this);
+        Managers.Battle.ProceedPhase();
+        yield break;
     }
 }

@@ -30,5 +30,6 @@ public class Skill_19 : Skill
 
         targetHero.GetComponent<AIController>().Heal(Caster.Stat.GetHealPercentage());
         SpawnSkillPrefab(targetHero, heroId, 1f);
+        ApplyBuff(targetHero);
     }
 }
