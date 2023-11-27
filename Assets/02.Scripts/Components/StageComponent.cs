@@ -19,4 +19,18 @@ public class StageComponent : MonoBehaviour
     {
         
     }
+
+    public void OpenStageOrChapter(int _clearedChpater, int _clearedStage)
+    {
+        if (OpenedChapter == _clearedChpater && OpenedStage == _clearedStage)
+        {
+            OpenedStage++;
+
+            if (_clearedStage == Managers.Data.StageDicts[openedChapter].Count)
+            {
+                OpenedChapter++;
+                OpenedStage = 1;
+            }
+        }
+    }
 }

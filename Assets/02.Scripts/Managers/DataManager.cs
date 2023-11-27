@@ -19,6 +19,7 @@ public class DataManager
 
     public List<Dictionary<int, StageInfo>> StageDicts { get; private set; } = new List<Dictionary<int, StageInfo>>();
     public Dictionary<int, StageInfo> Stage1Dict { get; private set; } = new Dictionary<int, StageInfo>();
+    public Dictionary<int, StageInfo> Stage2Dict { get; private set; } = new Dictionary<int, StageInfo>();
 
 
     public void Init()
@@ -33,11 +34,13 @@ public class DataManager
 
 
         Stage1Dict = LoadJson<StageInfoData, int, StageInfo>("StageInfo1").MakeDic();
+        Stage1Dict = LoadJson<StageInfoData, int, StageInfo>("StageInfo2").MakeDic();
 
 
 
         StageDicts.Add(null);
         StageDicts.Add(Stage1Dict);
+        StageDicts.Add(Stage2Dict);
 
     }
 
