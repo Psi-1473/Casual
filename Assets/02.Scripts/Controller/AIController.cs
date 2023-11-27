@@ -262,8 +262,9 @@ public class AIController : MonoBehaviour
     {
         if(buffComp.ExecuteBuffs())
         {
+            Debug.Log($"{gameObject.name} - Debuff!!!!");
             StopCoroutine("Co_TurnEnd");
-            StartCoroutine("Co_TurnEnd", 1f);
+            StartCoroutine("Co_TurnEnd", 1.5f);
             return;
         }
 
@@ -313,8 +314,8 @@ public class AIController : MonoBehaviour
         UI_BuffBar _bar = Managers.UI.MakeWorldSpaceUI<UI_BuffBar>(transform);
         _bar.transform.position = new Vector3 (transform.position.x, transform.position.y + 1.9f, transform.position.z);
         _bar.Owner = gameObject;
-        _bar.Init();
         _bar.SetPos(GetComponent<SPUM_Prefabs>()._horse);
+        _bar.SetBuffAction(buffComp);
         _bar.gameObject.transform.localScale *= 2;
     }
     #endregion

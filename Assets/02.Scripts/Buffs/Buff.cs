@@ -21,13 +21,12 @@ public abstract class Buff
         PlaySound();
         ApplyEffect();
 
+        // 0.25√  ¥Î±‚  
+        
+
         turn--;
         Debug.Log($"Left Turn {turn}");
-        //if (turn <= 0)
-        //{
-        //    //owningComp.RemoveBuff(buffType);
-        //    Debug.Log("Ready to Remove");
-        //}
+
         return turnEnd;
     }
 
