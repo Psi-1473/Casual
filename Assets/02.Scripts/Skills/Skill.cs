@@ -52,7 +52,7 @@ public abstract class Skill : MonoBehaviour
         for (int i = 0; i < buffTypes.Count; i++)
         {
             Managers.BuffMgr.TakeBuff(buffTypes[i], Caster, _target.GetComponent<AIController>(), _turn, _effectPercentage);
-            Debug.Log($"Apply Buff {buffTypes[i]}");
+            //Debug.Log($"Apply Buff {buffTypes[i]}");
         }
     }
     protected List<GameObject> FindAllEnemies()

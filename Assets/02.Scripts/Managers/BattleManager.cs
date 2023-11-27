@@ -122,7 +122,7 @@ public class BattleManager
                 DecreaseAttackGage(i, remainToAttack);
 
             // 3. 공격자가 타겟 공격하게 함
-            attacker.SetStateAttack(target);
+            attacker.BattleAiOn(target);
         }
     }
 
@@ -144,10 +144,6 @@ public class BattleManager
 
             Debug.Log($" Left Enemy : {enemyNum}");
         }
-       //Creature creature = obj.GetComponent<Creature>();
-       //int idx = order.FindIndex((x) => x.creature.Equals(creature));
-       //order.RemoveAt(idx);
-
     }
 
     public void EndBattle()
@@ -160,10 +156,8 @@ public class BattleManager
         if(win)
         {
             // 1. 보상 주기(x)
-            // 2. Chpater, Stage 개방(o)
-            if (Managers.GetPlayer.StageComp.OpenedChapter == NowChapter && Managers.GetPlayer.StageComp.OpenedStage == NowStage)
-                Managers.GetPlayer.StageComp.OpenedStage++;
-                // 마지막 챕터라면 다음 챕터 해방(x)
+            Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
+            // 마지막 챕터라면 다음 챕터 해방(x)
         }
         UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
         _ui.SetText(win);

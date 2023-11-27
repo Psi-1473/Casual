@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BleedDebuff : Buff
 {
+    public BleedDebuff() { turnEnd = false; }
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }

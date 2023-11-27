@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StunDebuff : Buff
 {
+    public StunDebuff() { turnEnd = true; }
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }

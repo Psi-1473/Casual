@@ -46,6 +46,7 @@ public class EnemyInfo
     public int mp;
     public int speed;
     public int role;
+    public int grade;
 }
 
 [Serializable]

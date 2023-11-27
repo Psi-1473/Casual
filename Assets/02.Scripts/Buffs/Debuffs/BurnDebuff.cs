@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BurnDebuff : Buff
 {
+    public BurnDebuff() { turnEnd = false; }
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }

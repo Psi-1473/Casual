@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class BuffComponent : MonoBehaviour
@@ -27,26 +28,11 @@ public class BuffComponent : MonoBehaviour
         buffDict.Remove(_buffType);
         OnBuffRemoved.Invoke(_buffType);
     }
-    
-    public bool ExecuteBuffs()
+
+    public void ExecuteBuffs()
     {
-        // 단계를 나눌까 나누자
-        List<Define.EBuff> removeBuffs = new List<Define.EBuff>();
-        bool turnEnd = false;
-        foreach(var buff in buffDict)
-        {
-            if (buff.Value.Execute())
-                turnEnd = true;
-                
-            if (buff.Value.Turn <= 0)
-                removeBuffs.Add(buff.Value.BuffType);
-
-        }
-
-        foreach (var buffType in removeBuffs)
-            RemoveBuff(buffType);
-
-        return turnEnd;
+        StopCoroutine("Co_ExecuteBuff");
+        StartCoroutine("Co_ExecuteBuff");
     }
 
     public Buff GetBuff(Define.EBuff _buffType)
@@ -62,5 +48,34 @@ public class BuffComponent : MonoBehaviour
         buffDict[_buffType] = _buff;
     }
 
-    
+    IEnumerator Co_ExecuteBuff()
+    {
+        bool turnEnd = false;
+
+        foreach (var buff in buffDict)
+            if (buff.Value.TurnEnd)
+                turnEnd = true;
+
+        List<Define.EBuff> removeBuffs = new List<Define.EBuff>();
+        foreach (var buff in buffDict)
+        {
+            buff.Value.Execute();
+
+            if (buff.Value.Turn <= 0)
+                removeBuffs.Add(buff.Value.BuffType);
+
+            UnityEngine.Debug.Log("Buff Execute !");
+
+            yield return new WaitForSeconds(2f);
+
+        }
+
+        foreach (var buffType in removeBuffs)
+            RemoveBuff(buffType);
+
+        gameObject.GetComponent<AIController>().BuffToAttack(turnEnd);
+
+
+        yield break;
+    }
 }

@@ -12,22 +12,18 @@ public abstract class Buff
     protected bool turnEnd = false;
 
     public int Turn { get { return turn; } }
+    public bool TurnEnd { get { return turnEnd; } }
     public Define.EBuff BuffType { get { return buffType; } }
 
-    public bool Execute()
+    public void Execute()
     {
         SpawnParticle();
         PlayAnim();
         PlaySound();
         ApplyEffect();
 
-        // 0.25√  ¥Î±‚  
-        
-
         turn--;
         Debug.Log($"Left Turn {turn}");
-
-        return turnEnd;
     }
 
     protected void SetInfo(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)

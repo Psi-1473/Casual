@@ -8,6 +8,7 @@ public enum State
 {
     Setting,
     Idle,
+    ProcessBuff,
     Attack,
     Skill,
     Return,
@@ -64,6 +65,9 @@ public class AIController : MonoBehaviour
             case State.Idle:
                 OnIdle();
                 break;
+            case State.ProcessBuff:
+                OnProcessBuff();
+                break;
             case State.Attack:
                 OnAttack();
                 break;
@@ -104,6 +108,10 @@ public class AIController : MonoBehaviour
             Attack(Target.GetComponent<AIController>());
             Target = null;
         }
+    }
+    void OnProcessBuff()
+    {
+        
     }
     void OnAttack()
     {
@@ -199,16 +207,15 @@ public class AIController : MonoBehaviour
     #region Battle Functions
     void Attack(AIController _target)
     {
-        // 공격하고 자기자리로
         anim.SetTrigger("Attack");
-        stat.Mp++;
-        StopCoroutine("Co_Wait");
-        StartCoroutine(Co_Wait(1f));
+
+        if(GetComponent<Skill>() != null)
+            stat.Mp++;
+
         _target.OnDamaged(stat.Attack);
     }
     public void OnDamaged(int _damage)
     {
-        //Debug.Log($"Damaged! : {_damage}");
         Stat.Hp = Stat.Hp - _damage;
         if (Stat.Hp <= 0)
             Die();
@@ -258,18 +265,22 @@ public class AIController : MonoBehaviour
         InitBuffUI();
         //SetSkill();
     }
-    public void SetStateAttack(AIController _target)
+    public void BattleAiOn(AIController _target)
     {
-        if(buffComp.ExecuteBuffs())
+        Target = _target.gameObject;
+        state = State.ProcessBuff;
+        buffComp.ExecuteBuffs();  
+    }
+
+    public void BuffToAttack(bool _turnEnd)
+    {
+        if (_turnEnd)
         {
-            Debug.Log($"{gameObject.name} - Debuff!!!!");
             StopCoroutine("Co_TurnEnd");
             StartCoroutine("Co_TurnEnd", 1.5f);
-            return;
         }
-
-        Target = _target.gameObject;
-        state = State.Attack;
+        else
+            state = State.Attack;
     }
     #endregion
 
@@ -331,7 +342,7 @@ public class AIController : MonoBehaviour
     IEnumerator Co_TurnEnd(float _time)
     {
         yield return new WaitForSeconds(_time);
-        Debug.Log("Turn End !");
+        //Debug.Log("Turn End !");
 
         Target = null;
         state = State.Idle;
