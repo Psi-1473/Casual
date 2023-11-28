@@ -8,8 +8,10 @@ public class SummonManager
     List<int> rares = new List<int>() { 1, 2, 8, 9, 14, 15, 19};
     List<int> uniques = new List<int>() { 0, 6, 7, 13, 18, };
 
-    public void NormalSummon()
+    public int NormalSummon(ref Item _ticket)
     {
+        if (_ticket == null || _ticket.Number <= 0) return -1;
+        
         int value = Random.Range(1, 100);
         int idx;
         int heroId;
@@ -27,10 +29,15 @@ public class SummonManager
 
         Managers.GetPlayer.HeroComp.TakeNewHero(heroId);
         Debug.Log($"Get Hero! : {Managers.Data.HeroDict[heroId].name}");
+        Managers.GetPlayer.Inven.RemoveItem(_ticket);
+
+        return heroId;
     }
 
-    public void RareSummon()
+    public int RareSummon(ref Item _ticket)
     {
+        if (_ticket == null || _ticket.Number <= 0) return -1;
+
         int value = Random.Range(1, 100);
         int idx;
         int heroId;
@@ -48,6 +55,9 @@ public class SummonManager
 
         Managers.GetPlayer.HeroComp.TakeNewHero(heroId);
         Debug.Log($"Get Hero! : {Managers.Data.HeroDict[heroId].name}");
+        Managers.GetPlayer.Inven.RemoveItem(_ticket);
+
+        return heroId;
     }
 
 

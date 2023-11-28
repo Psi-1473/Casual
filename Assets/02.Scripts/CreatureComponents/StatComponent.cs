@@ -64,7 +64,7 @@ public class StatComponent : MonoBehaviour
 
     void SetStat(string _name, int _hp, int _mp, int _attack, int _defense, int _speed, int _role, int _grade = 0, int _skillDamage = 1)
     {
-        Debug.Log($"Set Stat : {_attack}");
+        //Debug.Log($"Set Stat : {_attack}");
         heroName = _name;
         maxHp = _hp;
         maxMp = 2;

@@ -58,11 +58,11 @@ public class BuffManager
             num += _code[i] - '0' << 0;
 
             a = a | num;
-            Debug.Log($"num : {num}, a = {a}");
+            //Debug.Log($"num : {num}, a = {a}");
 
         }
 
-        Debug.Log($"¿Ï : {a}");
+        //Debug.Log($"¿Ï : {a}");
         return a;
     }
 }

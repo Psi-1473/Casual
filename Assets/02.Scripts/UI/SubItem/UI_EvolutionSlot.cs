@@ -20,6 +20,8 @@ public class UI_EvolutionSlot : UI_Base
     {
         Text_Name,
         Text_MaxGrade,
+        Text_Level,
+        Text_Formation,
     }
     void Awake()
     {
@@ -51,10 +53,14 @@ public class UI_EvolutionSlot : UI_Base
     void SetTexts(Hero _hero)
     {
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = _hero.CreatureName;
+        Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"{_hero.Level}";
         if (hero.MaxGrade != hero.Grade)
             Get<TextMeshProUGUI>((int)Texts.Text_MaxGrade).gameObject.SetActive(false);
         else
             Get<TextMeshProUGUI>((int)Texts.Text_MaxGrade).gameObject.SetActive(true);
+
+        if (!_hero.IsPicked)
+            Get<TextMeshProUGUI>((int)Texts.Text_Formation).gameObject.SetActive(false);
     }
 
     void SetImages(Hero _hero)

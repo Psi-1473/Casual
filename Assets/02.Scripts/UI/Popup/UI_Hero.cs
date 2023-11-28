@@ -46,7 +46,7 @@ public class UI_Hero : UI_Popup
     {
         Content,
         Obj_SkillInfo,
-        ClosePopup
+        ClosePopup,
     }
 
     void Awake()
@@ -211,10 +211,19 @@ public class UI_Hero : UI_Popup
         if (nowExp < maxExp)
             return;
 
+        int prevAttack = clickedHero.Attack;
+        int prevDef = clickedHero.Defense;
         Managers.GetPlayer.Inven.ExpStone -= maxExp;
         clickedHero.LevelUp();
         SetHero(ClickedHero);
         RenewHeroInfo();
+
+        UI_AtkDfsUp atkUp = Managers.UI.MakeAnimUI<UI_AtkDfsUp>(transform);
+        UI_AtkDfsUp dfsUp = Managers.UI.MakeAnimUI<UI_AtkDfsUp>(transform);
+        atkUp.SetAnchoredPos(new Vector2(-100, 170));
+        dfsUp.SetAnchoredPos(new Vector2(-100, 105));
+        atkUp.SetValue(clickedHero.Attack - prevAttack);
+        dfsUp.SetValue(clickedHero.Defense - prevDef);
     }
     void ClickEquip(string type)
     {
@@ -246,4 +255,5 @@ public class UI_Hero : UI_Popup
 
 
     }
+
 }

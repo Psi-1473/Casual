@@ -54,6 +54,7 @@ public class UI_Ingredients : UI_Popup
         {
             if (heros[i] == targetHero) continue;
             if (Managers.Upgrade.IsRegisteredHero(heros[i])) continue;
+            if (heros[i].IsPicked) continue;
 
             if (heros[i].Grade == targetHero.Grade && heros[i].Id == targetHero.Id)
             {
@@ -71,6 +72,7 @@ public class UI_Ingredients : UI_Popup
         {
             if (heros[i] == targetHero) continue;
             if (Managers.Upgrade.IsRegisteredHero(heros[i])) continue;
+            if (heros[i].IsPicked) continue;
 
             if (heros[i].Grade == targetHero.Grade)
             {

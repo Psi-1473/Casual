@@ -68,6 +68,11 @@ public class Inventory : MonoBehaviour
         else _items.RemoveAt(index);
     }
 
+    public Item ItemById(ItemType _type, int _id)
+    {
+        return items[(int)_type].Find(x => x.Id == _id);
+    }
+
     int GetItemTypeId(string type)
     {
         switch(type)
@@ -78,4 +83,6 @@ public class Inventory : MonoBehaviour
                 return 0;
         }
     }
+
+    
 }

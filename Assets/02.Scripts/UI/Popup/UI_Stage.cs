@@ -8,6 +8,9 @@ public class UI_Stage : UI_Popup
 {
     int chapter = 1;
     int clickedStage = 0; // 나중에 스크롤 뷰에 추가할 버튼을 클릭하면 1. clickedStage 갱신, 2. 클릭된 버튼과 clickedStage를 비교하여 같으면 스테이지 시작 다르면 다시 갱신
+
+    List<UI_StageBtn> stages = new List<UI_StageBtn>();
+
     enum GameObjects
     {
         Content,
@@ -42,33 +45,83 @@ public class UI_Stage : UI_Popup
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
 
-        BindEvent(GetButton((int)Buttons.Btn_NextChapter).gameObject, (data) => { Debug.Log("Next Button"); });
-        BindEvent(GetButton((int)Buttons.Btn_PrevChapter).gameObject, (data) => { Debug.Log("Prev Button"); });
+        BindEvent(GetButton((int)Buttons.Btn_NextChapter).gameObject, (data) => { SetByChpater(chapter + 1); });
+        BindEvent(GetButton((int)Buttons.Btn_PrevChapter).gameObject, (data) => { SetByChpater(chapter - 1); });
 
     }
 
-    public void SetByChpater(int _chpater)
+    public void SetByChpater(int _chapter)
     {
-        chapter = _chpater;
-        // 1. 현재 챕터의 스테이지가 몇 개인지 받아오기
-        // 2. for문 돌면서 스테이지 수만큼 UI_StageBtn 생성
-        // 3. UI_StageBtn 생성하면서 chpater, stage(int, int) 세팅하기
-        // 4. UI_StageBtn 누르면 해당 UI 들고 있던 chapter, stage 수에 따라 몬스터 배치 미리보기
+        if (_chapter < 1 || _chapter > 3)
+            return;
 
-        int chapterCount = Managers.Data.StageDicts[_chpater].Count;
-        // Chapter 텍스트 이름 변경하기
+        if (Managers.GetPlayer.StageComp.OpenedChapter < _chapter)
+            return;
 
-        for(int i = 0; i < chapterCount; i++)
+        Debug.Log($"Set Chapter : {_chapter}");
+        chapter = _chapter;
+
+        SetChapterImg(chapter);
+        SetChapterText(chapter);
+        SetSlot(chapter);
+    }
+
+    void SetChapterImg(int _chapter)
+    {
+        Sprite sprite = Managers.Resource.Load<Sprite>($"Images/ChapterImage/Chapter{_chapter}");
+        GetImage((int)Images.Img_BackGround).sprite = sprite;
+    }
+    void SetChapterText(int _chapter)
+    {
+        string _text = "";
+        switch(_chapter)
         {
-            UI_StageBtn _ui = Managers.UI.MakeSubItem<UI_StageBtn>(Get<GameObject>((int)GameObjects.Content).transform);
-            _ui.SetInfo(chapter, i + 1);
-
-            Debug.Log($"팝업 띄우기 {i + 1}");
+            case 1:
+                _text = "01. 마을 밖 산책로";
+                break;
+            case 2:
+                _text = "02. 동굴 밖";
+                break;
+            case 3:
+                _text = "03. 동굴 안";
+                break;
         }
 
-        
-
-
-        
+        Get<TextMeshProUGUI>((int)Texts.Text_Chapter).text = _text;
     }
+    void SetSlot(int _chapter)
+    {
+        int chapterCount = Managers.Data.StageDicts[_chapter].Count;
+        CreateAndSetSlot(chapterCount, _chapter);
+
+        if (chapterCount < stages.Count)
+            RemoveExcessSlots(chapterCount);
+    }
+
+    void CreateAndSetSlot(int _chapterCount, int _chapter)
+    {
+        for (int i = 0; i < _chapterCount; i++)
+        {
+            if ((stages.Count - 1) <= i)
+            {
+                UI_StageBtn _ui = Managers.UI.MakeSubItem<UI_StageBtn>(Get<GameObject>((int)GameObjects.Content).transform);
+                stages.Add(_ui);
+            }
+
+            stages[i].SetInfo(_chapter, i + 1);
+        }
+    }
+    void RemoveExcessSlots(int _chapterCount)
+    {
+        int number = stages.Count - _chapterCount;
+        for (int i = 0; i < number; i++)
+        {
+            int idx = stages.Count - 1;
+            Debug.Log($"Remove {idx}");
+            UI_StageBtn _ui = stages[idx];
+            Destroy(_ui.gameObject);
+            stages.RemoveAt(idx);
+        }
+    }
+
 }

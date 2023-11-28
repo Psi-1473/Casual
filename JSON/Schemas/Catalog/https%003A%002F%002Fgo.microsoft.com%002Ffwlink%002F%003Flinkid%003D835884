@@ -2485,6 +2485,12 @@
       "url": "https://json.schemastore.org/license-report-config.json"
     },
     {
+      "name": "Liferay client-extension.yaml",
+      "description": "Liferay Client Extension Definition File",
+      "fileMatch": ["client-extension.yaml"],
+      "url": "https://raw.githubusercontent.com/liferay/liferay-portal/master/modules/sdk/gradle-plugins-workspace/src/main/resources/schemas/client-extension.schema.json"
+    },
+    {
       "name": "linkinator.config.json",
       "description": "Linkinator config file",
       "fileMatch": ["linkinator.config.json"],
@@ -3830,6 +3836,12 @@
       "url": "https://raw.githubusercontent.com/Konafets/statamic-blueprint-validation/main/statamic.blueprint.schema.json"
     },
     {
+      "name": "Stella configuration file",
+      "description": "Configuration file for stella. See https://github.com/Shravan-1908/stellapy",
+      "fileMatch": ["stella.yml", "stella.json"],
+      "url": "https://raw.githubusercontent.com/Shravan-1908/stellapy/master/schema.json"
+    },
+    {
       "name": "stripe-app.json",
       "description": "Stripe Apps manifest file",
       "fileMatch": ["stripe-app.json"],
@@ -4127,6 +4139,17 @@
         "2.0.3": "https://json.schemastore.org/utam-page-object-2.0.3.json",
         "current": "https://json.schemastore.org/utam-page-object.json"
       }
+    },
+    {
+      "name": "UNCORS configuration",
+      "description": "Configuration file for UNCORS reverse proxy",
+      "fileMatch": [
+        "*.uncors.yml",
+        "*.uncors.yaml",
+        ".uncors.yml",
+        ".uncors.yaml"
+      ],
+      "url": "https://raw.githubusercontent.com/evg4b/uncors/main/schema.json"
     },
     {
       "name": "vega.json",

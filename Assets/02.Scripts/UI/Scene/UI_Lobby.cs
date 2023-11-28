@@ -43,7 +43,8 @@ public class UI_Lobby : UI_Scene
         BindEvent(GetButton((int)Buttons.Btn_Spawn).gameObject, OnSpawnClicked);
         BindEvent(GetButton((int)Buttons.Btn_Options).gameObject, OnOptionsClicked);
         BindEvent(GetButton((int)Buttons.Btn_Play).gameObject, OnPlayClicked);
-        
+
+        SetInfo();
         // PointerEventData
         // Action
     }
@@ -79,5 +80,10 @@ public class UI_Lobby : UI_Scene
         UI_Stage _ui = Managers.UI.ShowPopupUI<UI_Stage>();
         _ui.SetByChpater(1);
 
+    }
+
+    void SetInfo()
+    {
+        Get<TextMeshProUGUI>((int)Texts.Text_Name).text = $"{Managers.GetPlayer.PlayerName}";
     }
 }

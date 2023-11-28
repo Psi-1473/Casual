@@ -4,19 +4,16 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
-enum test
-{
-
-}
 public class Player : MonoBehaviour
 {
+    string playerName = "Player";
     [SerializeField]
     public HeroComponent HeroComp { get; private set; }
 
     [SerializeField]
     public StageComponent StageComp { get; private set; }
-
     public Inventory Inven { get; private set; }
+    public string PlayerName { get { return playerName; } }
 
 
     void Start()
@@ -25,7 +22,8 @@ public class Player : MonoBehaviour
         StageComp = GetComponent<StageComponent>();
         Inven = GetComponent<Inventory>();
 
-        Inven.GainItem(Managers.Data.MiscDict[0], 1000);
+        Inven.GainItem(Managers.Data.MiscDict[0], 10);
+        Inven.GainItem(Managers.Data.MiscDict[1], 10);
         Inven.GainItem(Managers.Data.EquipDict[0]);
         Inven.GainItem(Managers.Data.EquipDict[1]);
         Inven.GainItem(Managers.Data.EquipDict[2]);

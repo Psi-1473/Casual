@@ -38,13 +38,18 @@ public class UI_StageBtn : UI_Base
         chapter = _chapter;
         stage = _stage;
 
+        Debug.Log($"Chpater : {_chapter}, Stage : {_stage}");
         Get<TextMeshProUGUI>((int)Texts.Text_Number).text = $"{stage}";
 
+        //if(Managers.GetPlayer.StageComp.OpenedStage >= stage)
+        //    LockStage(false, out opened);
+        //else
+        //    LockStage(true, out opened);
         if (Managers.GetPlayer.StageComp.OpenedChapter > chapter)
             LockStage(false, out opened);
         else if (Managers.GetPlayer.StageComp.OpenedChapter < chapter)
             LockStage(true, out opened);
-        else if (Managers.GetPlayer.StageComp.OpenedChapter == chapter && Managers.GetPlayer.StageComp.OpenedStage >= stage)
+        else if (Managers.GetPlayer.StageComp.OpenedStage >= stage)
             LockStage(false, out opened);
         else
             LockStage(true, out opened);

@@ -98,17 +98,6 @@
       "heroExp": 0,
       "playerExp": 0,
       "gold": 0
-    },
-    {
-      "id": 10,
-      "frontTop": 4,
-      "frontBottom": 4,
-      "backTop": 5,
-      "backMiddle": 6,
-      "backBottom": 5,
-      "heroExp": 0,
-      "playerExp": 0,
-      "gold": 0
     }
   ]
 }
