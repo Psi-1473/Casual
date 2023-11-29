@@ -149,17 +149,29 @@ public class UI_Evolution : UI_Popup
 
         Managers.Upgrade.Clear();
     }
+
+    public void Renew()
+    {
+        RenewSlot();
+        for (int i = 0; i < Get<GameObject>((int)GameObjects.Condition).transform.childCount; i++)
+            Destroy(Get<GameObject>((int)GameObjects.Condition).transform.GetChild(i).gameObject);
+
+        SetTargetInfo(null, clickedSlot);
+    }
     #region BindFunc
     void ClickConfirm(PointerEventData data)
     {
+        if (Managers.Upgrade.MainHero == null) return;
+
+        int beforeAttack = Managers.Upgrade.MainHero.Attack;
+        int beforeDefense = Managers.Upgrade.MainHero.Defense;
         if (Managers.Upgrade.Upgrade())
         {
+            UI_Evolving _ui = Managers.UI.ShowPopupUI<UI_Evolving>();
+            int afterAttack = Managers.Upgrade.MainHero.Attack;
+            int afterDefense = Managers.Upgrade.MainHero.Defense;
+            _ui.SetInfo(this, beforeAttack, afterAttack, beforeDefense, afterDefense);
             Managers.Upgrade.Clear();
-            RenewSlot();
-            for (int i = 0; i < Get<GameObject>((int)GameObjects.Condition).transform.childCount; i++)
-                Destroy(Get<GameObject>((int)GameObjects.Condition).transform.GetChild(i).gameObject);
-
-            SetTargetInfo(null, clickedSlot);
 
         }
     }

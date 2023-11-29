@@ -9,7 +9,8 @@ public class UI_Summoning : UI_Anim
 
     public void OnExit()
     {
-        Managers.UI.MakeAnimUI<UI_SummonComplete>(parentUI.transform);
+        UI_SummonComplete _ui = Managers.UI.ShowPopupUI<UI_SummonComplete>();
+        _ui.SetParentUI(parentUI, spawnedHeroId);
         Destroy(gameObject);
     }
 

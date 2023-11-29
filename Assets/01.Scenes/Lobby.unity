@@ -277,6 +277,14 @@ PrefabInstance:
       propertyPath: m_ClearFlags
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1722178941189263888, guid: 8c477afd5cabb2c4b82319412a29625a, type: 3}
+      propertyPath: orthographic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1722178941189263888, guid: 8c477afd5cabb2c4b82319412a29625a, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 1722178941189263891, guid: 8c477afd5cabb2c4b82319412a29625a, type: 3}
       propertyPath: m_RootOrder
       value: 0
