@@ -118,6 +118,8 @@ public class AIController : MonoBehaviour
 
         if(stat.Mp == 2 && GetComponent<Skill>() != null)
         {
+            UI_SkillUse _ui = Managers.UI.ShowPopupUI<UI_SkillUse>();
+            _ui.SetInfo(stat.Id);
             state = State.Skill;
             return;
         }
@@ -269,7 +271,7 @@ public class AIController : MonoBehaviour
     {
         Target = _target.gameObject;
         state = State.ProcessBuff;
-        buffComp.ExecuteBuffs();  
+        buffComp.ExecuteBuffs(FixedTrans);
     }
 
     public void BuffToAttack(bool _turnEnd)
@@ -350,4 +352,15 @@ public class AIController : MonoBehaviour
         Managers.Battle.ProceedPhase();
         yield break;
     }
+
+    //IEnumerator Co_Skill()
+    //{
+    //    
+    //
+    //    yield return new WaitForSeconds(0.5f);
+    //    
+    //
+    //    yield break;
+    //    
+    //}
 }

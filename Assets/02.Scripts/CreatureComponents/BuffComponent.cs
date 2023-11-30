@@ -7,10 +7,11 @@ using UnityEngine;
 public class BuffComponent : MonoBehaviour
 {
     Dictionary<Define.EBuff, Buff> buffDict = new Dictionary<Define.EBuff, Buff>();
+    Transform ownerTrans;
 
     public Action<Define.EBuff> OnBuffAdded;
     public Action<Define.EBuff> OnBuffRemoved;
-
+    
 
     public void GetNewBuff(Define.EBuff _buffType, Buff _buff)
     {
@@ -29,8 +30,9 @@ public class BuffComponent : MonoBehaviour
         OnBuffRemoved.Invoke(_buffType);
     }
 
-    public void ExecuteBuffs()
+    public void ExecuteBuffs(Transform _trans)
     {
+        ownerTrans = _trans;
         StopCoroutine("Co_ExecuteBuff");
         StartCoroutine("Co_ExecuteBuff");
     }
@@ -65,8 +67,11 @@ public class BuffComponent : MonoBehaviour
                 removeBuffs.Add(buff.Value.BuffType);
 
             UnityEngine.Debug.Log("Buff Execute !");
+            UI_BuffAlarm _ui = Managers.UI.MakeAnimUI<UI_BuffAlarm>(ownerTrans);
+            _ui.SetInfo(buff.Value.BuffType);
+            
 
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(0.5f);
 
         }
 
