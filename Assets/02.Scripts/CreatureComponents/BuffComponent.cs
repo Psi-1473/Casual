@@ -45,6 +45,12 @@ public class BuffComponent : MonoBehaviour
         return null;
     }
 
+    public void Clear()
+    {
+        foreach (var buff in buffDict)
+            OnBuffRemoved.Invoke(buff.Key);
+    }
+
     void Overwrite(Define.EBuff _buffType, Buff _buff)
     {
         buffDict[_buffType] = _buff;
@@ -70,7 +76,6 @@ public class BuffComponent : MonoBehaviour
             UI_BuffAlarm _ui = Managers.UI.MakeAnimUI<UI_BuffAlarm>(ownerTrans);
             _ui.SetInfo(buff.Value.BuffType);
             
-
             yield return new WaitForSeconds(0.5f);
 
         }

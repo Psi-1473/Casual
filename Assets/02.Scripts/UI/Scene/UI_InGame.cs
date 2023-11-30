@@ -31,70 +31,7 @@ public class UI_InGame : UI_Scene
         Bind<GameObject>(typeof(GameObjects));
 
 
-        SpawnHero();
-        SpawnEnemy();
-        // 여기서 코루틴 설정 후 n초 뒤에 배틀 스타트 하기
-
-        StartCoroutine(Co_BattleStart());
+        Managers.UI.ShowPopupUI<UI_InGameMask>();
     }
 
-    void SpawnHero()
-    {
-        for (int i = 1; i < 6; i++)
-        {
-            Hero hero = Managers.GetPlayer.HeroComp.HeroFormation[i];
-            if (hero != null)
-            {
-                GameObject obj = Managers.Resource.Instantiate($"Heros/{hero.Id}");
-                GameObjects enumObj = (GameObjects)(i - 1);
-                obj.transform.position = Get<GameObject>((int)enumObj).transform.position;
-                obj.transform.position = new Vector3(obj.transform.position.x - 10f, obj.transform.position.y, obj.transform.position.z);
-                obj.transform.localScale = new Vector3(-1f, 1f, 1f);
-                obj.transform.localScale *= 2;
-
-
-                obj.GetComponent<AIController>().SetHeroStat(hero, Get<GameObject>((int)enumObj).transform, i, Get<GameObject>((int)GameObjects.Transform_Center).transform);
-                Managers.Battle.Heros[i] = obj;
-                // Battle 매니저에서 세팅
-            }
-        }
-    }
-
-    void SpawnEnemy()
-    {
-        int chapter = Managers.Battle.NowChapter;
-        int stage = Managers.Battle.NowStage;
-        StageInfo _sInfo = Managers.Data.StageDicts[chapter][stage];
-
-        List<int> enemies = new List<int>();
-
-        enemies.Add(_sInfo.frontTop);
-        enemies.Add(_sInfo.frontBottom);
-        enemies.Add(_sInfo.backTop);
-        enemies.Add(_sInfo.backMiddle);
-        enemies.Add(_sInfo.backBottom);
-
-        for (int i = 0; i < 5; i++)
-        {
-            int enemyId = enemies[i];
-            if (enemyId != -1)
-            {
-                GameObject enemy = Managers.Resource.Instantiate($"Enemies/{enemyId}");
-                GameObjects enumObj = (GameObjects)(i + 5);
-                enemy.transform.position = Get<GameObject>((int)enumObj).transform.position;
-                enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
-                enemy.transform.localScale *= 2;
-
-                enemy.GetComponent<AIController>().SetEnemyStat(enemyId, Get<GameObject>((int)enumObj).transform, i + 1, Get<GameObject>((int)GameObjects.Transform_Center).transform);
-                Managers.Battle.Enemies[1 + i] = enemy;
-            }
-        }
-    }
-
-    IEnumerator Co_BattleStart()
-    {
-        yield return new WaitForSeconds(3.5f);
-        Managers.Battle.BeginBattle();
-        yield break;
-    }
 }

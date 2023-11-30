@@ -51,7 +51,8 @@ public class Player : MonoBehaviour
         Inven.GainItem(Managers.Data.EquipDict[11]);
         Debug.Log($"Player - Item 0 : {Managers.Data.MiscDict[0].itemType} ");
         Managers.SetPlayer(this);
-
+        HeroComp.TakeNewHero(15);
+        HeroComp.TakeNewHero(14);
 
         string k = "00001011";
         int a = 0 << 8;

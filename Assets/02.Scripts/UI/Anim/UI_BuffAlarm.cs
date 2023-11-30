@@ -32,8 +32,26 @@ public class UI_BuffAlarm : UI_Anim
 
     public void SetInfo(Define.EBuff _type)
     {
-        Get<TextMeshProUGUI>((int)Texts.Text_Buff).text = "버프";
-        Debug.Log("버프");
+        string buffName = "";
+
+        switch(_type)
+        {
+            case Define.EBuff.Freeze:
+                buffName = "빙 결";
+                break;
+            case Define.EBuff.Burn:
+                buffName = "화 상";
+                break;
+            case Define.EBuff.Bleed:
+                buffName = "출 혈";
+                break;
+            case Define.EBuff.Stun:
+                buffName = "기 절";
+                break;
+        }
+        Get<TextMeshProUGUI>((int)Texts.Text_Buff).text = buffName;
+        string imgName = System.Enum.GetName(typeof(Define.EBuff), _type);
+        Get<Image>((int)Images.Img_Buff).sprite = Managers.Resource.Load<Sprite>($"Images/BuffImages/{imgName}");
     }
 
     public void OnExit()

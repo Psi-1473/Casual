@@ -241,6 +241,7 @@ public class AIController : MonoBehaviour
         anim.SetTrigger("Death");
         IsDead = true;
         Managers.Battle.RemoveCreature(gameObject, FormationNumber);
+        buffComp.Clear();
     }
     #endregion
 
@@ -269,6 +270,7 @@ public class AIController : MonoBehaviour
     }
     public void BattleAiOn(AIController _target)
     {
+
         Target = _target.gameObject;
         state = State.ProcessBuff;
         buffComp.ExecuteBuffs(FixedTrans);
@@ -276,13 +278,21 @@ public class AIController : MonoBehaviour
 
     public void BuffToAttack(bool _turnEnd)
     {
-        if (_turnEnd)
+        if (IsDead)
         {
-            StopCoroutine("Co_TurnEnd");
-            StartCoroutine("Co_TurnEnd", 1.5f);
+            Managers.Battle.ProceedPhase();
+            return;
         }
-        else
+
+        if (!_turnEnd)
+        {
             state = State.Attack;
+            return;
+        }
+
+        StopCoroutine("Co_TurnEnd");
+        StartCoroutine("Co_TurnEnd", 0.5f);
+
     }
     #endregion
 
@@ -340,7 +350,6 @@ public class AIController : MonoBehaviour
         yield break;
 
     }
-
     IEnumerator Co_TurnEnd(float _time)
     {
         yield return new WaitForSeconds(_time);
@@ -352,15 +361,4 @@ public class AIController : MonoBehaviour
         Managers.Battle.ProceedPhase();
         yield break;
     }
-
-    //IEnumerator Co_Skill()
-    //{
-    //    
-    //
-    //    yield return new WaitForSeconds(0.5f);
-    //    
-    //
-    //    yield break;
-    //    
-    //}
 }

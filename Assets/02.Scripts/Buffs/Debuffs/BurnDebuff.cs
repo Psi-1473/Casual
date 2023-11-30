@@ -11,6 +11,9 @@ public class BurnDebuff : Buff
     protected override void ApplyEffect()
     {
         // 소량의 데미지 주기
+        int damage = (caster.Stat.Attack / 5);
+        if (damage < 1) damage = 1;
+        owningComp.gameObject.GetComponent<AIController>().OnDamaged(damage);
     }
 
     public override Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)

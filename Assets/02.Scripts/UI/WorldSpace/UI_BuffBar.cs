@@ -61,6 +61,8 @@ public class UI_BuffBar : UI_Base
 
     public void RemoveBuff(Define.EBuff _buffType)
     {
+        if (!buffUi.ContainsKey(_buffType))
+            return;
         UI_BuffImg _ui = buffUi[_buffType];
         buffUi.Remove(_buffType);
         Destroy(_ui.gameObject);
