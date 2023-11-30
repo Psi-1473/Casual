@@ -121,7 +121,7 @@ public class BattleManager
             for (int i = 0; i < order.Count; i++)
                 DecreaseAttackGage(i, remainToAttack);
 
-            // 3. 공격자가 타겟 공격하게 함
+            // 3. 공격자의 타겟 공격 전투 알고리즘 시작.
             attacker.BattleAiOn(target);
         }
     }

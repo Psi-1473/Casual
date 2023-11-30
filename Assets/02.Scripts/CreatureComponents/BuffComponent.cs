@@ -9,8 +9,8 @@ public class BuffComponent : MonoBehaviour
     Dictionary<Define.EBuff, Buff> buffDict = new Dictionary<Define.EBuff, Buff>();
     Transform ownerTrans;
 
-    public Action<Define.EBuff> OnBuffAdded;
-    public Action<Define.EBuff> OnBuffRemoved;
+    public Action<Define.EBuff> OnBuffAdded; // InGame 중, Buff UI에 해당 버프 띄우기
+    public Action<Define.EBuff> OnBuffRemoved; // InGame 중, Buff UI에서 해당 버프 지우기
     
 
     public void GetNewBuff(Define.EBuff _buffType, Buff _buff)
@@ -72,7 +72,6 @@ public class BuffComponent : MonoBehaviour
             if (buff.Value.Turn <= 0)
                 removeBuffs.Add(buff.Value.BuffType);
 
-            UnityEngine.Debug.Log("Buff Execute !");
             UI_BuffAlarm _ui = Managers.UI.MakeAnimUI<UI_BuffAlarm>(ownerTrans);
             _ui.SetInfo(buff.Value.BuffType);
             
@@ -84,7 +83,6 @@ public class BuffComponent : MonoBehaviour
             RemoveBuff(buffType);
 
         gameObject.GetComponent<AIController>().BuffToAttack(turnEnd);
-
 
         yield break;
     }

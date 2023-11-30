@@ -159,9 +159,6 @@ public class AIController : MonoBehaviour
             anim.SetTrigger("Skill");
             return;
         }
-
-  
-
         GameObject sTarget = GetComponent<Skill>().Target;
         Vector3 _dest;
 
@@ -270,12 +267,10 @@ public class AIController : MonoBehaviour
     }
     public void BattleAiOn(AIController _target)
     {
-
         Target = _target.gameObject;
         state = State.ProcessBuff;
         buffComp.ExecuteBuffs(FixedTrans);
     }
-
     public void BuffToAttack(bool _turnEnd)
     {
         if (IsDead)
