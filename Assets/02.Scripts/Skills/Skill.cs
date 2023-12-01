@@ -31,21 +31,31 @@ public abstract class Skill : MonoBehaviour
     }
 
 
-    protected void SpawnSkillPrefab(GameObject _target, int _heroId, float yPos = 0, float _skillSize = 2f)
+    protected void SpawnSkillPrefab(GameObject _target, int _heroId, float yPos = 0, float _skillSize = 2f, bool isEnemy = false)
     {
-        GameObject obj = Managers.Resource.Instantiate($"SkillEffect/Skill{_heroId}");
+        GameObject obj;
+        if (!isEnemy)
+            obj = Managers.Resource.Instantiate($"SkillEffect/Skill{_heroId}");
+        else
+            obj = Managers.Resource.Instantiate($"SkillEffect/EnemySkills/ESkill{_heroId}");
+
         obj.GetComponent<SkillAnimEvent>().Owner = Caster;
         obj.GetComponent<SkillAnimEvent>().Target = _target;
         obj.transform.localScale *= _skillSize;
         obj.transform.position = new Vector3(_target.transform.position.x, _target.transform.position.y + yPos, _target.transform.position.z);
     }
-    protected void SpawnSkillPrefab(Transform _target, int _heroId, float yPos = 0, float _skillSize = 2f)
+    protected void SpawnSkillPrefab(Transform _target, int _heroId, float yPos = 0, float _skillSize = 2f, bool isEnemy = false)
     {
-        GameObject obj = Managers.Resource.Instantiate($"SkillEffect/Skill{_heroId}");
+        GameObject obj;
+        if (isEnemy)
+            obj = Managers.Resource.Instantiate($"SkillEffect/Skill{_heroId}");
+        else
+            obj = Managers.Resource.Instantiate($"SkillEffect/EnemySkills/ESkill{_heroId}");
         obj.GetComponent<SkillAnimEvent>().Owner = Caster;
         obj.transform.localScale *= _skillSize;
         obj.transform.position = new Vector3(_target.position.x, _target.position.y + yPos, _target.position.z);
     }
+
 
     protected void ApplyBuff(GameObject _target, int _turn = 2, int _effectPercentage = 0)
     {

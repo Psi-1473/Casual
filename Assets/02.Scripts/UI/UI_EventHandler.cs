@@ -13,8 +13,11 @@ public class UI_EventHandler : MonoBehaviour, IPointerClickHandler, IDragHandler
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		if (OnClickHandler != null)
-			OnClickHandler.Invoke(eventData);
+        if (OnClickHandler != null)
+        {
+            OnClickHandler.Invoke(eventData);
+            Managers.Sound.Play("Effects/Sound_Click");
+        }
 	}
 
 	public void OnDrag(PointerEventData eventData)

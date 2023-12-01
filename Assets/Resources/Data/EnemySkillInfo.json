@@ -1,0 +1,59 @@
+{
+  "skills": [
+    {
+      "id": 4,
+      "name": "강타",
+      "description": "",
+      "lv1": 20,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 0,
+      "buffType": "00000000"
+    },
+    {
+      "id": 5,
+      "name": "독화살",
+      "description": "",
+      "lv1": 20,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 2,
+      "buffType": "00000100"
+    },
+    {
+      "id": 6,
+      "name": "급소 찌르기",
+      "description": "",
+      "lv1": 35,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 0,
+      "buffType": "00000010"
+    },
+    {
+      "id": 7,
+      "name": "전방 베기",
+      "description": "",
+      "lv1": 30,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 1,
+      "buffType": "00000000"
+    },
+    {
+      "id": 8,
+      "name": "휩쓸기",
+      "description": "",
+      "lv1": 30,
+      "lv2": 35,
+      "lv3": 50,
+      "statEffect": 0,
+      "skillType": 1,
+      "buffType": "00001000"
+    }
+  ]
+}

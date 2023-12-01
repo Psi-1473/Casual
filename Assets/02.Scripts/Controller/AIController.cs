@@ -8,7 +8,7 @@ public enum State
 {
     Setting,
     Idle,
-    ProcessBuff,
+    Wait,
     Attack,
     Skill,
     Return,
@@ -28,7 +28,7 @@ public class AIController : MonoBehaviour
     Animator anim;
     StatComponent stat;
     BuffComponent buffComp;
-
+   
     
     [SerializeField]
     Slider hpBar;
@@ -65,8 +65,8 @@ public class AIController : MonoBehaviour
             case State.Idle:
                 OnIdle();
                 break;
-            case State.ProcessBuff:
-                OnProcessBuff();
+            case State.Wait:
+                OnWait();
                 break;
             case State.Attack:
                 OnAttack();
@@ -109,7 +109,7 @@ public class AIController : MonoBehaviour
             Target = null;
         }
     }
-    void OnProcessBuff()
+    void OnWait()
     {
         
     }
@@ -118,9 +118,9 @@ public class AIController : MonoBehaviour
 
         if(stat.Mp == 2 && GetComponent<Skill>() != null)
         {
-            UI_SkillUse _ui = Managers.UI.ShowPopupUI<UI_SkillUse>();
-            _ui.SetInfo(stat.Id);
-            state = State.Skill;
+            state = State.Wait;
+            StopCoroutine("Co_SkillUse");
+            StartCoroutine("Co_SkillUse");
             return;
         }
         if (Stat.Role == 2 || Stat.Role == 3)
@@ -263,12 +263,12 @@ public class AIController : MonoBehaviour
         stat.SetStatByEnemyInfo(_enemyId);
         InitBarUI();
         InitBuffUI();
-        //SetSkill();
+        SetEnemySkill(_enemyId);
     }
     public void BattleAiOn(AIController _target)
     {
         Target = _target.gameObject;
-        state = State.ProcessBuff;
+        state = State.Wait;
         buffComp.ExecuteBuffs(FixedTrans);
     }
     public void BuffToAttack(bool _turnEnd)
@@ -298,7 +298,7 @@ public class AIController : MonoBehaviour
         if (cType == CreatureType.CREATURE_HERO)
             skillType = Type.GetType($"Skill_{stat.Id}");
         else
-            skillType = Type.GetType($"EnemySkill_{stat.Id}");
+            skillType = Type.GetType($"ESkill_{stat.Id}");
 
         if (skillType != null)
         {
@@ -306,10 +306,23 @@ public class AIController : MonoBehaviour
             Skill skill = gameObject.GetComponent(skillType) as Skill;
             skill.Caster = this;
             skill.Center = CenterTrans;
-            skill.SetBuff(_creature.BuffCode);
-        }
+            skill.SetBuff(Managers.Data.SkillDict[stat.Id].buffType);
+        } 
+    }
 
-        
+    void SetEnemySkill(int _enemyId)
+    {
+        Type skillType;
+        skillType = Type.GetType($"ESkill_{_enemyId}");
+
+        if (skillType != null)
+        {
+            gameObject.AddComponent(skillType);
+            Skill skill = gameObject.GetComponent(skillType) as Skill;
+            skill.Caster = this;
+            skill.Center = CenterTrans;
+            skill.SetBuff(Managers.Data.EnemySkillDict[_enemyId].buffType);
+        }
     }
     void InitBarUI()
     {
@@ -354,6 +367,18 @@ public class AIController : MonoBehaviour
         state = State.Idle;
         Managers.Battle.PushOrder(this);
         Managers.Battle.ProceedPhase();
+        yield break;
+    }
+    IEnumerator Co_SkillUse()
+    {
+        bool isEnemy = (cType == CreatureType.CREATURE_ENEMY) ? true : false;
+        UI_SkillUse _ui = Managers.UI.ShowPopupUI<UI_SkillUse>();
+        _ui.SetInfo(stat.Id, isEnemy);
+
+        yield return new WaitForSeconds(0.5f);
+
+        state = State.Skill;
+
         yield break;
     }
 }

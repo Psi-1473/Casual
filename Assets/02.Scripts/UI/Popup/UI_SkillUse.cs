@@ -41,11 +41,22 @@ public class UI_SkillUse : UI_Popup
 
     }
 
-    public void SetInfo(int _heroId)
+    public void SetInfo(int _heroId, bool isEnemy = false)
     {
-        Sprite sprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_heroId}");
-        Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = Managers.Data.SkillDict[_heroId].name;
-        Get<Image>((int)Images.Img_Hero).sprite = sprite;
+        Sprite sprite;
+        if (!isEnemy)
+        {
+            sprite = Managers.Resource.Load<Sprite>($"Images/Heros/{_heroId}");
+            Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = Managers.Data.SkillDict[_heroId].name;
+            Get<Image>((int)Images.Img_Hero).sprite = sprite;
+        }
+        else
+        {
+            sprite = Managers.Resource.Load<Sprite>($"Images/Enemies/{_heroId}");
+            Get<TextMeshProUGUI>((int)Texts.Text_SkillName).text = Managers.Data.EnemySkillDict[_heroId].name;
+            Get<Image>((int)Images.Img_Hero).sprite = sprite;
+        }
+        
     }
 
     public override void OnExit()

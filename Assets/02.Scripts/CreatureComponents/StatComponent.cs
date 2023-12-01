@@ -58,6 +58,7 @@ public class StatComponent : MonoBehaviour
     }
     public void SetStatByEnemyInfo(int _enemyId)
     {
+        id = _enemyId;
         EnemyInfo _info = Managers.Data.EnemyDict[_enemyId];
         SetStat(_info.name, _info.hp, _info.mp, _info.attack, _info.defense, 0, _info.role);
     }

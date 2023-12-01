@@ -19,6 +19,7 @@ public class Managers : MonoBehaviour
     BattleManager _battle = new BattleManager();
     UpgradeManager _upgrade = new UpgradeManager();
     BuffManager _buff = new BuffManager();
+    SoundManager _sound = new SoundManager();
 
 
     public static InputManager Input { get { return Instance._input; } }
@@ -30,6 +31,7 @@ public class Managers : MonoBehaviour
     public static BattleManager Battle { get { return Instance._battle; } }
     public static UpgradeManager Upgrade { get { return Instance._upgrade; } }
     public static BuffManager BuffMgr { get { return Instance._buff; } }
+    public static SoundManager Sound { get { return Instance._sound; } }
    
 
     void Start()
@@ -58,6 +60,7 @@ public class Managers : MonoBehaviour
             s_instance._data.Init();
             s_instance._battle.Init();
             s_instance._buff.Init();
+            s_instance._sound.Init();
 
 
 
@@ -74,6 +77,7 @@ public class Managers : MonoBehaviour
     {
         SceneEx.Clear();
         UI.Clear();
+        Sound.Clear();
     }
 
     public static void SetPlayer(Player player)
