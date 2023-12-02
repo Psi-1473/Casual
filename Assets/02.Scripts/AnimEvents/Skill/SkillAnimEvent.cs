@@ -19,4 +19,9 @@ public class SkillAnimEvent : MonoBehaviour
     {
         Target.GetComponent<AIController>().OnDamaged(Owner.Stat.GetSkillDamage());
     }
+
+    public void PlaySound()
+    {
+        Managers.Sound.Play($"Effects/Skill{Owner.Stat.Id}");
+    }
 }

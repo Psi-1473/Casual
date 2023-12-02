@@ -291,6 +291,7 @@ public class AIController : MonoBehaviour
     }
     #endregion
 
+
     #region Setting Functions (private)
     void SetSkill(Creature _creature)
     {
