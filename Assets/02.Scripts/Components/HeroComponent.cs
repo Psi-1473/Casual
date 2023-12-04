@@ -72,7 +72,6 @@ public class HeroComponent : MonoBehaviour
         {
             if (HeroFormation[i] != null && HeroFormation[i].Id == _hero.Id)  
             {
-                //이미 중복된 영웅입니다.
                 Debug.Log("해당 영웅이 이미 배치되었습니다.");
                 return -1;
             }
@@ -81,7 +80,6 @@ public class HeroComponent : MonoBehaviour
 
         if (setPlace == -1)
         {
-            // 진영이 곽 찼습니다.
             Debug.Log("진영이 꽉 찼습니다.");
             return -1;
         }
