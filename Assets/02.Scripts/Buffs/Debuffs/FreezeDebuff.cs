@@ -8,9 +8,10 @@ public class FreezeDebuff : Buff
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }
-    protected override void ApplyEffect()
+    protected override bool ApplyEffect()
     {
         // 소량의 데미지 주고
+        return true;
     }
 
     public override Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)

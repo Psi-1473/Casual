@@ -71,15 +71,18 @@ public class BuffComponent : MonoBehaviour
         List<Define.EBuff> removeBuffs = new List<Define.EBuff>();
         foreach (var buff in buffDict)
         {
-            buff.Value.Execute();
+            bool playEffect = buff.Value.Execute();
 
             if (buff.Value.Turn <= 0)
                 removeBuffs.Add(buff.Value.BuffType);
 
-            UI_BuffAlarm _ui = Managers.UI.MakeAnimUI<UI_BuffAlarm>(ownerTrans);
-            _ui.SetInfo(buff.Value.BuffType);
-            
-            yield return new WaitForSeconds(0.5f);
+            if (playEffect)
+            {
+                UI_BuffAlarm _ui = Managers.UI.MakeAnimUI<UI_BuffAlarm>(ownerTrans);
+                _ui.SetInfo(buff.Value.BuffType);
+
+                yield return new WaitForSeconds(0.5f);
+            }
 
         }
 

@@ -8,10 +8,10 @@ public class StunDebuff : Buff
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }
-    protected override void ApplyEffect()
+    protected override bool ApplyEffect()
     {
         // 턴 그냥 넘기기
-        
+        return true;
     }
 
     public override Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)

@@ -9,7 +9,7 @@ public class DefenseUpBuff : Buff
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }
-    protected override void ApplyEffect() { }
+    protected override bool ApplyEffect() { return false; }
 
     public override Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)
     {
@@ -21,9 +21,8 @@ public class DefenseUpBuff : Buff
     public override void OnEnter(AIController _target, int _effectPercentage)
     {
         OnExit(_target);
-        int increase = (int)(_target.Stat.Defense * (_effectPercentage * 0.01f));
-        _target.Stat.Defense += increase;
-        increasedValue = increase;
+        int increasedValue = effectPercentage;
+        _target.Stat.Defense += increasedValue;
     }
     public override void OnExit(AIController _target) 
     {
