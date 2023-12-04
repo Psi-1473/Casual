@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,10 @@ public class Inventory : MonoBehaviour
 
 
     public List<List<Item>> Items { get { return items; } }
-    public int Gold { get { return gold; } set { gold = value; } }
-    public int ExpStone { get { return expStone; } set { expStone = value; } }
+    public int Gold { get { return gold; } set { gold = value; OnGoldChanged.Invoke(); } }
+    public int ExpStone { get { return expStone; } set { expStone = value; OnGoldChanged.Invoke(); } }
+
+    public Action OnGoldChanged;
 
     private void Awake()
     {

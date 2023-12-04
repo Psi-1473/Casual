@@ -8,6 +8,8 @@ public class SoundManager
     AudioSource[] audioSources = new AudioSource[(int)Define.Sound.MaxCount];
     Dictionary<string, AudioClip> audioClips = new Dictionary<string, AudioClip>();
 
+    public float Volume { get { return volume; } set { volume = value; audioSources[(int)Define.Sound.Bgm].volume = volume; } }
+
 
     public void Init()
     {

@@ -9,6 +9,8 @@ public class UI_BattleEnd : UI_Popup
     enum GameObjects
     {
         Text_Ment,
+        Text_Gold,
+        Text_Exp,
         Btn_End,
     }
 
@@ -27,10 +29,15 @@ public class UI_BattleEnd : UI_Popup
         BindEvent(Get<GameObject>((int)GameObjects.Btn_End), (data) => { Managers.SceneEx.LoadScene(Define.Scene.Lobby); });
     }
 
-    public void SetText(bool _win)
+    public void SetText(bool _win, int _gold, int _exp)
     {
         if (!_win)
             Get<GameObject>((int)GameObjects.Text_Ment).GetComponent<TextMeshProUGUI>().text = "ฦะ น่";
+
+        Get<GameObject>((int)GameObjects.Text_Gold).GetComponent<TextMeshProUGUI>().text = $"{_gold}";
+        Get<GameObject>((int)GameObjects.Text_Exp).GetComponent<TextMeshProUGUI>().text = $"{_exp}";
+
+
     }
     
 }

@@ -9,7 +9,7 @@
       "backBottom": -1,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 120
     },
     {
       "id": 2,
@@ -20,7 +20,7 @@
       "backBottom": -1,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 140
     },
     {
       "id": 3,
@@ -31,7 +31,7 @@
       "backBottom": -1,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 180
     },
     {
       "id": 4,
@@ -42,7 +42,7 @@
       "backBottom": 3,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 200
     },
     {
       "id": 5,
@@ -53,7 +53,7 @@
       "backBottom": 2,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 210
     },
     {
       "id": 6,
@@ -64,7 +64,7 @@
       "backBottom": -1,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 210
     },
     {
       "id": 7,
@@ -75,7 +75,7 @@
       "backBottom": 2,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 230
     },
     {
       "id": 8,
@@ -86,7 +86,7 @@
       "backBottom": 5,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 240
     },
     {
       "id": 9,
@@ -97,7 +97,7 @@
       "backBottom": 4,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 250
     },
     {
       "id": 10,
@@ -108,7 +108,7 @@
       "backBottom": 5,
       "heroExp": 0,
       "playerExp": 0,
-      "gold": 0
+      "gold": 300
     }
   ]
 }

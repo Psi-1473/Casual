@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class UI_Lobby : UI_Scene
 {
+    Player _player;
     enum Buttons
     {
         Btn_Evolution,
@@ -30,6 +31,14 @@ public class UI_Lobby : UI_Scene
         Init();
     }
 
+    void Start()
+    {
+        SetInfo();
+        SetGoldAndExpStone();
+        _player.Inven.OnGoldChanged = null;
+        _player.Inven.OnGoldChanged += SetGoldAndExpStone;
+    }
+
     public override void Init()
     {
         base.Init();
@@ -43,11 +52,8 @@ public class UI_Lobby : UI_Scene
         BindEvent(GetButton((int)Buttons.Btn_Spawn).gameObject, OnSpawnClicked);
         BindEvent(GetButton((int)Buttons.Btn_Options).gameObject, OnOptionsClicked);
         BindEvent(GetButton((int)Buttons.Btn_Play).gameObject, OnPlayClicked);
-
-        SetInfo();
-        // PointerEventData
-        // Action
     }
+
 
     public void OnHeroClicked(PointerEventData data)
     {
@@ -72,6 +78,7 @@ public class UI_Lobby : UI_Scene
 
     public void OnOptionsClicked(PointerEventData data)
     {
+        Managers.UI.ShowPopupUI<UI_Settings>();
         Debug.Log("Option");
     }
 
@@ -85,5 +92,14 @@ public class UI_Lobby : UI_Scene
     void SetInfo()
     {
         Get<TextMeshProUGUI>((int)Texts.Text_Name).text = $"{Managers.GetPlayer.PlayerName}";
+    }
+
+    void SetGoldAndExpStone()
+    {
+        if (_player == null)
+            _player = Managers.GetPlayer;
+
+        Get<TextMeshProUGUI>((int)Texts.Text_Gold).text = $"{_player.Inven.Gold}";
+        Get<TextMeshProUGUI>((int)Texts.Text_SpawnGold).text = $"{_player.Inven.ExpStone}";
     }
 }

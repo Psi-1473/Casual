@@ -28,7 +28,7 @@ public class AIController : MonoBehaviour
     Animator anim;
     StatComponent stat;
     BuffComponent buffComp;
-   
+    float speed = 5.5f;
     
     [SerializeField]
     Slider hpBar;
@@ -136,7 +136,7 @@ public class AIController : MonoBehaviour
         if (Vector3.Distance(_dest, transform.position) >= 0.1f)
         {
             Vector3 dir = _dest - transform.position;
-            transform.position += dir * Time.deltaTime * 4.5f;
+            transform.position += dir * Time.deltaTime * speed;
             anim.SetBool("Move", true);
         }
         else if (Vector3.Distance(_dest, transform.position) <= 0.1f)
@@ -188,7 +188,7 @@ public class AIController : MonoBehaviour
         {
             Vector3 dir = FixedTrans.position - transform.position;
             anim.SetBool("Move", true);
-            transform.position += dir * Time.deltaTime * 4.5f;
+            transform.position += dir * Time.deltaTime * speed;
 
         }
         else if (Vector3.Distance(FixedTrans.position, transform.position) <= 0.1f)

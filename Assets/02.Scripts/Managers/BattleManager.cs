@@ -152,15 +152,18 @@ public class BattleManager
         if (enemyNum == 0) win = true;
 
         order.Clear();
-
-        if(win)
+        int _rewardGold = 0;
+        int _expStone = 0;
+        if (win)
         {
-            // 1. 보상 주기(x)
+            _rewardGold = Managers.Data.StageDicts[NowChapter][NowStage].gold;
+            _expStone = Managers.Data.StageDicts[NowChapter][NowStage].playerExp;
+            Managers.GetPlayer.Inven.Gold += _rewardGold;
             Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
             // 마지막 챕터라면 다음 챕터 해방(x)
         }
         UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
-        _ui.SetText(win);
+        _ui.SetText(win, _rewardGold, _expStone);
     }
 
     AIController FindTarget(AIController _pawn)

@@ -8,6 +8,7 @@ public class UI_Stage : UI_Popup
 {
     int chapter = 1;
     int clickedStage = 0; // 나중에 스크롤 뷰에 추가할 버튼을 클릭하면 1. clickedStage 갱신, 2. 클릭된 버튼과 clickedStage를 비교하여 같으면 스테이지 시작 다르면 다시 갱신
+    int gold = 0;
 
     List<UI_StageBtn> stages = new List<UI_StageBtn>();
 

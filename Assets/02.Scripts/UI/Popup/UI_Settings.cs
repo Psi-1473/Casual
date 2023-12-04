@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class UI_Settings : UI_Popup
 {
+    SoundManager soundManager = null;
+    Slider slider = null;
     enum Images
     {
         Img_Sound,
@@ -17,6 +19,24 @@ public class UI_Settings : UI_Popup
     void Awake()
     {
         Init();
+    }
+
+    private void Start()
+    {
+        soundManager = Managers.Sound;
+        slider = Get<GameObject>((int)GameObjects.Slider_Sound).GetComponent<Slider>();
+        slider.value = soundManager.Volume;
+    }
+
+    private void Update()
+    {
+        float prevVolume = soundManager.Volume;
+
+        if (prevVolume != slider.value)
+        {
+            soundManager.Volume = slider.value;
+            Debug.Log($"{soundManager.Volume}");
+        }
     }
 
     public override void Init()

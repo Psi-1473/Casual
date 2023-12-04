@@ -11,7 +11,6 @@ public class SkillAnimEvent : MonoBehaviour
     public void AttackEnd()
     {
         Owner.CreatureState = State.Return;
-        //Debug.Log("Attack End");
         Destroy(gameObject);
     }
 
@@ -23,5 +22,10 @@ public class SkillAnimEvent : MonoBehaviour
     public void PlaySound()
     {
         Managers.Sound.Play($"Effects/Skill{Owner.Stat.Id}");
+    }
+
+    public void PlayEnemySound()
+    {
+        Managers.Sound.Play($"Effects/EnemySkill{Owner.Stat.Id}");
     }
 }
