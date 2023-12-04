@@ -51,5 +51,6 @@ public class Define
         Burn = 1 << 1,
         Bleed = 1 << 2,
         Stun = 1 << 3,
+        DefenseUp = 1 << 4,
     }
 }

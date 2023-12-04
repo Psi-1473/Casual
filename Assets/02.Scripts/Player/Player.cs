@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         Managers.SetPlayer(this);
         HeroComp.TakeNewHero(15);
         HeroComp.TakeNewHero(14);
+        HeroComp.TakeNewHero(0);
 
         string k = "00001011";
         int a = 0 << 8;

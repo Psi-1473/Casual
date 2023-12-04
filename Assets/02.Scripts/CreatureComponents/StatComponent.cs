@@ -29,6 +29,7 @@ public class StatComponent : MonoBehaviour
     public int Speed { get { return speed; } set { speed = value; } }
     public int Role { get { return role; } set { speed = value; } }
     public int Grade { get { return grade; } set { speed = value; } }
+    public int SkillDamage { get { return skillDamage; }  set { skillDamage = value; } }
     
 
     public float HpRatio => (float)hp / maxHp;

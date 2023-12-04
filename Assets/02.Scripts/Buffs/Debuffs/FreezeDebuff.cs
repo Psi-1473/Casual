@@ -21,4 +21,7 @@ public class FreezeDebuff : Buff
         Debug.Log("Clone New Buff");
         return newBuff;
     }
+
+    public override void OnEnter(AIController _target, int _effectPercentage) { }
+    public override void OnExit(AIController _target) { }
 }

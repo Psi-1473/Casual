@@ -1,22 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Hero : Creature
 {
+
     int maxGrade;
     int skillDamage;
     bool isPicked = false;
     Item weapon;
     Item armor;
 
-
-
     public int SkillDamage { get { return skillDamage; } set { skillDamage = value; } }
     public int MaxGrade { get { return maxGrade; } set { maxGrade = value; } }
     public bool IsPicked { get { return isPicked; } set { isPicked = value; } }
     public Item Weapon { get { return weapon; }}
     public Item Armor { get { return armor; }}
+
+    public Action OnEquipChanged;
 
     public override void SetNewCreatureInfo(int Id)
     {
@@ -72,36 +74,45 @@ public class Hero : Creature
         {
             if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
             armor = _item;
-            // ¹æ¾î·Â »ó½Â
+            defense += _item.Power;
         }
         else
         {
             if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
             weapon = _item;
-            // °ø°Ý·Â »ó½Â
+            attack += _item.Power;
         }
 
         Managers.GetPlayer.Inven.RemoveItem(_item);
+        if (OnEquipChanged != null) OnEquipChanged.Invoke();
     }
     public void UnEquipItem(string _type)
     {
         if (_type == "Armor")
         {
-            if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
+            if (armor != null)
+            {
+                Managers.GetPlayer.Inven.GainItem(armor);
+                defense -= armor.Power;
+            }
             armor = null;
         }
         else
         {
-            if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
+            if (weapon != null)
+            {
+                Managers.GetPlayer.Inven.GainItem(weapon);
+                attack -= weapon.Power;
+            }
             weapon = null;
-        } 
+        }
+
+        if (OnEquipChanged != null) OnEquipChanged.Invoke();
     }
     public void UnEquipAllItems()
     {
-        if (armor != null) Managers.GetPlayer.Inven.GainItem(armor);
-        if (weapon != null) Managers.GetPlayer.Inven.GainItem(weapon);
-        armor = null;
-        weapon = null;
+        UnEquipItem("Armor");
+        UnEquipItem("Weapon");
     }
 
     public Color GetStarColor()

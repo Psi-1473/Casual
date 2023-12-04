@@ -22,10 +22,14 @@ public class BuffComponent : MonoBehaviour
             buffDict.Add(_buffType, _buff);
             OnBuffAdded.Invoke(_buffType);
         }
+
     }
 
     public void RemoveBuff(Define.EBuff _buffType)
     {
+        if (!buffDict.ContainsKey(_buffType)) return;
+
+        buffDict[_buffType].OnExit(GetComponent<AIController>());
         buffDict.Remove(_buffType);
         OnBuffRemoved.Invoke(_buffType);
     }

@@ -213,9 +213,19 @@ public class AIController : MonoBehaviour
 
         _target.OnDamaged(stat.Attack);
     }
-    public void OnDamaged(int _damage)
+    public void OnDamaged(int _damage, bool isTrueDamage = false)
     {
+        if (!isTrueDamage)
+        {
+            float armor = stat.Defense * 0.01f;
+            int decreasedValue = (int)(_damage * armor);
+            _damage -= decreasedValue;
+        }
         Stat.Hp = Stat.Hp - _damage;
+        
+        UI_DamageText _ui = Managers.UI.MakeAnimUI<UI_DamageText>(FixedTrans);
+        _ui.SetInfo(_damage);
+
         if (Stat.Hp <= 0)
             Die();
     }

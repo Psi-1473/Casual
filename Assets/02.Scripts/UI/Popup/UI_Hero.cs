@@ -107,20 +107,18 @@ public class UI_Hero : UI_Popup
 
     public void SetHero(Hero _hero)
     {
-
         clickedHero = _hero;
+        clickedHero.OnEquipChanged = null;
+        clickedHero.OnEquipChanged += RenewEquipTexts;
         string role = "";
         string grade = "";
         int maxExp = Managers.Data.ExpDict[clickedHero.Level].exp;
         int nowExp = Managers.GetPlayer.Inven.ExpStone;
         
         Get<TextMeshProUGUI>((int)Texts.Text_HeroName).text = _hero.CreatureName;
-        Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{_hero.Attack}";
-        Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{_hero.Defense}";
+        RenewEquipTexts();
         Get<TextMeshProUGUI>((int)Texts.Text_Level).text = $"Lv. {_hero.Level}";
         Get<TextMeshProUGUI>((int)Texts.Text_ExpStone).text = $"{nowExp} / {maxExp}";
-
-
 
         switch(_hero.Grade)
         {
@@ -238,6 +236,11 @@ public class UI_Hero : UI_Popup
 
         UI_Equipment _ui = Managers.UI.ShowPopupUI<UI_Equipment>();
         _ui.SetSlots(clickedHero, equipType, this);
+    }
+    void RenewEquipTexts()
+    {
+        Get<TextMeshProUGUI>((int)Texts.Text_Attack).text = $"{clickedHero.Attack}";
+        Get<TextMeshProUGUI>((int)Texts.Text_Armor).text = $"{clickedHero.Defense}";
     }
 
     public void RenewItem()

@@ -20,7 +20,7 @@ public class Skill_0 : Skill
                 return;
             // 타겟 방어력 증가 코드 추가
             SpawnSkillPrefab(target, heroId, 0.5f, 8);
-            ApplyBuff(target);
+            ApplyBuff(target, 2, Caster.Stat.SkillDamage);
         }
     
     }

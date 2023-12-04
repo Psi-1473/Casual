@@ -35,6 +35,9 @@ public abstract class Buff
         buffType = _buffType;
     }
 
+
+    public abstract void OnEnter(AIController _target, int _effectPercentage);
+    public abstract void OnExit(AIController _target);
     public abstract Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType);
 
 

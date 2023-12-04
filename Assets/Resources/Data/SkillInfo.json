@@ -9,7 +9,7 @@
       "lv3": 50,
       "statEffect": 0,
       "skillType": 3,
-      "buffType": "00000000"
+      "buffType": "00010000"
     },
     {
       "id": 1,

@@ -20,4 +20,7 @@ public class BleedDebuff : Buff
         newBuff.SetInfo(_caster, _turn, _effectPercentage, _owningComp, _buffType);
         return newBuff;
     }
+
+    public override void OnEnter(AIController _target, int _effectPercentage) { }
+    public override void OnExit(AIController _target) { }
 }

@@ -12,11 +12,13 @@ public class BuffManager
         BurnDebuff _burn  = new BurnDebuff();
         BleedDebuff _bleed = new BleedDebuff();
         StunDebuff _stun = new StunDebuff();
+        DefenseUpBuff _defenseUp = new DefenseUpBuff();
 
         buffDict.Add(Define.EBuff.Freeze, _freeze);
         buffDict.Add(Define.EBuff.Burn, _burn);
         buffDict.Add(Define.EBuff.Bleed, _bleed);
         buffDict.Add(Define.EBuff.Stun, _stun);
+        buffDict.Add(Define.EBuff.DefenseUp, _defenseUp);
     }
 
     public void TakeBuff(Define.EBuff _buffType, AIController _caster, AIController _target, int _turn, int _effectPercentage)
@@ -24,6 +26,7 @@ public class BuffManager
         
         BuffComponent buffComp = _target.GetComponent<BuffComponent>();
         Buff newBuff = buffDict[_buffType].Clone(_caster, _turn, _effectPercentage, buffComp, _buffType);
+        newBuff.OnEnter(_target, _effectPercentage);
         buffComp.GetNewBuff(_buffType, newBuff);
     }
 
@@ -37,6 +40,7 @@ public class BuffManager
         CheckAndAddBuffType(eBuffs, Define.EBuff.Burn, _buffCode);
         CheckAndAddBuffType(eBuffs, Define.EBuff.Bleed, _buffCode);
         CheckAndAddBuffType(eBuffs, Define.EBuff.Stun, _buffCode);
+        CheckAndAddBuffType(eBuffs, Define.EBuff.DefenseUp, _buffCode);
 
 
         return eBuffs;
