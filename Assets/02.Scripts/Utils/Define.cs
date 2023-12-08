@@ -33,6 +33,7 @@ public class Define
     public enum Scene
     {
         None,
+        First,
         Login,
         Lobby,
         InGame,
