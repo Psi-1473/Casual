@@ -15,6 +15,9 @@ public class HeroSaveData
     public int speed;
     public int role;
     public int grade;
+    public bool isPicked;
+    public int pickedPos;
+    public int maxGrade;
 
     public int weaponId = -1;
     public int armorId = -1;
@@ -31,6 +34,9 @@ public class HeroSaveData
         speed = _hero.Speed;
         role = _hero.Role;
         grade = _hero.Grade;
+        isPicked = _hero.IsPicked;
+        pickedPos = _hero.PickedPos;
+        maxGrade = _hero.MaxGrade;
 
         if (_hero.Weapon != null)
             weaponId = _hero.Weapon.Id;

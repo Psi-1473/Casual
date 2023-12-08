@@ -9,12 +9,14 @@ public class Hero : Creature
     int maxGrade;
     int skillDamage;
     bool isPicked = false;
+    int pickedPos = -1;
     Item weapon;
     Item armor;
 
     public int SkillDamage { get { return skillDamage; } set { skillDamage = value; } }
     public int MaxGrade { get { return maxGrade; } set { maxGrade = value; } }
     public bool IsPicked { get { return isPicked; } set { isPicked = value; } }
+    public int PickedPos { get { return pickedPos; } set { pickedPos = value; } }
     public Item Weapon { get { return weapon; }}
     public Item Armor { get { return armor; }}
 
@@ -54,6 +56,10 @@ public class Hero : Creature
         speed = _saveData.speed;
         role = _saveData.role;
         grade = _saveData.grade;
+        isPicked = _saveData.isPicked;
+        pickedPos = _saveData.pickedPos;
+        maxGrade = _saveData.maxGrade;
+
 
         if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
 

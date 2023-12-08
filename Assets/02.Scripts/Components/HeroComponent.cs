@@ -28,7 +28,7 @@ public class HeroComponent : MonoBehaviour
     [SerializeField]
     public Dictionary<int, Hero> HeroFormation { get; private set; } = new Dictionary<int, Hero>();
 
-    private void Start()
+    private void Awake()
     {
         Init();
     }
@@ -47,18 +47,21 @@ public class HeroComponent : MonoBehaviour
         Hero hero = new Hero();
         hero.SetNewCreatureInfo(_heroId);
         heros.Add(hero);
+        Managers.Save.SavePlayerData(Managers.GetPlayer);
     }
 
     public void TakeSavedHero(HeroSaveData _heroData)
     {
         Hero hero = new Hero();
         hero.SetCreatureBySaveData(_heroData);
+        SetSavedFormation(hero);
         heros.Add(hero);
     }
 
     public void RemoveHero(Hero _hero)
     {
         heros.Remove(_hero);
+        Managers.Save.SavePlayerData(Managers.GetPlayer);
     }
     public void Sort()
     {
@@ -68,6 +71,7 @@ public class HeroComponent : MonoBehaviour
     public void SetOffHeroFormation(int _place)
     {
         HeroFormation[_place].IsPicked = false;
+        HeroFormation[_place].PickedPos = -1;
         HeroFormation[_place] = null;
     }
     public int SetHeroFormation(Hero _hero)
@@ -91,8 +95,17 @@ public class HeroComponent : MonoBehaviour
         {
             HeroFormation[setPlace] = _hero;
             _hero.IsPicked = true;
+            _hero.PickedPos = setPlace;
             return setPlace;
         }
+    }
+
+    public void SetSavedFormation(Hero _hero)
+    {
+        if (_hero.IsPicked == false)
+            return;
+
+        HeroFormation[_hero.PickedPos] = _hero;
     }
 
     

@@ -6,24 +6,6 @@ using UnityEngine;
 
 public class SaveLoadManager
 {
-    public void SaveHeroData()
-    {
-        BinaryFormatter binaryFormatter = new BinaryFormatter();
-        List<Hero> heroInfo = Managers.GetPlayer.HeroComp.Heros;
-        List<HeroSaveData> herosData = new List<HeroSaveData>();
-
-        for (int i = 0; i < heroInfo.Count; i++)
-        {
-            HeroSaveData heroSave = new HeroSaveData();
-            heroSave.SetInfo(heroInfo[i]);
-            herosData.Add(heroSave);
-        }
-
-        //string path = Application.persistentDataPath + "/herosave.json";
-        //string data = JsonConvert.SerializeObject
-        //File.WriteAllText(path, data);
-    }
-
     public void SavePlayerData(Player player)
     {
         string path = Application.persistentDataPath + "/save.json";
@@ -52,6 +34,7 @@ public class SaveLoadManager
         foreach(var heroData in saveData.herosData)
         {
             Managers.GetPlayer.HeroComp.TakeSavedHero(heroData);
+            
         }
 
         foreach (var misc in saveData.miscData)

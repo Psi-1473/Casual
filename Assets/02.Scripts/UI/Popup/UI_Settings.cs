@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UI_Settings : UI_Popup
@@ -15,6 +16,7 @@ public class UI_Settings : UI_Popup
     enum GameObjects
     {
         Slider_Sound,
+        Btn_EndGame,
     }
     void Awake()
     {
@@ -45,11 +47,14 @@ public class UI_Settings : UI_Popup
 
         Bind<Image>(typeof(Images));
         Bind<GameObject>(typeof(GameObjects));
+
+        BindEvent(Get<GameObject>((int)GameObjects.Btn_EndGame).gameObject, GameEnd);
     }
 
-    void GameEnd()
+    void GameEnd(PointerEventData data)
     {
-        
+        Managers.Save.SavePlayerData(Managers.GetPlayer);
+        Application.Quit();
     }
 
     
