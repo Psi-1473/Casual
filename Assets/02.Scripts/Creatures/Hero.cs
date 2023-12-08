@@ -41,6 +41,56 @@ public class Hero : Creature
         skillDamage = Managers.Data.SkillDict[Id].lv1;
         buffCode = Managers.Data.SkillDict[Id].buffType;
     }
+
+    public void SetCreatureBySaveData(HeroSaveData _saveData)
+    {
+        level = _saveData.level;
+        creatureName = _saveData.creatureName;
+        id = _saveData.id;
+        maxHp = _saveData.maxHp;
+        maxMp = _saveData.maxMp;
+        attack = _saveData.attack;
+        defense = _saveData.defense;
+        speed = _saveData.speed;
+        role = _saveData.role;
+        grade = _saveData.grade;
+
+        if (Managers.Data.SkillDict.ContainsKey(Id) == false) return;
+
+        skillDamage = Managers.Data.SkillDict[Id].lv1;
+        buffCode = Managers.Data.SkillDict[Id].buffType;
+
+        if (level == 5)
+            skillDamage = Managers.Data.SkillDict[Id].lv2;
+
+        if (level == 10)
+            skillDamage = Managers.Data.SkillDict[Id].lv3;
+
+        if(_saveData.weaponId != -1)
+        {
+            ItemInfo savedWeapon = Managers.Data.EquipDict[_saveData.weaponId];
+            if (savedWeapon != null)
+            {
+                Item item = new Item();
+                item.SetInfo(savedWeapon, 1);
+                weapon = item;
+            }
+        }
+
+        if (_saveData.armorId != -1)
+        {
+            ItemInfo savedArmor = Managers.Data.EquipDict[_saveData.armorId];
+            if (savedArmor != null)
+            {
+                Item item = new Item();
+                item.SetInfo(savedArmor, 1);
+                armor = item;
+            }
+        }
+
+
+
+    }
     public void LevelUp()
     {
         HeroInfo heroInfo = Managers.Data.HeroDict[Id];

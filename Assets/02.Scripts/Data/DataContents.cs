@@ -104,6 +104,7 @@ public class ItemInfo
     public int power;
     public string itemType;
     public int grade;
+    public int price;
 }
 
 [Serializable]

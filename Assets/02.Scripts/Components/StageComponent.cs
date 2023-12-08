@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class StageComponent : MonoBehaviour
 {
-    int openedChapter = 3;
-    int openedStage = 2;
+    int openedChapter = 1;
+    int openedStage = 1;
     
     public int OpenedChapter { get { return openedChapter; } set { openedChapter = value; } }
     public int OpenedStage { get { return openedStage; } set { openedStage = value; } }

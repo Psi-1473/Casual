@@ -15,8 +15,12 @@ public class Inventory : MonoBehaviour
 
 
     public List<List<Item>> Items { get { return items; } }
-    public int Gold { get { return gold; } set { gold = value; OnGoldChanged.Invoke(); } }
-    public int ExpStone { get { return expStone; } set { expStone = value; OnGoldChanged.Invoke(); } }
+    public int Gold { get { return gold; } set { gold = value; 
+            if(OnGoldChanged != null)
+                OnGoldChanged.Invoke(); } }
+    public int ExpStone { get { return expStone; } set { expStone = value;
+            if (OnGoldChanged != null)
+                OnGoldChanged.Invoke(); } }
 
     public Action OnGoldChanged;
 
@@ -57,6 +61,14 @@ public class Inventory : MonoBehaviour
         }
 
         _items[idx].Number += _count;
+    }
+    public void GainSavedItem(ItemSaveData _item)
+    {
+        List<Item> _items = items[GetItemTypeId(_item.type)];
+        Item item = new Item();
+        item.SetInfoBySavedData(_item);
+        _items.Add(item);
+
     }
 
     public void RemoveItem(Item _item, int _number = 1)

@@ -898,6 +898,12 @@
       "url": "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox.schema.json"
     },
     {
+      "name": "Devbox Plugin",
+      "description": "Configuration for a Devbox plugin specification",
+      "fileMatch": ["devbox-plugin.json"],
+      "url": "https://raw.githubusercontent.com/jetpack-io/devbox/main/.schema/devbox-plugin.schema.json"
+    },
+    {
       "name": "Drupal Breakpoints",
       "description": "Drupal configuration for breakpoints",
       "fileMatch": ["*.breakpoints.yml"],
@@ -2769,10 +2775,10 @@
       "url": "https://json.schemastore.org/netlify.json"
     },
     {
-      "name": "Nexus-as-Code Data Model",
-      "description": "Cisco Nexus-as-Code Data Model",
+      "name": "Network-as-Code Data Model",
+      "description": "Cisco Network-as-Code Data Model",
       "fileMatch": ["*.nac.yml", "*.nac.yaml", "*.aac.yml", "*.aac.yaml"],
-      "url": "https://raw.githubusercontent.com/netascode/nac-validate/main/schema.json"
+      "url": "https://raw.githubusercontent.com/netascode/schema/main/schema.json"
     },
     {
       "name": "Nightwatch.js",
@@ -4704,7 +4710,7 @@
       "name": "Gradle Enterprise",
       "description": "Gradle Enterprise configuration",
       "fileMatch": ["*gradle-enterprise.yml", "*gradle-enterprise.yaml"],
-      "url": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-8.json",
+      "url": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-9.json",
       "versions": {
         "1.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-1.json",
         "2.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-2.json",
@@ -4713,7 +4719,8 @@
         "5.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-5.json",
         "6.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-6.json",
         "7.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-7.json",
-        "8.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-8.json"
+        "8.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-8.json",
+        "9.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-9.json"
       }
     },
     {

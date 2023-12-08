@@ -2,19 +2,21 @@
   "items": [
     {
       "id": 0,
-      "name": "노말 영웅 티켓",
+      "name": "티켓(N)",
       "description": "영웅 소환에서 '일반 소환'이 가능하다.",
       "power": 0,
       "itemType": "Misc",
-      "grade": 0
+      "grade": 0,
+      "price": 50
     },
     {
       "id": 1,
-      "name": "레어 영웅 티켓",
+      "name": "티켓(R)",
       "description": "영웅 소환에서 '레어 소환'이 가능하다.",
       "power": 0,
       "itemType": "Misc",
-      "grade": 0
+      "grade": 0,
+      "price": 250
     }
   ]
 }

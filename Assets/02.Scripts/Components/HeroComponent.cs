@@ -22,12 +22,8 @@ public class HeroComponent : MonoBehaviour
 {
     const int HERO_NONE = -1;
 
-    Dictionary<int, int> heroCount = new Dictionary<int, int>();
-
     List<Hero> heros = new List<Hero>();
-
     public List<Hero> Heros { get { return heros; } }
-    public Dictionary<int, int> HeroCount { get { return heroCount; } }
 
     [SerializeField]
     public Dictionary<int, Hero> HeroFormation { get; private set; } = new Dictionary<int, Hero>();
@@ -52,6 +48,14 @@ public class HeroComponent : MonoBehaviour
         hero.SetNewCreatureInfo(_heroId);
         heros.Add(hero);
     }
+
+    public void TakeSavedHero(HeroSaveData _heroData)
+    {
+        Hero hero = new Hero();
+        hero.SetCreatureBySaveData(_heroData);
+        heros.Add(hero);
+    }
+
     public void RemoveHero(Hero _hero)
     {
         heros.Remove(_hero);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum ItemType
 {
     Equip,
@@ -38,5 +39,17 @@ public class Item
         power = _info.power;
         number = _count;
         grade = _info.grade;
+    }
+    
+    public void SetInfoBySavedData(ItemSaveData _itemData)
+    {
+        id = _itemData.id;
+        itemName = _itemData.itemName;
+        description = _itemData.description;
+        type = _itemData.type;
+        itemType = _itemData.itemType;
+        power = _itemData.power;
+        number = _itemData.number;
+        grade = _itemData.grade;
     }
 }

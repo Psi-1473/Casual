@@ -20,6 +20,7 @@ public class Managers : MonoBehaviour
     UpgradeManager _upgrade = new UpgradeManager();
     BuffManager _buff = new BuffManager();
     SoundManager _sound = new SoundManager();
+    SaveLoadManager _save = new SaveLoadManager();
 
 
     public static InputManager Input { get { return Instance._input; } }
@@ -32,6 +33,7 @@ public class Managers : MonoBehaviour
     public static UpgradeManager Upgrade { get { return Instance._upgrade; } }
     public static BuffManager BuffMgr { get { return Instance._buff; } }
     public static SoundManager Sound { get { return Instance._sound; } }
+    public static SaveLoadManager Save { get { return Instance._save; } }
    
 
     void Start()
@@ -56,13 +58,13 @@ public class Managers : MonoBehaviour
             }
             DontDestroyOnLoad(go);
 
+
+
             s_instance = go.GetComponent<Managers>();
             s_instance._data.Init();
             s_instance._battle.Init();
             s_instance._buff.Init();
             s_instance._sound.Init();
-
-
 
             GameObject player = GameObject.Find("Player");
             if (player == null)
