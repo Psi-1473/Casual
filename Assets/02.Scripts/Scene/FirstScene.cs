@@ -15,7 +15,10 @@ public class FirstScene : BaseScene
         SceneType = Define.Scene.First;
 
         if (Managers.Save.LoadPlayerData() == true)
+        {
             Managers.SceneEx.LoadScene(Define.Scene.Lobby);
+            Managers.GetPlayer.StartFirst();
+        }
         else
             Managers.SceneEx.LoadScene(Define.Scene.Login);
     }
