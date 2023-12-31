@@ -51,7 +51,20 @@ public class StatComponent : MonoBehaviour
         return (skillDamage * 0.01f);
     }
 
-
+    public void SetStat(Hero _hero, int _id)
+    {
+        if(_hero == null)
+        {
+            id = _id;
+            EnemyInfo _info = Managers.Data.EnemyDict[_id];
+            SetStat(_info.name, _info.hp, _info.mp, _info.attack, _info.defense, 0, _info.role);
+        }
+        else
+        {
+            id = _hero.Id;
+            SetStat(_hero.CreatureName, _hero.MaxHp, _hero.MaxMp, _hero.Attack, _hero.Defense, 0, _hero.Role, _hero.Grade, _hero.SkillDamage);
+        }
+    }
     public void SetStatByHeroInfo(Hero _hero)
     {
         id = _hero.Id;

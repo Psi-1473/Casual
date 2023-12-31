@@ -17,11 +17,9 @@ public class BattleManager
     int enemyNum = 0;
     int heroNum = 0;
 
+    List<OrderInfo> order = new List<OrderInfo>();
     List<GameObject> heros = new List<GameObject>();
     List<GameObject> enemies = new List<GameObject>();
-
-    List<OrderInfo> order = new List<OrderInfo>();
-    
 
     public List<GameObject> Heros { get { return heros; }  }
     public List<GameObject> Enemies { get { return enemies; } }
@@ -68,7 +66,6 @@ public class BattleManager
 
     public void BeginBattle()
     {
-        Debug.Log("배틀 시작");
         heroNum = 0;
         enemyNum = 0;
 
@@ -92,19 +89,12 @@ public class BattleManager
 
         ProceedPhase();
     }
-
     public void ProceedPhase()
     {
-        //Debug.Log("Proceed Phase ! ");
-        // 1. 공격할 Creature 뽑아온 뒤 타겟 설정
         if (heroNum == 0 || enemyNum == 0)
-        {
             EndBattle();
-            Debug.Log("END Battle");
-        }
         else
         {
-
             OrderInfo info = PopOrder();
             AIController attacker = info.creatureAI;
 
@@ -117,19 +107,38 @@ public class BattleManager
             AIController target = FindTarget(attacker);
             int remainToAttack = info.remainToAttack;
 
-            // 2. 공격할 Creature의 공격까지 남은 시간만큼 남은 애들 시간 차감
             for (int i = 0; i < order.Count; i++)
                 DecreaseAttackGage(i, remainToAttack);
 
-            // 3. 공격자의 타겟 공격 전투 알고리즘 시작.
-            attacker.BattleAiOn(target);
+            attacker.BeginTurn(target);
         }
     }
+    public void EndBattle()
+    {
+        bool win = (enemyNum == 0);
+
+        order.Clear();
+
+        int _rewardGold = 0;
+        int _expStone = 0;
+        if (win)
+        {
+            _rewardGold = Managers.Data.StageDicts[NowChapter][NowStage].gold;
+            _expStone = Managers.Data.StageDicts[NowChapter][NowStage].playerExp;
+            Managers.GetPlayer.Inven.Gold += _rewardGold;
+            Managers.GetPlayer.Inven.ExpStone += _expStone;
+
+            Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
+        }
+        UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
+        _ui.SetText(win, _rewardGold, _expStone);
+    }
+
 
     public void RemoveCreature(GameObject obj, int formationNum)
     {
         
-        if (obj.GetComponent<AIController>().CType == CreatureType.CREATURE_HERO)
+        if (obj.GetComponent<AIController>().CType == Define.CreatureType.CREATURE_HERO)
         {
             heros[formationNum] = null;
             heroNum--;
@@ -137,7 +146,7 @@ public class BattleManager
             Debug.Log($" Left Hero : {heroNum}");
         }
 
-        if (obj.GetComponent<AIController>().CType == CreatureType.CREATURE_ENEMY)
+        if (obj.GetComponent<AIController>().CType == Define.CreatureType.CREATURE_ENEMY)
         {
             enemies[formationNum] = null;
             enemyNum--;
@@ -146,62 +155,9 @@ public class BattleManager
         }
     }
 
-    public void EndBattle()
-    {
-        bool win = false;
-        if (enemyNum == 0) win = true;
+ 
 
-        order.Clear();
-        int _rewardGold = 0;
-        int _expStone = 0;
-        if (win)
-        {
-            _rewardGold = Managers.Data.StageDicts[NowChapter][NowStage].gold;
-            _expStone = Managers.Data.StageDicts[NowChapter][NowStage].playerExp;
-            Managers.GetPlayer.Inven.Gold += _rewardGold;
-            Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
-            // 마지막 챕터라면 다음 챕터 해방(x)
-        }
-        UI_BattleEnd _ui = Managers.UI.ShowPopupUI<UI_BattleEnd>();
-        _ui.SetText(win, _rewardGold, _expStone);
-    }
-
-    AIController FindTarget(AIController _pawn)
-    {
-        AIController target = null;
-        if (_pawn.CType == CreatureType.CREATURE_HERO)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (enemies[i] != null)
-                {
-                    target = enemies[i].GetComponent<AIController>();
-                    break;
-                }
-            }
-        }
-        else if (_pawn.CType == CreatureType.CREATURE_ENEMY)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (heros[i] != null)
-                {
-                    target = heros[i].GetComponent<AIController>();
-                    break;
-                }
-            }
-        }
-
-        return target;
-    }
-
-    void DecreaseAttackGage(int _idx, int _value)
-    {
-        order[_idx].remainToAttack -= _value;
-
-        if (order[_idx].remainToAttack < 0)
-            order[_idx].remainToAttack = 0;
-    }
+ 
     public void PushOrder(AIController _pawn)
     {
         OrderInfo info = new OrderInfo();
@@ -224,10 +180,7 @@ public class BattleManager
 
             now = next;
         }
-
-        //Debug.Log($"Push Creature! : {_pawn.name}, {MAX_GAGE - _pawn.Stat.Speed}");
     }
-
     OrderInfo PopOrder()
     {
         OrderInfo retInfo = order[0];
@@ -240,7 +193,6 @@ public class BattleManager
 
         return retInfo;
     }
-
     void Heapify(int _lastIndex)
     {
         int now = 0;
@@ -267,4 +219,46 @@ public class BattleManager
         }
     }
 
+    AIController FindTarget(AIController _pawn)
+    {
+        AIController target = null;
+        if (_pawn.CType == Define.CreatureType.CREATURE_HERO)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (enemies[i] != null)
+                {
+                    target = enemies[i].GetComponent<AIController>();
+                    break;
+                }
+            }
+        }
+        else if (_pawn.CType == Define.CreatureType.CREATURE_ENEMY)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (heros[i] != null)
+                {
+                    target = heros[i].GetComponent<AIController>();
+                    break;
+                }
+            }
+        }
+
+        return target;
+    }
+    void DecreaseAttackGage(int _idx, int _value)
+    {
+        order[_idx].remainToAttack -= _value;
+
+        if (order[_idx].remainToAttack < 0)
+            order[_idx].remainToAttack = 0;
+    }
+    void TakeReward()
+    {
+        
+       //_expStone = Managers.Data.StageDicts[NowChapter][NowStage].playerExp;
+        Managers.GetPlayer.Inven.Gold += Managers.Data.StageDicts[NowChapter][NowStage].gold;
+        Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
+    }
 }

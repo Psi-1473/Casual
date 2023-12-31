@@ -4,27 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum State
-{
-    Setting,
-    Idle,
-    Wait,
-    Attack,
-    Skill,
-    Return,
-}
-public enum CreatureType
-{
-    CREATURE_HERO,
-    CREATURE_ENEMY
-}
-
+using State = Define.State;
+using CreatureType = Define.CreatureType;
 
 public class AIController : MonoBehaviour
 {
     Creature originalCreature; // 경험치 적용시킬 용도
-    State state = State.Setting;
-    CreatureType cType = CreatureType.CREATURE_HERO;
+    Define.State state = Define.State.Setting;
+    Define.CreatureType cType = Define.CreatureType.CREATURE_HERO;
     Animator anim;
     StatComponent stat;
     BuffComponent buffComp;
@@ -45,14 +32,12 @@ public class AIController : MonoBehaviour
     public CreatureType CType { get { return cType; } private set { cType = value; } }
     public Action OnStatChanged = null;
 
-
     void Awake()
     {
         anim = GetComponentInChildren<Animator>();
         stat = GetComponent<StatComponent>();
         buffComp = GetComponent<BuffComponent>();
-        transform.GetChild(0).gameObject.AddComponent<CreatureAnimEvent>();
- 
+        transform.GetChild(0).gameObject.AddComponent<CreatureAnimEvent>(); // 
     }
 
     void Update()
@@ -65,8 +50,11 @@ public class AIController : MonoBehaviour
             case State.Idle:
                 OnIdle();
                 break;
-            case State.Wait:
-                OnWait();
+            case State.TurnStart:
+                OnTurnStart();
+                break;
+            case State.MoveToEnemy:
+                OnMoveToEnemey();
                 break;
             case State.Attack:
                 OnAttack();
@@ -83,135 +71,90 @@ public class AIController : MonoBehaviour
     #region Update Functions
     void OnSetting()
     {
-        // 타겟이 있으면 실행 안되게
         if (Managers.SceneEx.CurrentScene.SceneType != Define.Scene.InGame)
             return;
 
-        if (Vector3.Distance(FixedTrans.position, transform.position) >= 0.1f)
-        {
-            Vector3 dir = FixedTrans.position - transform.position;
-            transform.position += dir * Time.deltaTime * 1.5f;
-            anim.SetBool("Move", true);
-        }
-        else if (Vector3.Distance(FixedTrans.position, transform.position) <= 0.1f)
-        {
-            anim.SetBool("Move", false);
-            state = State.Idle;
-        }
+        Move(FixedTrans.position, 2.5f, State.Idle);
     }
     void OnIdle()
     {
-        if (Target == null)
-            return;
-        else
-        {
-            Attack(Target.GetComponent<AIController>());
-            Target = null;
-        }
-    }
-    void OnWait()
-    {
         
     }
-    void OnAttack()
+    void OnTurnStart()
     {
-
-        if(stat.Mp == 2 && GetComponent<Skill>() != null)
+        if (stat.Mp == 2 && GetComponent<Skill>() != null)
         {
-            state = State.Wait;
             StopCoroutine("Co_SkillUse");
             StartCoroutine("Co_SkillUse");
-            return;
         }
-        if (Stat.Role == 2 || Stat.Role == 3)
-        {
-            state = State.Idle;
-            return;
-        }
-
+        state = State.MoveToEnemy;
+    }
+    void OnMoveToEnemey()
+    {
         Vector3 _dest = new Vector3(Target.transform.position.x + (2.3f * gameObject.transform.localScale.x / 2),
             Target.transform.position.y,
             Target.transform.position.z);
 
-        if (Vector3.Distance(_dest, transform.position) >= 0.1f)
+        if (stat.Mp == 2 && GetComponent<Skill>() != null)
         {
-            Vector3 dir = _dest - transform.position;
-            transform.position += dir * Time.deltaTime * speed;
-            anim.SetBool("Move", true);
+            Move(_dest, speed, State.Skill);
+            return;
         }
-        else if (Vector3.Distance(_dest, transform.position) <= 0.1f)
+        if (Stat.Role == 2 || Stat.Role == 3)
         {
-            anim.SetBool("Move", false);
-            state = State.Idle;
+            state = State.Attack;
+            return;
         }
+
+        Move(_dest, speed, State.Attack);
+    }
+    void OnAttack()
+    {
+        state = State.Idle;
+        Attack(Target.GetComponent<AIController>());
+        Target = null;
     }
     void OnSkill()
     {
+        state = State.Idle;
         if (Target != null)
         {
             GetComponent<Skill>().Target = Target;
             Target = null;
         }
         stat.Mp = 0;
-        if(GetComponent<Skill>().SType == SkillType.RangeSingle || GetComponent<Skill>().SType == SkillType.RangeMulti)
-        {
-            state = State.Idle;
-            anim.SetTrigger("Skill");
-            return;
-        }
-        GameObject sTarget = GetComponent<Skill>().Target;
-        Vector3 _dest;
-
-        if (GetComponent<Skill>().SType == SkillType.MeleeMulti)
-            _dest = CenterTrans.position;
-        else
-            _dest = new Vector3(sTarget.transform.position.x + (2.3f * gameObject.transform.localScale.x / 2),
-               sTarget.transform.position.y,
-               sTarget.transform.position.z);
-
-        if (Vector3.Distance(_dest, transform.position) >= 0.1f)
-        {
-            Vector3 dir = _dest - transform.position;
-            transform.position += dir * Time.deltaTime * 4.5f;
-            anim.SetBool("Move", true);
-        }
-        else if (Vector3.Distance(_dest, transform.position) <= 0.1f)
-        {
-            anim.SetBool("Move", false);
-            state = State.Idle;
-            anim.SetTrigger("Skill");
-        }
+        anim.SetTrigger("Skill");
+        return;
     }
     void OnReturn()
     {
-        if (Vector3.Distance(FixedTrans.position, transform.position) >= 0.1f)
-        {
-            Vector3 dir = FixedTrans.position - transform.position;
-            anim.SetBool("Move", true);
-            transform.position += dir * Time.deltaTime * speed;
-
-        }
-        else if (Vector3.Distance(FixedTrans.position, transform.position) <= 0.1f)
-        {
-            anim.SetBool("Move", false);
-            Target = null;
-            state = State.Idle;
-            StopCoroutine("Co_TurnEnd");
-            StartCoroutine("Co_TurnEnd", 0.3f);
-        }
-
+        Move(FixedTrans.position, speed, State.Idle);
     }
     #endregion
 
-    #region Battle Functions
-    void Attack(AIController _target)
+    #region Battle Functions (public)
+    public void BeginTurn(AIController _target)
     {
-        anim.SetTrigger("Attack");
+        Target = _target.gameObject;
+        state = State.Idle;
+        buffComp.ExecuteBuffs(FixedTrans);
+    }
+    public void CompleteBuffExecution(bool _turnEnd)
+    {
+        if (IsDead)
+        {
+            Managers.Battle.ProceedPhase();
+            return;
+        }
 
-        if(GetComponent<Skill>() != null)
-            stat.Mp++;
+        if (!_turnEnd)
+        {
+            state = State.TurnStart;
+            return;
+        }
 
-        _target.OnDamaged(stat.Attack);
+        StopCoroutine("Co_TurnEnd");
+        StartCoroutine("Co_TurnEnd", 0.5f);
     }
     public void OnDamaged(int _damage, bool isTrueDamage = false)
     {
@@ -235,10 +178,50 @@ public class AIController : MonoBehaviour
         Stat.Hp = Stat.Hp + value;
         if (Stat.Hp > Stat.MaxHp)
             Stat.Hp = Stat.MaxHp;
-        Debug.Log($"Heal! : + {value},  {Stat.Hp}");
-        
+    }
+    #endregion
 
-        
+    #region Battle Functions (private)
+    void Attack(AIController _target)
+    {
+        if (GetComponent<Skill>() != null)
+            stat.Mp++;
+
+        anim.SetTrigger("Attack");
+        _target.OnDamaged(stat.Attack);
+    }
+    void Move(Vector3 _dest, float _speed, State _nextState)
+    {
+        if (stat.Mp == 2 && GetComponent<Skill>() != null && _nextState == State.Skill)
+        {
+            SkillType _sType = GetComponent<Skill>().SType;
+            if (_sType == SkillType.RangeSingle || _sType == SkillType.RangeMulti)
+                _dest = transform.position;
+            if (_sType == SkillType.MeleeMulti)
+                _dest = CenterTrans.position;
+        }
+        else if ((Stat.Role == 2 || Stat.Role == 3) && _nextState == State.Attack)
+            _dest = transform.position;
+
+        if (Vector3.Distance(_dest, transform.position) >= 0.03f)
+        {
+            Vector3 dir = _dest - transform.position;
+            transform.position += dir * Time.deltaTime * _speed;
+            anim.SetBool("Move", true);
+        }
+        else if (Vector3.Distance(_dest, transform.position) <= 0.03f)
+        {
+            anim.SetBool("Move", false);
+            if (state == State.Return)
+            {
+                state = _nextState;
+                StopCoroutine("Co_TurnEnd");
+                StartCoroutine("Co_TurnEnd", 0.3f);
+                return;
+            }
+            transform.position = _dest;
+            state = _nextState;
+        }
     }
     void Die()
     {
@@ -253,57 +236,22 @@ public class AIController : MonoBehaviour
     #endregion
 
     #region Setting Functions (public)
-    public void SetHeroStat(Hero _hero, Transform _trans, int _formation, Transform _center)
+    public void SetCreatureStat(Hero _hero, int _id, Transform _trans, int _formation, Transform _center)
     {
-        cType = CreatureType.CREATURE_HERO;
+        if (_hero == null)
+            cType = CreatureType.CREATURE_ENEMY;
+        else
+            cType = CreatureType.CREATURE_HERO;
+
         FixedTrans = _trans;
         CenterTrans = _center;
         FormationNumber = _formation;
-        stat.SetStatByHeroInfo(_hero);
+        stat.SetStat(_hero, _id);
         InitBarUI();
         InitBuffUI();
-        SetSkill(_hero);
+        SetSkill();
     }
-    public void SetEnemyStat(int _enemyId, Transform _trans, int _formation, Transform _center)
-    {
-        cType = CreatureType.CREATURE_ENEMY;
-        FixedTrans = _trans;
-        CenterTrans = _center;
-        FormationNumber = _formation;
-        stat.SetStatByEnemyInfo(_enemyId);
-        InitBarUI();
-        InitBuffUI();
-        SetEnemySkill(_enemyId);
-    }
-    public void BattleAiOn(AIController _target)
-    {
-        Target = _target.gameObject;
-        state = State.Wait;
-        buffComp.ExecuteBuffs(FixedTrans);
-    }
-    public void BuffToAttack(bool _turnEnd)
-    {
-        if (IsDead)
-        {
-            Managers.Battle.ProceedPhase();
-            return;
-        }
-
-        if (!_turnEnd)
-        {
-            state = State.Attack;
-            return;
-        }
-
-        StopCoroutine("Co_TurnEnd");
-        StartCoroutine("Co_TurnEnd", 0.5f);
-
-    }
-    #endregion
-
-
-    #region Setting Functions (private)
-    void SetSkill(Creature _creature)
+    void SetSkill()
     {
         Type skillType;
         if (cType == CreatureType.CREATURE_HERO)
@@ -317,22 +265,11 @@ public class AIController : MonoBehaviour
             Skill skill = gameObject.GetComponent(skillType) as Skill;
             skill.Caster = this;
             skill.Center = CenterTrans;
-            skill.SetBuff(Managers.Data.SkillDict[stat.Id].buffType);
-        } 
-    }
 
-    void SetEnemySkill(int _enemyId)
-    {
-        Type skillType;
-        skillType = Type.GetType($"ESkill_{_enemyId}");
-
-        if (skillType != null)
-        {
-            gameObject.AddComponent(skillType);
-            Skill skill = gameObject.GetComponent(skillType) as Skill;
-            skill.Caster = this;
-            skill.Center = CenterTrans;
-            skill.SetBuff(Managers.Data.EnemySkillDict[_enemyId].buffType);
+            if(cType == CreatureType.CREATURE_HERO)
+                skill.SetBuff(Managers.Data.SkillDict[stat.Id].buffType);
+            else
+                skill.SetBuff(Managers.Data.EnemySkillDict[stat.Id].buffType);
         }
     }
     void InitBarUI()
@@ -347,7 +284,6 @@ public class AIController : MonoBehaviour
         _bar.gameObject.transform.localScale *= 2;
 
     }
-
     void InitBuffUI()
     {
         if (Managers.SceneEx.CurrentScene.SceneType != Define.Scene.InGame)
@@ -362,17 +298,10 @@ public class AIController : MonoBehaviour
     }
     #endregion
 
-
-    IEnumerator Co_Wait(float _time)
-    {
-        yield return new WaitForSeconds(_time);
-        yield break;
-
-    }
+   
     IEnumerator Co_TurnEnd(float _time)
     {
         yield return new WaitForSeconds(_time);
-        //Debug.Log("Turn End !");
 
         Target = null;
         state = State.Idle;
@@ -385,11 +314,6 @@ public class AIController : MonoBehaviour
         bool isEnemy = (cType == CreatureType.CREATURE_ENEMY) ? true : false;
         UI_SkillUse _ui = Managers.UI.ShowPopupUI<UI_SkillUse>();
         _ui.SetInfo(stat.Id, isEnemy);
-
-        yield return new WaitForSeconds(0.5f);
-
-        state = State.Skill;
-
         yield break;
     }
 }

@@ -12,9 +12,7 @@ public class SaveLoadManager
         SaveData saveData = MakeSaveData(player);
 
         string data = JsonUtility.ToJson(saveData, true);
-        //string data = JsonConvert.SerializeObject(saveData);
         File.WriteAllText(path, data);
-        Debug.Log(data);
     }
 
     public bool LoadPlayerData()
@@ -32,20 +30,14 @@ public class SaveLoadManager
         Managers.GetPlayer.StageComp.OpenedStage = saveData.stage;
 
         foreach(var heroData in saveData.herosData)
-        {
             Managers.GetPlayer.HeroComp.TakeSavedHero(heroData);
-            
-        }
+ 
 
         foreach (var misc in saveData.miscData)
-        {
             Managers.GetPlayer.Inven.GainSavedItem(misc);
-        }
 
         foreach (var equip in saveData.equipData)
-        {
             Managers.GetPlayer.Inven.GainSavedItem(equip);
-        }
 
         return true;
     }

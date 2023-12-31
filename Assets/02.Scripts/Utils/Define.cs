@@ -55,4 +55,21 @@ public class Define
         Stun = 1 << 3,
         DefenseUp = 1 << 4,
     }
+
+    public enum State
+    {
+        Setting,
+        Idle,
+        Wait,
+        TurnStart,
+        MoveToEnemy,
+        Attack,
+        Skill,
+        Return,
+    }
+    public enum CreatureType
+    {
+        CREATURE_HERO,
+        CREATURE_ENEMY
+    }
 }

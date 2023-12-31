@@ -10,7 +10,7 @@ public class SkillAnimEvent : MonoBehaviour
 
     public void AttackEnd()
     {
-        Owner.CreatureState = State.Return;
+        Owner.CreatureState = Define.State.Return;
         Destroy(gameObject);
     }
 

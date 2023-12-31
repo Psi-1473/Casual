@@ -53,7 +53,7 @@ public class UI_InGameMask : UI_Popup
                 obj.transform.localScale *= 2;
 
 
-                obj.GetComponent<AIController>().SetHeroStat(hero, Get<GameObject>((int)enumObj).transform, i, Get<GameObject>((int)GameObjects.Transform_Center).transform);
+                obj.GetComponent<AIController>().SetCreatureStat(hero, hero.Id, Get<GameObject>((int)enumObj).transform, i, Get<GameObject>((int)GameObjects.Transform_Center).transform);
                 Managers.Battle.Heros[i] = obj;
                 // Battle 매니저에서 세팅
             }
@@ -85,7 +85,7 @@ public class UI_InGameMask : UI_Popup
                 enemy.transform.position = new Vector3(enemy.transform.position.x + 10f, enemy.transform.position.y, enemy.transform.position.z);
                 enemy.transform.localScale *= 2;
 
-                enemy.GetComponent<AIController>().SetEnemyStat(enemyId, Get<GameObject>((int)enumObj).transform, i + 1, Get<GameObject>((int)GameObjects.Transform_Center).transform);
+                enemy.GetComponent<AIController>().SetCreatureStat(null, enemyId, Get<GameObject>((int)enumObj).transform, i + 1, Get<GameObject>((int)GameObjects.Transform_Center).transform);
                 Managers.Battle.Enemies[1 + i] = enemy;
             }
         }
@@ -93,7 +93,7 @@ public class UI_InGameMask : UI_Popup
 
     IEnumerator Co_BattleStart()
     {
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(2.5f);
         Managers.Battle.BeginBattle();
         yield break;
     }

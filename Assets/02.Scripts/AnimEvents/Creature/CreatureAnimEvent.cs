@@ -7,7 +7,7 @@ public class CreatureAnimEvent : MonoBehaviour
     public void AttackEnd()
     {
         AIController controller = GetComponentInParent<AIController>();
-        controller.CreatureState = State.Return;
+        controller.CreatureState = Define.State.Return;
     }
 
     public void SkillExecute()

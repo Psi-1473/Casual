@@ -23,7 +23,6 @@ public class BuffManager
 
     public void TakeBuff(Define.EBuff _buffType, AIController _caster, AIController _target, int _turn, int _effectPercentage)
     {
-        
         BuffComponent buffComp = _target.GetComponent<BuffComponent>();
         Buff newBuff = buffDict[_buffType].Clone(_caster, _turn, _effectPercentage, buffComp, _buffType);
         newBuff.OnEnter(_target, _effectPercentage);
@@ -62,11 +61,7 @@ public class BuffManager
             num += _code[i] - '0' << 0;
 
             a = a | num;
-            //Debug.Log($"num : {num}, a = {a}");
-
         }
-
-        //Debug.Log($"¿Ï : {a}");
         return a;
     }
 }
