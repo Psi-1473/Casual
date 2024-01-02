@@ -60,9 +60,8 @@ public class Define
     {
         Setting,
         Idle,
-        Wait,
         TurnStart,
-        MoveToEnemy,
+        MoveToAttack,
         Attack,
         Skill,
         Return,
@@ -71,5 +70,13 @@ public class Define
     {
         CREATURE_HERO,
         CREATURE_ENEMY
+    }
+
+    public enum Role
+    {
+        Tank = 0,
+        Melee = 1,
+        Range = 2,
+        Sup = 3,
     }
 }

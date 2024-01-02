@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StunDebuff : Buff
 {
-    public StunDebuff() { turnEnd = true; }
+    public StunDebuff() { isTurnEndBuff = true; }
     protected override void SpawnParticle() { }
     protected override void PlayAnim() { }
     protected override void PlaySound() { }
@@ -14,13 +14,13 @@ public class StunDebuff : Buff
         return true;
     }
 
-    public override Buff Clone(AIController _caster, int _turn, int _effectPercentage, BuffComponent _owningComp, Define.EBuff _buffType)
+    public override Buff Clone(AIController _caster, int _turn, int _statValue, BuffComponent _owningComp, Define.EBuff _buffType)
     {
         StunDebuff newBuff = new StunDebuff();
-        newBuff.SetInfo(_caster, _turn, _effectPercentage, _owningComp, _buffType);
+        newBuff.SetInfo(_caster, _turn, _statValue, _owningComp, _buffType);
         return newBuff;
     }
 
-    public override void OnEnter(AIController _target, int _effectPercentage) { }
+    public override void OnEnter(AIController _target, int _statValue) { }
     public override void OnExit(AIController _target) { }
 }

@@ -12,10 +12,10 @@ public class OrderInfo
 public class BattleManager
 {
     const int MAX_GAGE = 10;
-    const int CREATURE_NONE = -1;
+    const int MAX_CREATURE = 5;
 
-    int enemyNum = 0;
-    int heroNum = 0;
+    int aliveEnemies = 0;
+    int aliveHeros = 0;
 
     List<OrderInfo> order = new List<OrderInfo>();
     List<GameObject> heros = new List<GameObject>();
@@ -24,13 +24,16 @@ public class BattleManager
     public List<GameObject> Heros { get { return heros; }  }
     public List<GameObject> Enemies { get { return enemies; } }
 
-
-
     public int NowChapter { get; set; }
     public int NowStage { get; set; }
 
     public void Init()
     {
+        /* 
+         * hero, enemy 모두 최대 객체 수가 5, 배열의 1~5 index만 사용 예정이므로 미리 null로 초기화
+         * 전투 AI 객체가 전투에 들어가면 자기 자리가 정해져있기 때문에 자리에 맞춰서 객체를 배치하기 위해 미리 1~5번 index를 사용할 수 있도록 초기화
+         * ex) hero[1]에 있는 객체는 hero 진영 1번 자리에 배치된 객체
+         */
         heros.Add(null);
         heros.Add(null);
         heros.Add(null);
@@ -44,46 +47,41 @@ public class BattleManager
         enemies.Add(null);
         enemies.Add(null);
         enemies.Add(null);
-    }
-
-    public void SetHero(GameObject _hero, int _place)
-    {
-        heros[_place] = _hero;
-    }
-    public void SetEnemy(GameObject _enemy, int _place)
-    {
-        enemies[_place] = _enemy;
     }
     public void Clear()
     {
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i <= MAX_CREATURE; i++)
             heros[i] = null;
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i <= MAX_CREATURE; i++)
             enemies[i] = null;
     }
 
 
     public void BeginBattle()
     {
-        heroNum = 0;
-        enemyNum = 0;
+        /* 
+         * 전투가 시작되어 전투 씬으로 씬이동이 일어나면 실행
+         * 전투 시작 후, 외부에서 heros와 enemies 값을 세팅하면 객체의 공격 순서를 결정하는 리스트를 세팅한 뒤 턴 진행
+         */
+        aliveHeros = 0;
+        aliveEnemies = 0;
 
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i <= MAX_CREATURE; i++)
         {
             if (heros[i] != null)
             {
                 PushOrder(heros[i].GetComponent<AIController>());
-                heroNum++;
+                aliveHeros++;
             }
         }
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i <= MAX_CREATURE; i++)
         {
             if (enemies[i] != null)
             {
                 PushOrder(enemies[i].GetComponent<AIController>());
-                enemyNum++;
+                aliveEnemies++;
             }
         }
 
@@ -91,7 +89,12 @@ public class BattleManager
     }
     public void ProceedPhase()
     {
-        if (heroNum == 0 || enemyNum == 0)
+        /*
+         * 한 턴을 진행하는 함수
+         * 공격 순서 큐에서 다음 차례의 객체를 뽑아 공격 타겟을 찾아주고 나머지 객체들의 남은 턴을 갱신한 후, 큐에서 뽑은 객체의 턴을 실행
+         * 한 쪽 진영의 남은 객체 수가 0이되면 전투 종료
+         */
+        if (aliveHeros == 0 || aliveEnemies == 0)
             EndBattle();
         else
         {
@@ -105,17 +108,20 @@ public class BattleManager
             }
 
             AIController target = FindTarget(attacker);
-            int remainToAttack = info.remainToAttack;
+            int decreaseValue = info.remainToAttack;
 
             for (int i = 0; i < order.Count; i++)
-                DecreaseAttackGage(i, remainToAttack);
+                DecreaseAttackGage(i, decreaseValue);
 
             attacker.BeginTurn(target);
         }
     }
     public void EndBattle()
     {
-        bool win = (enemyNum == 0);
+        /*
+         * 전투의 승/패를 판단하고 보상 지급
+         */
+        bool win = (aliveEnemies == 0);
 
         order.Clear();
 
@@ -141,23 +147,17 @@ public class BattleManager
         if (obj.GetComponent<AIController>().CType == Define.CreatureType.CREATURE_HERO)
         {
             heros[formationNum] = null;
-            heroNum--;
-
-            Debug.Log($" Left Hero : {heroNum}");
+            aliveHeros--;
         }
 
         if (obj.GetComponent<AIController>().CType == Define.CreatureType.CREATURE_ENEMY)
         {
             enemies[formationNum] = null;
-            enemyNum--;
-
-            Debug.Log($" Left Enemy : {enemyNum}");
+            aliveEnemies--;
         }
     }
 
- 
 
- 
     public void PushOrder(AIController _pawn)
     {
         OrderInfo info = new OrderInfo();
@@ -222,26 +222,19 @@ public class BattleManager
     AIController FindTarget(AIController _pawn)
     {
         AIController target = null;
+        List<GameObject> targetList;
+
         if (_pawn.CType == Define.CreatureType.CREATURE_HERO)
+            targetList = enemies;
+        else
+            targetList = heros;
+
+        for (int i = 0; i <= MAX_CREATURE; i++)
         {
-            for (int i = 0; i < 6; i++)
+            if (targetList[i] != null)
             {
-                if (enemies[i] != null)
-                {
-                    target = enemies[i].GetComponent<AIController>();
-                    break;
-                }
-            }
-        }
-        else if (_pawn.CType == Define.CreatureType.CREATURE_ENEMY)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                if (heros[i] != null)
-                {
-                    target = heros[i].GetComponent<AIController>();
-                    break;
-                }
+                target = targetList[i].GetComponent<AIController>();
+                break;
             }
         }
 
@@ -253,12 +246,5 @@ public class BattleManager
 
         if (order[_idx].remainToAttack < 0)
             order[_idx].remainToAttack = 0;
-    }
-    void TakeReward()
-    {
-        
-       //_expStone = Managers.Data.StageDicts[NowChapter][NowStage].playerExp;
-        Managers.GetPlayer.Inven.Gold += Managers.Data.StageDicts[NowChapter][NowStage].gold;
-        Managers.GetPlayer.StageComp.OpenStageOrChapter(NowChapter, NowStage);
     }
 }
